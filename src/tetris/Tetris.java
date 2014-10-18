@@ -16,7 +16,14 @@ public class Tetris {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Fenetre Fen = new Fenetre();
+        Fen.setVisible(true);
+        
+        //Une fois que tu click sur Play:
+        Jeu jeu = new Jeu();
+        
+        //Une fois que tu appuies sur espace pour starter
+        jeu.start();
     }
     
 }
