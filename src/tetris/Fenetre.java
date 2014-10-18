@@ -23,7 +23,7 @@ import javax.swing.JPanel;
  * @author Azfar
  */
 public class Fenetre extends JFrame implements ActionListener{
-    private JLabel block[][] = new JLabel[10][22];
+    private JLabel block[][] = new JLabel[10][22]; // Vérification de l'optimisation --> plus tard
     private JPanel pan;
     
     public Fenetre() {

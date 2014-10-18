@@ -11,12 +11,13 @@ package tetris;
  * @author Azfar
  */
 public class Piece {
-    private int type;
+  
+    private int tetrominoes;
     private boolean actif;
     private boolean enDeplacement;
     
     public Piece(int i){
-        type = i;
+        //type = i;
         actif = false;
         enDeplacement = false;
     }
@@ -25,9 +26,9 @@ public class Piece {
         actif = true;
         enDeplacement = true;
         
-        switch(type){
-            case 1: setColor(4,1,type);
-        }
+       // switch(type){
+        //    case 1: setColor(4,1,type);
+        //}
     }
     
     public boolean getActif(){

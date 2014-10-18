@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package tetris;
 
 import java.util.Random;
@@ -13,7 +7,7 @@ import java.util.Random;
  * @author Azfar
  */
 public class Jeu {
-    private Piece[] piece = new Piece[50];
+    private Piece[] piece = new Piece[50]; // une 
     private boolean vivant;
     
     public Jeu(){
@@ -22,7 +16,6 @@ public class Jeu {
             int random = rand.nextInt(7) + 1;
             piece[i] = new Piece(random);
         }
-        
         vivant = true;
     }
     
