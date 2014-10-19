@@ -8,12 +8,13 @@ import java.util.ArrayList;
  */
 public class Coordonnee_Jeu {
     private ArrayList<boolean[]> coordonee_jeu;
-    private boolean[] coordonnee_colonne;
+    private boolean[] coordonnee_colonne; //  False == vide   True == utilisée 
     private int nombre_colonne;
     private int nombre_rangee;
     
     /**
-     * Constructeur tout les case du jeu sont vide
+     * Constructeur de la classe Coordonnee_Jeu 
+     * <p> Toute les cases sont initialement vide.
      * @param nombre_colonne le nombre de colonne du jeu
      * @param nombre_rangee  le nombre de rangee du jeu
      */
@@ -33,10 +34,10 @@ public class Coordonnee_Jeu {
     }
     /**
      * Affiche les coordonnée actuel du jeu.
-     * False == case vide
-     * True  == case utilisée
+     * <p> False == vide
+     * <p> True  == utilisée
      */
-    public void affiche_coordonee_jeu(){
+    public void afficheTable(){
 
         System.out.println("Le nombre de colonne est :" + nombre_colonne);
         System.out.println("Le nombre de rangée  est :" + nombre_rangee );
@@ -51,27 +52,66 @@ public class Coordonnee_Jeu {
         }   
     }
     /**
-     * Getteur nombre de colonne
-     * @return nombre_colonne
+     * Getteur du nombre de colonne
+     * @return nombre_colonne le nombre de colonne
      */
-    public int getNombre_colonne() {
+    public int getNombreColonne() {
         return nombre_colonne;
     }
     /**
-     * Getteur nombre de rangee
-     * @return nombre_rangee
+     * Setteur du nombre de colonne
+     * @param nombre_colonne le nombre de colonne
      */
-    public int getNombre_rangee() {
+    public void setNombreColonne(int nombre_colonne){
+        this.nombre_colonne = nombre_colonne;
+    }
+    /**
+     * Getteur du nombre de rangee
+     * @return nombre_rangee le nombre de rangee
+     */
+    public int getNombreRangee() {
         return nombre_rangee;
     }
     /**
-     * main de la classe Coordonnee_Jeu 
-     * @param args 
+     * Setteur du nombre de rangée
+     * @param nombre_rangee le nombre de rangee
      */
+    public void setNombreRangee(int nombre_rangee){
+        this.nombre_rangee = nombre_rangee;
+    }
+
+    /**
+     * Vérifie si la coordonée en paramètre est dans la table de coordonées.
+     * @param colonne le numéro de colonne a vérifier
+     * @param rangee le numéro de rangée a vérifier
+     * @return  True == Coordonnée n'est pas dans la table  |  False == Coordonnée dans la table 
+     */
+    public boolean outOfBound(int colonne, int rangee){
+        if(colonne > nombre_colonne || rangee > nombre_rangee)
+            return true;
+        else
+            return false;
+    }
+    /**
+     * Vérifie si la coordonée est vide ou utilisé.
+     * @param colonne le numéro de colonne a vérifier
+     * @param rangee le numéro de rangée a vérifier
+     * @return  False == vide   True == utilisée 
+     */
+    public boolean isEmpty(int colonne, int rangee){
+        if(colonne > nombre_colonne || rangee > nombre_rangee)
+            return true;
+        else
+            return false;
+    }
+    
+    
+    
     public static void main(String[] args) {
         Coordonnee_Jeu coordonnee_jeu = new Coordonnee_Jeu(10,9);
-        coordonnee_jeu.affiche_coordonee_jeu();
+        coordonnee_jeu.afficheTable();
     }
+    
     
 }
     
