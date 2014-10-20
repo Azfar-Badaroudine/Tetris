@@ -3,10 +3,10 @@ package tetris;
 import java.util.ArrayList;
 
 /**
- * Classe Coordonnee_Jeu
+ * Classe CoordonneeJeu
  * @author Donavan
  */
-public class Coordonnee_Jeu {
+public class CoordonneeJeu {
     private final ArrayList<boolean[]> coordonee_jeu;
     private boolean[] coordonnee_colonne; //  False == vide   True == utilisée 
     private int nombre_colonne;
@@ -18,7 +18,7 @@ public class Coordonnee_Jeu {
      * @param nombre_colonne le nombre de colonne du jeu
      * @param nombre_rangee  le nombre de rangee du jeu
      */
-    public Coordonnee_Jeu (int nombre_colonne, int nombre_rangee){       
+    public CoordonneeJeu (int nombre_colonne, int nombre_rangee){       
         this.nombre_colonne = nombre_colonne;
         this.nombre_rangee  = nombre_rangee;
         
@@ -121,7 +121,7 @@ public class Coordonnee_Jeu {
 
     public static void main(String[] args) {
         // Construit
-        Coordonnee_Jeu coordonnee_jeu = new Coordonnee_Jeu(10,9);
+        CoordonneeJeu coordonnee_jeu = new CoordonneeJeu(10,9);
         // Affiche
         coordonnee_jeu.afficheTable();
         
