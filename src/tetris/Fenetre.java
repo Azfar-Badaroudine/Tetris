@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package tetris;
 
 import java.awt.BorderLayout;
@@ -12,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,7 +24,7 @@ public class Fenetre extends JFrame implements ActionListener{
     private JLabel principal = new JLabel();
     // ---------------------Menu------------------------
     private JMenuBar menuBar;
-       
+
     //[1] Menu -> Affichage
     private JMenu menuJeu;
     private JMenuItem nouvellePartie;
@@ -43,33 +36,33 @@ public class Fenetre extends JFrame implements ActionListener{
     private JMenuItem moyen;
     private JMenuItem difficile;
     private JMenuItem personnalise;
-    
+
     //[2] Menu -> ?
     private JMenu menuQuestionnement;
     private JMenuItem aide;
     private JMenuItem createurs;
     //--------------------------------------------------
-    
+
     //-----------------Layout---------------------------
-    
-    // Les pannels 
+
+    // Les pannels
     private BorderLayout layoutFenetre;
-    private JPanel nord;  // Les pièces suivantes du jeu
+    private JPanel nord; // Les pièces suivantes du jeu
     private JPanel centre;// Le jeu et les satistique
-    
+
     // Contenue du panel nord
     private JLabel message_suivant;
     ///////////////private TShape next_block[3];
-    
+
     // Contenue du panel centre
-    //////////private jeu_tetris jeu;
+     private JeuTetris jeu;
     //////////private Statistique statistique;
     //---------------------------------------------------
-    
+
     private JLabel block[][] = new JLabel[10][22]; // Vérification de l'optimisation --> plus tard
     private JPanel pan;
-    
-    
+
+
     public Fenetre() {
         super("Tetris");
         setFocusable(true);
@@ -78,23 +71,23 @@ public class Fenetre extends JFrame implements ActionListener{
     }
 
     /**
-     * Permet d'initalisé les composantes de la fenêtre
-     */
+    * Permet d'initalisé les composantes de la fenêtre
+    */
     private void init() {
-        // menu principal
+    // menu principal
         principal.setIcon(new ImageIcon("principal.png"));
-        ImageIcon image = new ImageIcon("principal.png");   //Trouver un autre iconimage eventuellement
+        ImageIcon image = new ImageIcon("principal.png"); //Trouver un autre iconimage eventuellement
         this.setIconImage(image.getImage());
         GridBagLayout layout = new GridBagLayout();
-        
+
         this.add(principal);
-        
+
         // ---------------------Menu--------------------------
         menuBar = new JMenuBar();
         //[1] Menu -> Affichage
         menuJeu = new JMenu("Jeu");
         nouvellePartie = new JMenuItem("Nouvelle Partie");
-        couperSon  = new JMenuItem("Couper le son");
+        couperSon = new JMenuItem("Couper le son");
         classement = new JMenuItem("Classement");
         // Menu -> Affichage -> difficulté
         difficulte = new JMenu("Difficulté");
@@ -116,56 +109,44 @@ public class Fenetre extends JFrame implements ActionListener{
         createurs = new JMenuItem("Créateurs");
         menuQuestionnement.add(aide);
         menuQuestionnement.add(createurs);
-       
+
         menuBar.add(menuJeu);
         menuBar.add(menuQuestionnement);
         setJMenuBar(menuBar);
         // -----------------------------------------------
-        
-        
-<<<<<<< HEAD
-        layoutFenetre= new BorderLayout();
-        setLayout(layoutFenetre);
-        nord   = new JPanel(new GridLayout(1,4));
-        add(nord, BorderLayout.NORTH);
-        
-        
-        
-        centre = new JPanel(new GridLayout(1,2));
-        add(centre, BorderLayout.CENTER);
-        
-        JeuTetris jeu = new JeuTetris();
-        JeuTetris jeu1 = new JeuTetris();
-        centre.add(jeu);
-        centre.add(jeu1);
-=======
-        
-        
->>>>>>> origin/master
 
-        
+
+
+
+
+
         setSize(550,700); //On donne une taille à notre fenêtre
         setResizable(false);
         setLocationRelativeTo(null);
-        
-        
 
-        
+
+
+
         /*for (int i=0; i<10; i++){
-            for (int j = 0; j<22; j++){
-                block[i][j] = new JLabel();
-                block[i][j].setLocation(i*20, j*20+50);
-                block[i][j].setSize(20, 20);
-                block[i][j].setOpaque(true);
-                block[i][j].setBackground(Color.WHITE);
-                block[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-                pan.add(block[i][j]);
-                if (j < 2)
-                    block[i][j].setVisible(false);
-            }
+        for (int j = 0; j<22; j++){
+        block[i][j] = new JLabel();
+        block[i][j].setLocation(i*20, j*20+50);
+        block[i][j].setSize(20, 20);
+        block[i][j].setOpaque(true);
+        block[i][j].setBackground(Color.WHITE);
+        block[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        pan.add(block[i][j]);
+        if (j < 2)
+        block[i][j].setVisible(false);
+        }
         }*/
+        addJeuTetris();
     }
-    
+    public void addJeuTetris(){
+        jeu = new JeuTetris();
+        add(jeu);
+    }
+
     public void setColor(int i, int j, int type){
         switch (type){
             case 1: block[i][j].setBackground(Color.CYAN); break;
@@ -176,25 +157,24 @@ public class Fenetre extends JFrame implements ActionListener{
             case 6: block[i][j].setBackground(Color.PINK); break;
             case 7: block[i][j].setBackground(Color.RED); break;
         }
-        
+
     }
-    
+
     public void play(){
         layoutFenetre= new BorderLayout();
         setLayout(layoutFenetre);
-        nord   = new JPanel(new GridLayout(1,4));
+        nord = new JPanel(new GridLayout(1,4));
         add(nord, BorderLayout.NORTH);
-        
-        
-        
+
+
+
         centre = new JPanel(new GridLayout(1,2));
         add(centre, BorderLayout.CENTER);
-        
         centre.add(new JeuTetris());
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        
+
     }
 }
