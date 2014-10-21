@@ -12,7 +12,7 @@ package tetris;
  */
 public class Piece {
   
-    private int tetrominoes;
+    private int tetrominoes; // 1==T 2=
     private boolean actif;
     private boolean enDeplacement;
     

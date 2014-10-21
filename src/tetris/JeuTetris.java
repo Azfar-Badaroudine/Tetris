@@ -1,12 +1,15 @@
 package tetris;
-import com.sun.pisces.Surface;
+;
+
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Dimension2D;
-import java.awt.geom.Point2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,6 +21,7 @@ import javax.swing.SwingUtilities;
  */
 public class JeuTetris extends JPanel  implements ActionListener{
     // private Piece[] piece = new Piece[50]; // une 
+    //private ArrayList<Block> blocks;
     
     // ----------------Paramètres de la fenetre --------
     private CoordonneeJeu coordonneJeu;
@@ -34,8 +38,9 @@ public class JeuTetris extends JPanel  implements ActionListener{
      * Constructeur du jeu Tetris par défaut
      */
     public JeuTetris() {
-        coordonneJeu = new CoordonneeJeu(10,5);
-        dimension = new Dimension(100, 50);
+        coordonneJeu = new CoordonneeJeu(10,10);
+        dimension = new Dimension(200, 400);
+        setSize(dimension);
         controls = new Controls();
         addKeyListener(controls);
         // Initialise le timer 
@@ -44,49 +49,35 @@ public class JeuTetris extends JPanel  implements ActionListener{
         vivant = true;
         
         // -------------Desinne les casses---------
+        /*blocks = new ArrayList<>();
+        Random random = new Random();
+        float hue = 0;
+        float saturation;
+        float luminance;
         
+        for (int i=0 ; i< 4; i++){
+            hue = random.nextFloat();
+            saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
+            luminance = 1.0f; //1.0 for brighter, 0.0 for black
+            Color color = Color.getHSBColor(hue, saturation, luminance);
         
-        
-        /*
-        Random rand = new Random();
-        for (int i=0; i<50; i++){               // On devra garder le random
-            int random = rand.nextInt(7) + 1;
-            piece[i] = new Piece(random);
-        }*/
-        
-    }
-    
-    /*
-    public void start(){
-        while (vivant){
-            for (int i=0; i<50; i++){
-                if (piece[i].getActif() == false){
-                    piece[i].Activer();
-                }
-                //if (ligne est complétée)
-                //if (game over)
-            }
+            Double blockWidth  = dimension.getWidth()/coordonneJeu.getNombreColonne();
+            Double blockHeight = dimension.getHeight()/coordonneJeu.getNombreRangee();
+            blocks.add(new Block(blockWidth,blockHeight, color));
         }
-        gameOver();
+        add(blocks.get(0));
+        blockDrop();*/
     }
-    *//*
-    public void gameOver(){
-        //Enregistrer highscore
-    }
-    */
-    
+
+
+      
     /**
      * Avancement du jeu dans le temps
      * @param timer Appel de la fonction par le timer
      */
     @Override
     public void actionPerformed(ActionEvent timer) {
-        /*if (isFallingFinished) {
-            isFallingFinished = false;
-            newPiece();
-        } else {
-            oneLineDown();
-       }*/
+        
     }
     /**
      * Getteur de la difficultée 
@@ -102,6 +93,11 @@ public class JeuTetris extends JPanel  implements ActionListener{
      */
     public void setTimerDifficulte(Timer_Loops timerDifficulte) {
         this.timer = timerDifficulte;
+        
+    }
+    public void blockDrop(){
+
+
         
     }
     /**
@@ -125,25 +121,25 @@ public class JeuTetris extends JPanel  implements ActionListener{
     private void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         int x = 1;
-        int y = 1;
-        /*Point2D de = new Point2D(dimension.getWidth()/x,dimension.getHeight()/y);
-        Point2D p1 = new Point2D(dimension.getWidth()/x,dimension.getHeight()/y);*/
-        
-        for(x=1 ; coordonneJeu.getNombreColonne()>= x; x++)
-            g2d.drawLine((((Dimension2D)dimension).getWidth()/x), 30, 200, 30);
-        
-        
-        g2d.drawLine(30, 30, 200, 30);
-        g2d.drawLine(200, 30, 30, 200);
-        g2d.drawLine(30, 200, 200, 200);
-        g2d.drawLine(200, 200, 30, 30);
+        for(x=1 ; coordonneJeu.getNombreColonne()> x; x++)
+            g2d.draw(new Line2D.Double((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,0,
+                                        (dimension.getWidth()/coordonneJeu.getNombreColonne())*x, dimension.getHeight()));
+        for(x=1 ; coordonneJeu.getNombreRangee()> x; x++)
+            g2d.draw(new Line2D.Double(0,(dimension.getHeight()/coordonneJeu.getNombreRangee())*x,
+                                        dimension.getWidth(),(dimension.getHeight()/coordonneJeu.getNombreRangee())*x));
    } 
+
+    public Dimension getDimension() {
+        return dimension;
+    }
+    
 
     @Override
     public void paintComponent(Graphics g) {
         
         super.paintComponent(g);
         doDrawing(g);
+        
     }
 
     public static class Lines2 extends JFrame {
@@ -153,20 +149,14 @@ public class JeuTetris extends JPanel  implements ActionListener{
     }
     
     private void initUI() {
-        
         setTitle("Lines");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JeuTetris jeu = new JeuTetris();
+        setSize(500,500);
+        add(jeu);
+        setLocationRelativeTo(null);
         
-        add(new JeuTetris());
-        
-        setSize(350, 250);
-        setLocationRelativeTo(null);        
     }
-    
-    
-    
-    
-    
 }
 
     
