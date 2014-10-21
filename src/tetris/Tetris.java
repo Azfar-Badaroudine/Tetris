@@ -20,10 +20,10 @@ public class Tetris {
         Fen.setVisible(true);
         
         //Une fois que tu click sur Play:
-        JeuTetris jeu = new JeuTetris();
+        //JeuTetris jeu = new JeuTetris();
         
         //Une fois que tu appuies sur espace pour starter
-        jeu.start();
+        //jeu.start();
     }
     
 }

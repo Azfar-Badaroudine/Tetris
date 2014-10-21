@@ -8,10 +8,12 @@ package tetris;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -25,7 +27,8 @@ import javax.swing.JPanel;
  * @author Azfar
  */
 public class Fenetre extends JFrame implements ActionListener{
-        
+    //Menu principal
+    private JLabel principal = new JLabel();
     // ---------------------Menu------------------------
     private JMenuBar menuBar;
        
@@ -78,6 +81,13 @@ public class Fenetre extends JFrame implements ActionListener{
      * Permet d'initalisé les composantes de la fenêtre
      */
     private void init() {
+        // menu principal
+        principal.setIcon(new ImageIcon("principal.png"));
+        ImageIcon image = new ImageIcon("principal.png");   //Trouver un autre iconimage eventuellement
+        this.setIconImage(image.getImage());
+        GridBagLayout layout = new GridBagLayout();
+        
+        this.add(principal);
         
         // ---------------------Menu--------------------------
         menuBar = new JMenuBar();
@@ -113,6 +123,7 @@ public class Fenetre extends JFrame implements ActionListener{
         // -----------------------------------------------
         
         
+<<<<<<< HEAD
         layoutFenetre= new BorderLayout();
         setLayout(layoutFenetre);
         nord   = new JPanel(new GridLayout(1,4));
@@ -127,6 +138,10 @@ public class Fenetre extends JFrame implements ActionListener{
         JeuTetris jeu1 = new JeuTetris();
         centre.add(jeu);
         centre.add(jeu1);
+=======
+        
+        
+>>>>>>> origin/master
 
         
         setSize(550,700); //On donne une taille à notre fenêtre
@@ -134,9 +149,6 @@ public class Fenetre extends JFrame implements ActionListener{
         setLocationRelativeTo(null);
         
         
-        // Ajout du jeu dans le frame
-        pan = new JPanel(null);
-        centre.add(pan);
 
         
         /*for (int i=0; i<10; i++){
@@ -165,6 +177,20 @@ public class Fenetre extends JFrame implements ActionListener{
             case 7: block[i][j].setBackground(Color.RED); break;
         }
         
+    }
+    
+    public void play(){
+        layoutFenetre= new BorderLayout();
+        setLayout(layoutFenetre);
+        nord   = new JPanel(new GridLayout(1,4));
+        add(nord, BorderLayout.NORTH);
+        
+        
+        
+        centre = new JPanel(new GridLayout(1,2));
+        add(centre, BorderLayout.CENTER);
+        
+        centre.add(new JeuTetris());
     }
 
     @Override

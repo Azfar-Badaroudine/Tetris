@@ -118,6 +118,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
     private void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         int x = 0;
+<<<<<<< HEAD
         for(x=0 ; coordonneJeu.getNombreColonne()> x; x++)
             g2d.draw(new Line2D.Double((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,0,
                                         (dimension.getWidth()/coordonneJeu.getNombreColonne())*x, dimension.getHeight()));
@@ -159,6 +160,23 @@ public class JeuTetris extends JPanel  implements ActionListener{
         g2d.fill(rect);
         g2d.draw(rect); 
     }
+=======
+        for(x=0 ; coordonneJeu.getNombreColonne()+1> x; x++)
+            g2d.draw(new Line2D.Double((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,0,
+                                        (dimension.getWidth()/coordonneJeu.getNombreColonne())*x, dimension.getHeight()));
+        for(x=0 ; coordonneJeu.getNombreRangee()+1> x; x++)
+            g2d.draw(new Line2D.Double(0,(dimension.getHeight()/coordonneJeu.getNombreRangee())*x,
+                                        dimension.getWidth(),(dimension.getHeight()/coordonneJeu.getNombreRangee())*x));
+        
+       // Rectangle2D rect = new Rectangle2D.Double(0, 0, dimension.getWidth()/coordonneJeu.getNombreColonne()), dimension.getHeight()/coordonneJeu.getNombreRangee());
+        //g2.draw(rect);
+        g2d.setColor(Color.RED);
+        //g2d.fill2DRect(0, 0, dimension.getWidth()/coordonneJeu.getNombreColonne()), dimension.getHeight()/coordonneJeu.getNombreRangee());
+        g2d.drawRect(10, 10, 200, 200);
+    
+    
+    } 
+>>>>>>> origin/master
 
     public Dimension getDimension() {
         return dimension;
