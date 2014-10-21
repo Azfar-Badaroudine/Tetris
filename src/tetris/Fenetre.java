@@ -117,8 +117,16 @@ public class Fenetre extends JFrame implements ActionListener{
         setLayout(layoutFenetre);
         nord   = new JPanel(new GridLayout(1,4));
         add(nord, BorderLayout.NORTH);
+        
+        
+        
         centre = new JPanel(new GridLayout(1,2));
-        add(centre, BorderLayout.NORTH);
+        add(centre, BorderLayout.CENTER);
+        
+        JeuTetris jeu = new JeuTetris();
+        JeuTetris jeu1 = new JeuTetris();
+        centre.add(jeu);
+        centre.add(jeu1);
 
         
         setSize(550,700); //On donne une taille à notre fenêtre
@@ -131,7 +139,7 @@ public class Fenetre extends JFrame implements ActionListener{
         centre.add(pan);
 
         
-        for (int i=0; i<10; i++){
+        /*for (int i=0; i<10; i++){
             for (int j = 0; j<22; j++){
                 block[i][j] = new JLabel();
                 block[i][j].setLocation(i*20, j*20+50);
@@ -143,7 +151,7 @@ public class Fenetre extends JFrame implements ActionListener{
                 if (j < 2)
                     block[i][j].setVisible(false);
             }
-        }
+        }*/
     }
     
     public void setColor(int i, int j, int type){

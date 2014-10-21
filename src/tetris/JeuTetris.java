@@ -95,11 +95,8 @@ public class JeuTetris extends JPanel  implements ActionListener{
         this.timer = timerDifficulte;
         
     }
-    public void blockDrop(){
-
-
-        
-    }
+    
+    
     /**
      * Pause du jeu
      */
@@ -120,14 +117,48 @@ public class JeuTetris extends JPanel  implements ActionListener{
     }
     private void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        int x = 1;
-        for(x=1 ; coordonneJeu.getNombreColonne()> x; x++)
+        int x = 0;
+        for(x=0 ; coordonneJeu.getNombreColonne()> x; x++)
             g2d.draw(new Line2D.Double((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,0,
                                         (dimension.getWidth()/coordonneJeu.getNombreColonne())*x, dimension.getHeight()));
-        for(x=1 ; coordonneJeu.getNombreRangee()> x; x++)
+        for(x=0 ; coordonneJeu.getNombreRangee()> x; x++)
             g2d.draw(new Line2D.Double(0,(dimension.getHeight()/coordonneJeu.getNombreRangee())*x,
                                         dimension.getWidth(),(dimension.getHeight()/coordonneJeu.getNombreRangee())*x));
-   } 
+        
+        int y=0;
+        coordonneJeu.setCoordonee(5, 5, true);
+        coordonneJeu.setCoordonee(0, 0, true);
+        coordonneJeu.setCoordonee(7, 9, true);
+        for(x=0; x < coordonneJeu.getNombreColonne(); x++){
+            for(y=0; y < coordonneJeu.getNombreRangee();  y++){
+                if(!coordonneJeu.IsEmpty(x, y))
+                    paintBlocks((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,
+                                 (dimension.getHeight()/coordonneJeu.getNombreRangee())*y,
+                                 Color.BLUE, g);
+                
+            }
+        }
+
+       
+    
+    
+    }
+    public void paintBlocks(Double colonne, Double rangee, Color color, Graphics g){
+        System.out.print("ICI");
+        Graphics2D g2d = (Graphics2D) g;
+        
+        
+        System.out.println("Colonne :"+colonne *dimension.getWidth()/coordonneJeu.getNombreColonne());
+        System.out.println("Rangee  :"+rangee  *dimension.getHeight()/coordonneJeu.getNombreRangee());
+        Rectangle2D rect = new Rectangle2D.Double(colonne ,
+                                                  rangee  ,
+                                                  dimension.getWidth()/coordonneJeu.getNombreColonne(),
+                                                  dimension.getHeight()/coordonneJeu.getNombreRangee());
+        g2d.setColor(color);
+        g2d.setPaint(color);
+        g2d.fill(rect);
+        g2d.draw(rect); 
+    }
 
     public Dimension getDimension() {
         return dimension;
