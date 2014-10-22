@@ -73,6 +73,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent timer) {
       System.out.println("\nTimer event");
+
       if (vivant == true)
         if (tetrominoes.get(tetrominoes.size()-1).isIsFalling()==false || !canFall()){
             newBlock();
@@ -80,7 +81,8 @@ public class JeuTetris extends JPanel  implements ActionListener{
                 vivant = false;
         }
         else
-            dropTetrominoes();     
+            dropTetrominoes(); 
+       // paintBlocks();
     }
   
 
@@ -118,11 +120,18 @@ public class JeuTetris extends JPanel  implements ActionListener{
      * Descendre les blocks
      */
     public void dropTetrominoes(){
+        
+        Graphics2D g2d = (Graphics2D) this.getGraphics();
+        
         // Enlève l'emplacement du Tetrominoe actuel
         for(int x=0; x < coordonneJeu.getNombreColonne()-1; x++)
             for(int y=0; y < coordonneJeu.getNombreRangee()-1; y++)
-                if(!tetrominoes.get(tetrominoes.size()-1).IsEmpty(x, y))
+                if(!tetrominoes.get(tetrominoes.size()-1).IsEmpty(x, y)){
                     coordonneJeu.setCoordonee(x, y, false);
+                    paintBlock((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,
+                               (dimension.getHeight()/coordonneJeu.getNombreRangee())*y,
+                                Color.GRAY, g2d);
+                }
         
         // Ajout de la nouvelle emplacement du Tetrominoe
         tetrominoes.get(tetrominoes.size()-1).dropTetrominoe();
@@ -131,8 +140,12 @@ public class JeuTetris extends JPanel  implements ActionListener{
         
         for(int x=0; x < coordonneJeu.getNombreColonne(); x++)
             for(int y=0; y < coordonneJeu.getNombreRangee(); y++)
-                if(!tetrominoes.get(tetrominoes.size()-1).IsEmpty(x, y))
-                    coordonneJeu.setCoordonee(x, y, true);         
+                if(!tetrominoes.get(tetrominoes.size()-1).IsEmpty(x, y)){
+                    coordonneJeu.setCoordonee(x, y, true);
+                    paintBlock((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,
+                                    (dimension.getHeight()/coordonneJeu.getNombreRangee())*y,
+                                      tetrominoes.get(tetrominoes.size()-1).getCouleur(), g2d);
+                }
         System.out.print("\nTable de coordonnée du JEu");       
         coordonneJeu.afficheTable();
     }
@@ -188,24 +201,36 @@ public class JeuTetris extends JPanel  implements ActionListener{
         /*coordonneJeu.setCoordonee(5, 5, true);
         coordonneJeu.setCoordonee(0, 0, true);
         coordonneJeu.setCoordonee(7, 9, true);*/
-        for(x=0; x < coordonneJeu.getNombreColonne(); x++){
-            for(y=0; y < coordonneJeu.getNombreRangee();  y++){
-                if(!coordonneJeu.IsEmpty(x, y))
-                    for(Tetrominoes tetrominoe:tetrominoes)
-                        if(!tetrominoe.IsEmpty(x, y)){
-                            paintBlocks((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,
-                                        (dimension.getHeight()/coordonneJeu.getNombreRangee())*y,
-                                        tetrominoe.getCouleur(), g);
-                        }
-                
-            }
-        }
+        
 
        
     
     
     }
-    public void paintBlocks(Double colonne, Double rangee, Color color, Graphics g){
+    public void paintBlocks(){
+        Graphics2D g2d = (Graphics2D) this.getGraphics();
+        
+        int x=0;
+        int y=0;
+        tetrominoes.get(tetrominoes.size());
+        
+        
+        
+        for(Tetrominoes tetromino : tetrominoes) 
+            for(x=0; x < tetromino.getEmplacement().getNombreColonne(); x++){
+                for(y=0; y < tetromino.getEmplacement().getNombreRangee();  y++){
+                    if(! tetromino.IsEmpty(x, y))
+                        paintBlock((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,
+                                    (dimension.getHeight()/coordonneJeu.getNombreRangee())*y,
+                                     tetromino.getCouleur(), g2d);
+                        }
+            }
+    }
+    
+    public void paintBlock(Double colonne, Double rangee, Color color, Graphics g){
+        
+        
+        
         System.out.print("ICI");
         Graphics2D g2d = (Graphics2D) g;
         
@@ -219,7 +244,16 @@ public class JeuTetris extends JPanel  implements ActionListener{
         g2d.setColor(color);
         g2d.setPaint(color);
         g2d.fill(rect);
-        g2d.draw(rect); 
+        g2d.draw(rect);
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
 
     public Dimension getDimension() {
