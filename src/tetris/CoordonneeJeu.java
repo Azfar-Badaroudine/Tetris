@@ -7,10 +7,10 @@ import java.util.ArrayList;
  * @author Donavan
  */
 public class CoordonneeJeu {
-    private final ArrayList<boolean[]> coordonee_jeu;
-    private boolean[] coordonnee_colonne; //  False == vide   True == utilisée 
-    private int nombre_colonne;
-    private int nombre_rangee;
+    private final ArrayList<boolean[]> coordoneeJeu;
+    private boolean[] coordonneeColonne; //  False == vide   True == utilisée 
+    private int nombreColonne;
+    private int nombreRangee;
     
     /**
      * Constructeur de la classe Coordonnee_Jeu 
@@ -19,14 +19,14 @@ public class CoordonneeJeu {
      * @param nombre_rangee  le nombre de rangee du jeu
      */
     public CoordonneeJeu (int nombre_colonne, int nombre_rangee){       
-        this.nombre_colonne = nombre_colonne;
-        this.nombre_rangee  = nombre_rangee;
+        this.nombreColonne = nombre_colonne;
+        this.nombreRangee  = nombre_rangee;
         
         // Initialisation des coordonne (boolean default = false)
-        coordonee_jeu = new ArrayList<>();
+        coordoneeJeu = new ArrayList<>();
         for(int i=0; i<nombre_rangee; i++){
-            coordonnee_colonne = new boolean[nombre_colonne];
-            coordonee_jeu.add(coordonnee_colonne);
+            coordonneeColonne = new boolean[nombre_colonne];
+            coordoneeJeu.add(coordonneeColonne);
         }
     }
     /**
@@ -36,8 +36,8 @@ public class CoordonneeJeu {
      */
     public void afficheTable(){
         
-        System.out.println("\nVoici la table de coordonnées [" + nombre_colonne + "]["+ nombre_rangee+ "]");
-        for(boolean[] temp : coordonee_jeu){
+        System.out.println("\nVoici la table de coordonnées [" + nombreColonne + "]["+ nombreRangee+ "]");
+        for(boolean[] temp : coordoneeJeu){
             //System.out.print("Poura la rangée " + rangee);
             for(boolean used : temp)
                 System.out.print(used+ " ");
@@ -45,32 +45,40 @@ public class CoordonneeJeu {
         }   
     }
     /**
+     * Getteur de la table des coordonées du jeu
+     * @return coordoneeJeu table des coordonées du jeu
+     */
+    public ArrayList<boolean[]> getCoordoneeJeu() {
+        return coordoneeJeu;
+    }
+    
+    /**
      * Getteur du nombre de colonne
      * @return Le nombre de colonne
      */
     public int getNombreColonne() {
-        return nombre_colonne;
+        return nombreColonne;
     }
     /**
      * Setteur du nombre de colonne
      * @param nombre_colonne Le nombre de colonne
      */
     public void setNombreColonne(int nombre_colonne){
-        this.nombre_colonne = nombre_colonne;
+        this.nombreColonne = nombre_colonne;
     }
     /**
      * Getteur du nombre de rangée
      * @return Le nombre de rangée
      */
     public int getNombreRangee() {
-        return nombre_rangee;
+        return nombreRangee;
     }
     /**
      * Setteur du nombre de rangée
      * @param nombre_rangee Le nombre de rangée
      */
     public void setNombreRangee(int nombre_rangee){
-        this.nombre_rangee = nombre_rangee;
+        this.nombreRangee = nombre_rangee;
     }
 
     /**
@@ -81,7 +89,7 @@ public class CoordonneeJeu {
      */
     public boolean outOfBound(int colonne, int rangee){
         
-        if(colonne > nombre_colonne || rangee > nombre_rangee){
+        if(colonne > nombreColonne || rangee > nombreRangee){
             System.out.println("Cette coordonée ( " + colonne + " , " + rangee + " ) n'est pas dans la table.");
             return true;
         }
@@ -97,12 +105,12 @@ public class CoordonneeJeu {
      * @return  False == vide <p>True == utilisée 
      */
     public boolean IsEmpty(int colonne, int rangee){
-        if(coordonee_jeu.get(rangee)[colonne]==false){
-            System.out.println("La coordonée ( " + colonne + " , " + rangee + " ) est vide.");
+        if(coordoneeJeu.get(rangee)[colonne]==false){
+            //System.out.println("La coordonée ( " + colonne + " , " + rangee + " ) est vide.");
             return true;
         }
         else{
-            System.out.println("La coordonée ( " + colonne + " , " + rangee + " ) est utilisé.");
+            //System.out.println("La coordonée ( " + colonne + " , " + rangee + " ) est utilisé.");
             return false;
         }
     }
@@ -113,7 +121,7 @@ public class CoordonneeJeu {
      * @param use     False == vide True == utilisée 
      */
     public void setCoordonee(int colonne, int rangee , boolean use){
-        coordonee_jeu.get(rangee)[colonne]= use;
+        coordoneeJeu.get(rangee)[colonne]= use;
     }
 
     public static void main(String[] args) {
