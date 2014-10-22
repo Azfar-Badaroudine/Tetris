@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -19,7 +21,7 @@ import javax.swing.SwingUtilities;
  */
 public class JeuTetris extends JPanel  implements ActionListener{
     // private Piece[] piece = new Piece[50]; // une 
-    //private ArrayList<Block> blocks;
+  
     
     // ----------------Paramètres de la fenetre --------
     private CoordonneeJeu coordonneJeu;
@@ -31,6 +33,10 @@ public class JeuTetris extends JPanel  implements ActionListener{
     private Controls controls;
     private boolean vivant;
     //--------------------------------------------------
+    
+    //-------------Boucle du jeu------------------------
+    private ArrayList<Tetrominoes> tetrominoes;
+    
     
     /**
      * Constructeur du jeu Tetris par défaut
@@ -47,24 +53,14 @@ public class JeuTetris extends JPanel  implements ActionListener{
         vivant = true;
         
         // -------------Desinne les casses---------
-        /*blocks = new ArrayList<>();
-        Random random = new Random();
-        float hue = 0;
-        float saturation;
-        float luminance;
+        tetrominoes = new ArrayList<>();
+        newBlock();
         
-        for (int i=0 ; i< 4; i++){
-            hue = random.nextFloat();
-            saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
-            luminance = 1.0f; //1.0 for brighter, 0.0 for black
-            Color color = Color.getHSBColor(hue, saturation, luminance);
         
-            Double blockWidth  = dimension.getWidth()/coordonneJeu.getNombreColonne();
-            Double blockHeight = dimension.getHeight()/coordonneJeu.getNombreRangee();
-            blocks.add(new Block(blockWidth,blockHeight, color));
-        }
-        add(blocks.get(0));
-        blockDrop();*/
+        
+        
+        
+        
     }
 
 
@@ -75,8 +71,27 @@ public class JeuTetris extends JPanel  implements ActionListener{
      */
     @Override
     public void actionPerformed(ActionEvent timer) {
-        
+        tetrominoes.get(tetrominoes.size());
+  
     }
+    
+    public void newBlock(){
+        Random random = new Random();
+        int forme = random.nextInt() % 8;
+        float hue = random.nextFloat();
+        float saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
+        float luminance = 1.0f; //1.0 for brighter, 0.0 for black
+        Color couleur = Color.getHSBColor(hue, saturation, luminance);
+        
+        Double blockWidth  = dimension.getWidth()/coordonneJeu.getNombreColonne();
+        Double blockHeight = dimension.getHeight()/coordonneJeu.getNombreRangee();
+        tetrominoes.add(new Tetrominoes(forme, couleur, coordonneJeu.getNombreColonne(), coordonneJeu.getNombreRangee()));
+    }
+    public void drop(){
+        
+    
+    }
+    
     /**
      * Getteur de la difficultée 
      * @return timer La difficulté du jeu

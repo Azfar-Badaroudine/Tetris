@@ -22,13 +22,10 @@ public class CoordonneeJeu {
         this.nombre_colonne = nombre_colonne;
         this.nombre_rangee  = nombre_rangee;
         
+        // Initialisation des coordonne (boolean default = false)
         coordonee_jeu = new ArrayList<>();
         for(int i=0; i<nombre_rangee; i++){
-            // Détermine le nombre de colonne
             coordonnee_colonne = new boolean[nombre_colonne];
-            for (int j=0; j<nombre_colonne; j++){
-                coordonnee_colonne[j]=false;
-            }
             coordonee_jeu.add(coordonnee_colonne);
         }
     }
