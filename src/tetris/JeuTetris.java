@@ -323,18 +323,22 @@ public class JeuTetris extends JPanel  implements ActionListener{
             if (ke.getID()==KeyEvent.KEY_RELEASED){
                   
                 if(ke.getKeyCode() == VK_LEFT) {
+                    removeDroppingTetrominoe();
                     if(tetrominoes.get(tetrominoes.size()-1).left()){
                         tetrominoes.get(tetrominoes.size()-1).getEmplacement().afficheTable();
-                        updateBlockPaint();
+                        
+                        
                         tetrominoes.get(tetrominoes.size()-1).getEmplacement().afficheTable();
                     }
+                    updateBlockPaint();
+                            
                 }
                 else if(ke.getKeyCode() == VK_RIGHT) {
+                    removeDroppingTetrominoe();
                     if(tetrominoes.get(tetrominoes.size()-1).right()){
-                        tetrominoes.get(tetrominoes.size()-1).getEmplacement().afficheTable();
-                        updateBlockPaint();
-                        tetrominoes.get(tetrominoes.size()-1).getEmplacement().afficheTable();
+                        removeDroppingTetrominoe();
                     }
+                    updateBlockPaint();
                 }   
             }
             return true;
