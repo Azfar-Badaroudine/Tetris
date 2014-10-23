@@ -104,7 +104,6 @@ public class Tetrominoes {
                     setEmplacement(nombreColonne);break;
         }
         this.couleur = couleur;
-        isFalling = true;
     }
     /**
      * Setteur de l'emplacement de la pièce selon les coordonées du jeu
@@ -198,11 +197,30 @@ public class Tetrominoes {
     public CoordonneeJeu getEmplacement() {
         return emplacement;
     }
-    
-    
-    
-    
-    
-    
-    
+    public boolean left() {
+        for(boolean[] position : emplacement.getCoordoneeJeu())
+            if(position[0]==true)
+                return false;
+        
+        for(boolean[] position : emplacement.getCoordoneeJeu())
+            for(int x=0; x<emplacement.getNombreColonne(); x++)
+                if (position[x]==true){                    
+                        position[x]=false;
+                        position[x-1]=true;
+                }
+        return true;
+    }
+    public boolean right() {
+        for(boolean[] position : emplacement.getCoordoneeJeu())
+            if(position[emplacement.getNombreColonne()-1]==true)
+                return false;
+        
+        for(boolean[] position : emplacement.getCoordoneeJeu())
+            for(int x=emplacement.getNombreColonne()-1; x>=0; x--)
+                if (position[x]==true){                    
+                        position[x]=false;
+                        position[x+1]=true;
+                }
+        return true;
+    }
 }

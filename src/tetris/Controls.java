@@ -19,6 +19,10 @@ import static java.awt.event.KeyEvent.VK_UP;
  */
 public class Controls extends KeyAdapter{
     private int key_code_pressed; // 1==UP 2==DOWN 3==LEFT 4==RIGHT
+    private Tetrominoes tetrominoes;
+    public Controls(Tetrominoes tetrominoes){
+    
+    }
     
     /**
      * Lorsque l'utilisateur enfonce une touche
