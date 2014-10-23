@@ -22,7 +22,7 @@ public class Timer_Loops extends Timer{
      */
     public Timer_Loops(int delay, ActionListener listener) {
         super(delay, listener);
-        this.difficulte = 0;
+        this.difficulte = delay;
     }
     /**
      * Getteur de la difficulte par rapport au temps
@@ -36,7 +36,9 @@ public class Timer_Loops extends Timer{
      * @param difficulte 
      */
     public void setDifficulte(int difficulte) {
+        super.setDelay(difficulte);
         this.difficulte = difficulte;
     }
+    
     
 }

@@ -2,6 +2,7 @@ package tetris;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -143,7 +144,8 @@ public class Fenetre extends JFrame implements ActionListener{
         addJeuTetris();
     }
     public void addJeuTetris(){
-        jeu = new JeuTetris();
+        
+        jeu = new JeuTetris(20,20,new Dimension(200,400));
         add(jeu);
     }
 
@@ -170,7 +172,7 @@ public class Fenetre extends JFrame implements ActionListener{
 
         centre = new JPanel(new GridLayout(1,2));
         add(centre, BorderLayout.CENTER);
-        centre.add(new JeuTetris());
+      
     }
 
     @Override

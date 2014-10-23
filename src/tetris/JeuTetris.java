@@ -1,10 +1,11 @@
 package tetris;
-;
+
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
@@ -17,112 +18,103 @@ import java.awt.geom.Rectangle2D;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.Random;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 /**
  * Classe JeuTetris
  * @author Azfar et Donaven
  */
-public class JeuTetris extends JPanel  implements ActionListener{
-    // private Piece[] piece = new Piece[50]; // une 
-  
+public class JeuTetris extends JPanel  implements ActionListener{  
     
     // ----------------Paramètres de la fenetre --------
-    private CoordonneeJeu coordonneJeu;
-    private Dimension dimension; // On devra gérer les dimension par rapport a la table des coordonnées du jeu choisis
+    private CoordonneeJeu coordonneJeu; // Coordonnee du jeu
+    private Dimension dimension;        // Dimension du jeu
     //--------------------------------------------------
     
     // ----------------Paramètres jeu ------------------
-    private Timer_Loops timer;
-    private boolean vivant;
+    private Timer_Loops timer;  // Timer du jeu
+    private boolean vivant;     // True == Joueur joue False == Fin de la partie
     //--------------------------------------------------
     
     //-------------Boucle du jeu------------------------
-    private ArrayList<Tetrominoes> tetrominoes;
-    private int difficultee;
+    private ArrayList<Tetrominoes> tetrominoes; // List des Tetrominoe du jeu
+    private int difficultee;                    // Difficulté du jeu
     
+    //------------Graphics----------------------------
+    private Graphics bufferGraphics; // Buffer évite le scintillement
+    private Image offscreen;         // Image du buffer
     
     /**
      * Constructeur du jeu Tetris par défaut
      */
-    public JeuTetris() {
-        coordonneJeu = new CoordonneeJeu(10,20);
-        dimension = new Dimension(200, 400);
+    public JeuTetris(int colonne, int rangee, Dimension dimension) {
+        // Dimension du jeu
+        coordonneJeu = new CoordonneeJeu(colonne,rangee);
+        this.dimension = dimension;
         setSize(dimension);
-         // Pour les événements du clavier
-        KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        manager.addKeyEventDispatcher(new Controls());
-                
-        // Initialise le timer 
-        difficultee = 300; // difficulté 1;
-        timer = new Timer_Loops(difficultee, this);
-        timer.start();
-        vivant = true;
-        
-        // -------------Desinne les casses---------
+  
+        // Initialise le nombre de Tetrominoe a 1
         tetrominoes = new ArrayList<>();
         newBlock();
         
+        // Pour les événements du clavier
+        KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        manager.addKeyEventDispatcher(new Controls());
         
-        
-        
-        
-        
+        // Commencement de la partie
+        difficultee = 200; // difficulté 1;
+        timer = new Timer_Loops(difficultee, this);
+        timer.start();
+        vivant = true;
     }
-
-
-      
+   
     /**
-     * Avancement du jeu dans le temps
-     * @param timer Appel de la fonction par le timer
-     */
+     * Fonction qui paint le jeu
+     * @param g Graphics du JPannel (JeuTetris)
+     */   
     @Override
-    public void actionPerformed(ActionEvent timer) {
-        System.out.println("\nTimer event");
-
-        if (vivant == true)
-            if (!canFall()){
-                System.out.print("newBlock");
-                newBlock();
-                dropTetrominoes();
-                if(!canFall()){
-                    vivant = false;
-                    System.out.print("Fin de la partie!");
-                    this.timer.stop();
-                }
-                
-            }
-            else if(canFall())
-               
-                dropTetrominoes(); 
-       // paintBlocks();
+    public void paintComponent(Graphics g) {
+        
+        // Set le buffer de l'Affichage
+        super.paintComponent(g);
+        offscreen = this.createImage(dimension.width,dimension.height);
+        bufferGraphics = offscreen.getGraphics();
+        
+        // Update le buffer 
+        updateBlockPaint(bufferGraphics);
+        paintGrille(bufferGraphics);
+        
+        // Paint l'image du buffer dans le jeu
+        g.drawImage(offscreen,0,0,this); 
     }
-  
-
     
+    /**
+     * Construit un nouveau Tetrominoe aléatoirement
+     */
     public void newBlock(){
         Random random = new Random();
+        
+        // Forme aléatoire
         int forme = abs(random.nextInt() % 7)+1;
-        float hue = random.nextFloat();
-        float saturation = 0.9f;//1.0 for brilliant, 0.0 for dull
-        float luminance = 1.0f; //1.0 for brighter, 0.0 for black
+        
+        // Couleur pastelle aléatoire
+        float hue = random.nextFloat(); // teinte
+        float saturation = 0.9f;        //1.0 brilliant, 0.0 terne
+        float luminance = 1.0f;         //1.0 luminant , 0.0 sombre
         Color couleur = Color.getHSBColor(hue, saturation, luminance);
         
-        Double blockWidth  = dimension.getWidth()/coordonneJeu.getNombreColonne();
-        Double blockHeight = dimension.getHeight()/coordonneJeu.getNombreRangee();
+        // Ajout du Tetrominoe à l'ArrayList<> 
         tetrominoes.add(new Tetrominoes(forme, couleur, coordonneJeu.getNombreColonne(), coordonneJeu.getNombreRangee()));
-      
     }
     /**
      * Est-ce que les block peuvent descendre?
      * @return False == non True == Oui
      */
     public boolean canFall(){
+        // Parcours les coordonnées du jeu 
         for(int x=0; x < coordonneJeu.getNombreColonne()-1; x++)
             for(int y=0; y <= coordonneJeu.getNombreRangee()-1; y++)
+                // Si un Tetrominoe est présent vérifie la position du desous
                 if(!tetrominoes.get(tetrominoes.size()-1).IsEmpty(x, y))
                     try{
                         if(!coordonneJeu.IsEmpty(x, y+1) && tetrominoes.get(tetrominoes.size()-1).getEmplacement().IsEmpty(x, y+1) ){
@@ -137,63 +129,93 @@ public class JeuTetris extends JPanel  implements ActionListener{
         return true;            
     }
     /**
-     * Descendre les blocks
+     * Descente de la position dans la table des coordonnée du Tetrominoe
      */
-    public void removeDroppingTetrominoe(){
-    Graphics2D g2d = (Graphics2D) this.getGraphics();
-        
-        // Enlève l'emplacement du Tetrominoe actuel
-        for(int x=0; x <= coordonneJeu.getNombreColonne()-1; x++)
-            for(int y=0; y <= coordonneJeu.getNombreRangee()-1; y++)
-                if(!tetrominoes.get(tetrominoes.size()-1).IsEmpty(x, y)){
-                    coordonneJeu.setCoordonee(x, y, false);
-                    paintBlock((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,
-                               (dimension.getHeight()/coordonneJeu.getNombreRangee())*y,
-                                this.getBackground(), g2d);
-                }
-    }
     public void dropTetrominoes(){
-        removeDroppingTetrominoe();
         if(tetrominoes.get(tetrominoes.size()-1).isIsFalling()==false){
             tetrominoes.get(tetrominoes.size()-1).setIsFalling(true);
         }else
             tetrominoes.get(tetrominoes.size()-1).dropTetrominoe();
-        Graphics2D g2d = (Graphics2D) this.getGraphics();
-        
-            
-        
-        // Enlève l'emplacement du Tetrominoe actuel
-        removeDroppingTetrominoe();
-        updateBlockPaint();
-
-                
-        //System.out.print("\nTable de coordonnée du JEu");       
-        //coordonneJeu.afficheTable();
-        //doDrawing(g2d);
     }
-   
-    public void updateBlockPaint(){
-        Graphics2D g2d = (Graphics2D) this.getGraphics();
-    
+    /**
+     * Mise à jour du Buffer image selon les Blocks présent
+     * @param g  Buffer de l'image du JPannel
+     */
+    public void updateBlockPaint(Graphics g){
+        Graphics2D g2d = (Graphics2D) g;
+        // Parcous la table des coordonnées du jeu
         for(int x=0; x < coordonneJeu.getNombreColonne(); x++)
             for(int y=0; y < coordonneJeu.getNombreRangee(); y++)
+                // Si un Tetrominoe est présent on le paint
                 if(!tetrominoes.get(tetrominoes.size()-1).IsEmpty(x, y)){
-                    
                     paintBlock((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,
-                                    (dimension.getHeight()/coordonneJeu.getNombreRangee())*y,
-                                      tetrominoes.get(tetrominoes.size()-1).getCouleur(), g2d);
+                               (dimension.getHeight()/coordonneJeu.getNombreRangee())*y,
+                                tetrominoes.get(tetrominoes.size()-1).getCouleur(), g2d);
         }
+        paintEndFallingBlocks(g);
     }
-    public void updateFallingEndBlocks(){
-        
-        for(int x=0; x < coordonneJeu.getNombreColonne(); x++)
+    /**
+     * Mise à jour des blocks qui ont atteint le fond
+     */
+    public void updateFallingEndBlocks(){        
+       for(int x=0; x < coordonneJeu.getNombreColonne(); x++)
             for(int y=0; y < coordonneJeu.getNombreRangee(); y++)
                 if(!tetrominoes.get(tetrominoes.size()-1).IsEmpty(x, y))
-                    coordonneJeu.setCoordonee(x, y, true);     
-        
-        System.out.print("Falling end blocks Updated !");
-        coordonneJeu.afficheTable();
+                    coordonneJeu.setCoordonee(x, y, true);    
     }
+    /**
+     * Paint les blocks qui ont atteint le fond
+     * @param g  Buffer de l'image du JPannel
+     */
+    public void paintEndFallingBlocks(Graphics g){
+        Graphics2D g2d = (Graphics2D) g;
+        if(tetrominoes.size()>1)
+            for(int index =0 ; index<tetrominoes.size()-1;index++)
+                for(int x=0; x < coordonneJeu.getNombreColonne(); x++)
+                for(int y=0; y < coordonneJeu.getNombreRangee(); y++)
+                    if(!tetrominoes.get(index).IsEmpty(x, y)){
+                        paintBlock((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,
+                                    (dimension.getHeight()/coordonneJeu.getNombreRangee())*y,
+                                     tetrominoes.get(tetrominoes.size()-1).getCouleur(), g2d);
+                    }
+    }
+    /**
+     * Paint le grillage selon la dimension en les coordonnées du jeu;
+     * @param g  Buffer de l'image du JPannel
+     */
+    private void paintGrille(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.black);
+        // Paint le grillage selon 
+        
+        int separattion; 
+        // Lignes Horizontale 
+        for(separattion=0 ; coordonneJeu.getNombreColonne()> separattion; separattion++)
+            g2d.draw(new Line2D.Double((dimension.getWidth()/coordonneJeu.getNombreColonne())*separattion,0,
+                                        (dimension.getWidth()/coordonneJeu.getNombreColonne())*separattion, dimension.getHeight()));
+        // Lignes Verticales
+        for(separattion=0 ; coordonneJeu.getNombreRangee()> separattion; separattion++)
+            g2d.draw(new Line2D.Double(0,(dimension.getHeight()/coordonneJeu.getNombreRangee())*separattion,
+                                          dimension.getWidth(),(dimension.getHeight()/coordonneJeu.getNombreRangee())*separattion));
+    }
+    
+    /**
+     * Paint un Block
+     * @param colonne Coordnonné en x du Block
+     * @param rangee Coordnonné en y du Block
+     * @param color Couleur du Block
+     * @param g Buffer de l'image du JPannel
+     */
+    public void paintBlock(Double colonne, Double rangee, Color color, Graphics g){
+        Graphics2D g2d = (Graphics2D) g;
+
+        Rectangle2D rect = new Rectangle2D.Double(colonne ,
+                                                  rangee  ,
+                                                  dimension.getWidth()/coordonneJeu.getNombreColonne(),
+                                                  dimension.getHeight()/coordonneJeu.getNombreRangee());
+        g2d.setPaint(color);
+        g2d.fill(rect);
+    }   
     
     /**
      * Getteur de la difficultée 
@@ -211,8 +233,6 @@ public class JeuTetris extends JPanel  implements ActionListener{
         this.timer = timerDifficulte;
         
     }
-    
-    
     /**
      * Pause du jeu
      */
@@ -231,133 +251,84 @@ public class JeuTetris extends JPanel  implements ActionListener{
     public void restart(){
         timer.restart();
     }
-    private void doDrawing(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        int x = 0;
-        for(x=0 ; coordonneJeu.getNombreColonne()> x; x++)
-            g2d.draw(new Line2D.Double((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,0,
-                                        (dimension.getWidth()/coordonneJeu.getNombreColonne())*x, dimension.getHeight()));
-        for(x=0 ; coordonneJeu.getNombreRangee()> x; x++)
-            g2d.draw(new Line2D.Double(0,(dimension.getHeight()/coordonneJeu.getNombreRangee())*x,
-                                        dimension.getWidth(),(dimension.getHeight()/coordonneJeu.getNombreRangee())*x));
-        
-        int y=0;
-        /*coordonneJeu.setCoordonee(5, 5, true);
-        coordonneJeu.setCoordonee(0, 0, true);
-        coordonneJeu.setCoordonee(7, 9, true);*/
-        
-
-       
-    
-    
-    }
- 
-    public void paintBlock(Double colonne, Double rangee, Color color, Graphics g){
-
-        Graphics2D g2d = (Graphics2D) g;
-
-        Rectangle2D rect = new Rectangle2D.Double(colonne ,
-                                                  rangee  ,
-                                                  dimension.getWidth()/coordonneJeu.getNombreColonne(),
-                                                  dimension.getHeight()/coordonneJeu.getNombreRangee());
-       // g2d.setColor(color);
-        g2d.setPaint(color);
-        g2d.fill(rect);
-        g2d.draw(rect);
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    }
-
+    /**
+     * Getteur de la dimension
+     * @return dimension la dimension du pannel
+     */
     public Dimension getDimension() {
         return dimension;
     }
-    
-
-    @Override
-    public void paintComponent(Graphics g) {
-        
-        super.paintComponent(g);
-        doDrawing(g);
-        
-    }
-
-    public static class Lines2 extends JFrame {
-
-    public Lines2() {
-        initUI();
-    }
-    
-    private void initUI() {
-        setTitle("Lines");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JeuTetris jeu = new JeuTetris();
-        setSize(500,500);
-        add(jeu);
-        setLocationRelativeTo(null);
-        
-    }
-}
-
-    
-
-    public static void main(String[] args) {
-
-        SwingUtilities.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                
-                Lines2 lines = new Lines2();
-                lines.setVisible(true);
-            }
-        });
-    }
-    public class Controls implements KeyEventDispatcher {
-        @Override
-        public boolean dispatchKeyEvent(KeyEvent ke){
-         
-            System.out.print("KeyRealsesd");
-            
-            if (ke.getID()==KeyEvent.KEY_RELEASED){
-                  
-                if(ke.getKeyCode() == VK_LEFT) {
-                    removeDroppingTetrominoe();
-                    if(tetrominoes.get(tetrominoes.size()-1).left()){
-                        tetrominoes.get(tetrominoes.size()-1).getEmplacement().afficheTable();
-                        
-                        
-                        tetrominoes.get(tetrominoes.size()-1).getEmplacement().afficheTable();
-                    }
-                    updateBlockPaint();
-                            
-                }
-                else if(ke.getKeyCode() == VK_RIGHT) {
-                    removeDroppingTetrominoe();
-                    if(tetrominoes.get(tetrominoes.size()-1).right()){
-                        removeDroppingTetrominoe();
-                    }
-                    updateBlockPaint();
-                }
-                else if(ke.getKeyCode() == 45) {
-                    difficultee= difficultee-500;
-                }
-                else if(ke.getKeyCode() == 61) {
-                    difficultee= difficultee+500;
-                }
-            }
-            return true;
-        }
-    }
-
+    /**
+     * Getteur de la difficultée
+     * @return difficultee La dificultee du jeu
+     */
     public int getDifficultee() {
         return difficultee;
     }
     
+     /**
+     * Avancement du jeu dans le temps
+     * @param timer Appel de la fonction par le timer
+     */
+    @Override
+    public void actionPerformed(ActionEvent timer) {
+  
+        // Si le tetrominoe ne peut pas descendre
+        if (!canFall()){
+            System.out.print("newBlock");
+            newBlock();
+            dropTetrominoes();
+            if(!canFall()){
+                vivant = false;
+                System.out.print("Fin de la partie!");
+                this.timer.stop();
+            }
+        }
+        // Si le tetrominoe peut descendre
+        else if(canFall())
+            dropTetrominoes(); 
+        repaint();
+    }   
+ 
+    /**
+     * Classe Controls  Gestion des controles du jeu
+     */
+    public class Controls implements KeyEventDispatcher {
+        @Override
+        public boolean dispatchKeyEvent(KeyEvent ke){
+         
+            System.out.print(ke.getKeyCode());
+            if (ke.getID()==KeyEvent.KEY_PRESSED){
+                  
+                if(ke.getKeyCode() == VK_LEFT) {
+                    
+                    if(tetrominoes.get(tetrominoes.size()-1).left()){
+                        tetrominoes.get(tetrominoes.size()-1).getEmplacement().afficheTable();
+                    }
+                    repaint();      
+                }
+                else if(ke.getKeyCode() == VK_RIGHT) {
+                    
+                    if(tetrominoes.get(tetrominoes.size()-1).right()){ 
+                    }
+                    repaint();
+                }
+            }
+
+            if (ke.getID()==KeyEvent.KEY_RELEASED){
+               
+                if(ke.getKeyCode() == 107) {
+                    System.out.print("Diminution de la difficulté");
+                    timer.setDifficulte(timer.getDifficulte()-50);
+                }
+                else if(ke.getKeyCode() == 109) {
+                     System.out.print("Augumentation de la difficulté");
+                    timer.setDifficulte(timer.getDifficulte()+50);
+                }
+            }
+            return true;
+        }
+    }  
 }
+    
+    
