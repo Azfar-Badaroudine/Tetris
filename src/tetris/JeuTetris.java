@@ -18,6 +18,7 @@ import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -41,6 +42,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
     
     //-------------Boucle du jeu------------------------
     private ArrayList<Tetrominoes> tetrominoes;
+    private int difficultee;
     
     
     /**
@@ -53,9 +55,10 @@ public class JeuTetris extends JPanel  implements ActionListener{
          // Pour les événements du clavier
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addKeyEventDispatcher(new Controls());
-        
+                
         // Initialise le timer 
-        timer = new Timer_Loops(1000, this);
+        difficultee = 300; // difficulté 1;
+        timer = new Timer_Loops(difficultee, this);
         timer.start();
         vivant = true;
         
@@ -140,8 +143,8 @@ public class JeuTetris extends JPanel  implements ActionListener{
     Graphics2D g2d = (Graphics2D) this.getGraphics();
         
         // Enlève l'emplacement du Tetrominoe actuel
-        for(int x=0; x < coordonneJeu.getNombreColonne()-1; x++)
-            for(int y=0; y < coordonneJeu.getNombreRangee()-1; y++)
+        for(int x=0; x <= coordonneJeu.getNombreColonne()-1; x++)
+            for(int y=0; y <= coordonneJeu.getNombreRangee()-1; y++)
                 if(!tetrominoes.get(tetrominoes.size()-1).IsEmpty(x, y)){
                     coordonneJeu.setCoordonee(x, y, false);
                     paintBlock((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,
@@ -168,6 +171,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
         //coordonneJeu.afficheTable();
         //doDrawing(g2d);
     }
+   
     public void updateBlockPaint(){
         Graphics2D g2d = (Graphics2D) this.getGraphics();
     
@@ -320,6 +324,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
         public boolean dispatchKeyEvent(KeyEvent ke){
          
             System.out.print("KeyRealsesd");
+            
             if (ke.getID()==KeyEvent.KEY_RELEASED){
                   
                 if(ke.getKeyCode() == VK_LEFT) {
@@ -339,9 +344,20 @@ public class JeuTetris extends JPanel  implements ActionListener{
                         removeDroppingTetrominoe();
                     }
                     updateBlockPaint();
-                }   
+                }
+                else if(ke.getKeyCode() == 45) {
+                    difficultee= difficultee-500;
+                }
+                else if(ke.getKeyCode() == 61) {
+                    difficultee= difficultee+500;
+                }
             }
             return true;
         }
     }
+
+    public int getDifficultee() {
+        return difficultee;
+    }
+    
 }
