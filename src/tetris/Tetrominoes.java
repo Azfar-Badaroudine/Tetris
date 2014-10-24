@@ -369,13 +369,13 @@ public class Tetrominoes {
                                 for(int x=0; x<emplacement.getNombreColonne() ; x++){
                                     if(bool[x]==true){
                                         
-                                        emplacement.setCoordonee(x+2, rangee-1, true);
-                                        emplacement.setCoordonee(x+1, rangee-1, true);
-                                        emplacement.setCoordonee(x+2, rangee+1, true);
-                                        emplacement.setCoordonee(x, rangee,     false);
+                                        emplacement.setCoordonee(x, rangee-1, true);
+                                        emplacement.setCoordonee(x+1, rangee+1, true);
+                                      
+                                        emplacement.setCoordonee(x+2, rangee,     false);
                                         emplacement.setCoordonee(x+1, rangee,   false);
-                                        emplacement.setCoordonee(x, rangee+1,   false);
-                                        rotation=1;
+                                        
+                                        rotation=3;
                                         return true;
                                     }
                                 }
@@ -385,6 +385,51 @@ public class Tetrominoes {
                             System.out.print(e.toString());
                             return false;
                         }
+                    else if(rotation==3)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x+2, rangee+1,true);
+                                        emplacement.setCoordonee(x+2, rangee+2,  true);
+                                        emplacement.setCoordonee(x, rangee,    false);
+                                        emplacement.setCoordonee(x, rangee+1,  false);
+                                        rotation=2;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+                    else if(rotation==2)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x-1, rangee-1,  true);
+                                        emplacement.setCoordonee(x, rangee-1,true);
+                       
+                                        emplacement.setCoordonee(x-1, rangee+1,  false);
+                                        emplacement.setCoordonee(x-2, rangee+1,  false);
+                                   
+                                        
+                                        rotation=1;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
                     else if(rotation==1)
                         try{
                             int rangee = -1;
@@ -392,8 +437,58 @@ public class Tetrominoes {
                                 rangee++;
                                 for(int x=0; x<emplacement.getNombreColonne() ; x++){
                                     if(bool[x]==true){
+                                        emplacement.setCoordonee(x-1, rangee+1,true);
                                         emplacement.setCoordonee(x-1, rangee+2,true);
-                                        emplacement.setCoordonee(x, rangee+2,  true);
+                                        emplacement.setCoordonee(x, rangee+1,true);
+                                        emplacement.setCoordonee(x, rangee,false);
+                                        emplacement.setCoordonee(x+1, rangee, false);
+                                        emplacement.setCoordonee(x+1, rangee+2,false);
+                                        rotation=0;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+
+                    break;
+            case 5: if(rotation==0)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        
+                                        emplacement.setCoordonee(x, rangee-1, true);
+                                        emplacement.setCoordonee(x+1, rangee-1, true);
+                                        emplacement.setCoordonee(x, rangee+1, true);
+                                        emplacement.setCoordonee(x+1, rangee,     false);
+                                        emplacement.setCoordonee(x+2, rangee,   false);
+                                        emplacement.setCoordonee(x+2, rangee+1, false);
+                                        
+                                        rotation=3;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            copyEmplacement(temporaire, emplacement);
+                            System.out.print(e.toString());
+                            return false;
+                        }
+                    else if(rotation==3)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x+1, rangee+2,true);
+                                        emplacement.setCoordonee(x+2, rangee+2,  true);
                                         emplacement.setCoordonee(x, rangee,    false);
                                         emplacement.setCoordonee(x+1, rangee,  false);
                                         rotation=2;
@@ -413,13 +508,14 @@ public class Tetrominoes {
                                 rangee++;
                                 for(int x=0; x<emplacement.getNombreColonne() ; x++){
                                     if(bool[x]==true){
-                                        emplacement.setCoordonee(x-2, rangee,  true);
-                                        emplacement.setCoordonee(x-2, rangee+2,true);
-                                        emplacement.setCoordonee(x-1, rangee+2,true);
-                                        emplacement.setCoordonee(x, rangee,    false);
+                                        emplacement.setCoordonee(x+2, rangee,  true);
+                                        emplacement.setCoordonee(x+2, rangee-1,true);
+                       
+                                        emplacement.setCoordonee(x, rangee,  false);
                                         emplacement.setCoordonee(x, rangee+1,  false);
-                                        emplacement.setCoordonee(x-1, rangee+1,false);
-                                        rotation=3;
+                                   
+                                        
+                                        rotation=1;
                                         return true;
                                     }
                                 }
@@ -429,17 +525,18 @@ public class Tetrominoes {
                             copyEmplacement(temporaire, emplacement);
                             return false;
                         }
-                    else if(rotation==3)
+                    else if(rotation==1)
                         try{
                             int rangee = -1;
                             for(boolean bool[] : emplacement.getCoordoneeJeu()){
                                 rangee++;
                                 for(int x=0; x<emplacement.getNombreColonne() ; x++){
                                     if(bool[x]==true){
-                                        emplacement.setCoordonee(x+1, rangee+1,true);
-                                        emplacement.setCoordonee(x+2, rangee+1,true);
-                                        emplacement.setCoordonee(x, rangee,    false);
-                                        emplacement.setCoordonee(x+1, rangee+2,false);
+                                        emplacement.setCoordonee(x-2, rangee+1,  true);
+                                        emplacement.setCoordonee(x-1, rangee+1,true);
+                       
+                                        emplacement.setCoordonee(x, rangee,  false);
+                                        emplacement.setCoordonee(x-1, rangee+2,  false);
                                         rotation=0;
                                         return true;
                                     }
@@ -451,8 +548,7 @@ public class Tetrominoes {
                             return false;
                         }
 
-                    break;
-                
+                    break;   
             case 6: if(rotation==0)
                         try{
                             int rangee = -1;
@@ -688,12 +784,193 @@ public class Tetrominoes {
                             return false;
                         }
 
-                    break;  /*
+                    break;  
                 
-            case 4: for(int x = beginIndex; x < 3+beginIndex; x++)
-                            emplacement.setCoordonee(x, 0, true);
-                    emplacement.setCoordonee(beginIndex, 1, true);break;*/
-                
+            case 4: if(rotation==0)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        
+                                        emplacement.setCoordonee(x+2, rangee-1, true);
+                                        emplacement.setCoordonee(x+1, rangee-1, true);
+                                        emplacement.setCoordonee(x+2, rangee+1, true);
+                                        emplacement.setCoordonee(x, rangee,     false);
+                                        emplacement.setCoordonee(x+1, rangee,   false);
+                                        emplacement.setCoordonee(x, rangee+1,   false);
+                                        rotation=1;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            copyEmplacement(temporaire, emplacement);
+                            System.out.print(e.toString());
+                            return false;
+                        }
+                    else if(rotation==1)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x-1, rangee+2,true);
+                                        emplacement.setCoordonee(x, rangee+2,  true);
+                                        emplacement.setCoordonee(x, rangee,    false);
+                                        emplacement.setCoordonee(x+1, rangee,  false);
+                                        rotation=2;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+                    else if(rotation==2)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x-2, rangee-1,  true);
+                                        emplacement.setCoordonee(x-2, rangee,true);
+                                     
+                                        emplacement.setCoordonee(x, rangee,    false);
+                                        emplacement.setCoordonee(x, rangee+1,  false);
+                                        
+                                        rotation=3;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+                    else if(rotation==3)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x+1, rangee+1,true);
+                                        emplacement.setCoordonee(x+2, rangee+1,true);
+                                        emplacement.setCoordonee(x, rangee,    false);
+                                        emplacement.setCoordonee(x+1, rangee+2,false);
+                                        rotation=0;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+
+                    break;
+            case 5: if(rotation==0)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        
+                                        emplacement.setCoordonee(x+2, rangee-1, true);
+                                        emplacement.setCoordonee(x+1, rangee+1, true);
+                                        
+                                        emplacement.setCoordonee(x, rangee,   false);
+                                        emplacement.setCoordonee(x+1, rangee, false);
+                                        
+                                        rotation=1;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            copyEmplacement(temporaire, emplacement);
+                            System.out.print(e.toString());
+                            return false;
+                        }
+                    else if(rotation==1)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x-2, rangee+1,true);
+                                        emplacement.setCoordonee(x-2, rangee+2,  true);
+                                        emplacement.setCoordonee(x, rangee,    false);
+                                        emplacement.setCoordonee(x, rangee+1,  false);
+                                        rotation=2;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+                    else if(rotation==2)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x, rangee-1,  true);
+                                        emplacement.setCoordonee(x+1, rangee-1,true);
+                       
+                                        emplacement.setCoordonee(x+1, rangee+1,  false);
+                                        emplacement.setCoordonee(x+2, rangee+1,  false);
+                                   
+                                        
+                                        rotation=3;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+                    else if(rotation==3)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x+1, rangee+1,  true);
+                                        emplacement.setCoordonee(x+2, rangee+1,true);
+                                        emplacement.setCoordonee(x+2, rangee+2,  true);
+                                        emplacement.setCoordonee(x, rangee,  false);
+                                        emplacement.setCoordonee(x+1, rangee,  false);
+                                        emplacement.setCoordonee(x, rangee+2,  false);
+                                        rotation=0;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+
+                    break;
             case 6: if(rotation==0)
                         try{
                             int rangee = -1;
@@ -792,6 +1069,40 @@ public class Tetrominoes {
         }
     return true;
     }
+    public void prochaineRangee(){
+        CoordonneeJeu temporaire = new CoordonneeJeu(emplacement.getNombreColonne(),emplacement.getNombreRangee());
+        copyEmplacement(temporaire);
+        try{
+            for(int y=emplacement.getNombreRangee()-1; y>=0 ; y--)
+            for(int x=0; x<emplacement.getNombreColonne() ; x++)
+                if(!emplacement.IsEmpty(x, y)){
+                    emplacement.setCoordonee(x, y+1, true);
+                    emplacement.setCoordonee(x, y, false);
+                }
+        }catch(Exception e){
+            copyEmplacement(temporaire, emplacement);
+        }
+    }
+    public void precedentRangee(){
+        CoordonneeJeu temporaire = new CoordonneeJeu(emplacement.getNombreColonne(),emplacement.getNombreRangee());
+        copyEmplacement(temporaire);
+        for(int y=0; y<emplacement.getNombreRangee()-1 ; y++)
+            for(int x=0; x<emplacement.getNombreColonne() ; x++)
+                if(!emplacement.IsEmpty(x, y)){
+                    emplacement.setCoordonee(x, y-1, true);
+                    emplacement.setCoordonee(x, y, false);
+                }
+    }
+    public void completedRow(int rangee){
+        for(int x=0; x<emplacement.getNombreColonne() ; x++)
+            emplacement.setCoordonee(x, rangee, false);
+        for(int y=rangee; y>0 ; y--)
+            for(int x=0; x<emplacement.getNombreColonne() ; x++)
+                if(!emplacement.IsEmpty(x, y)){
+                    emplacement.setCoordonee(x, y+1, true);
+                    emplacement.setCoordonee(x, y, false);
+                }
+    }
     public void copyEmplacement(CoordonneeJeu temporaire){
         int rangee = -1;
         for(boolean bool[] : emplacement.getCoordoneeJeu()){
@@ -800,6 +1111,7 @@ public class Tetrominoes {
                 temporaire.setCoordonee(x, rangee, bool[x]);
         }
     }
+    
     public void copyEmplacement(CoordonneeJeu copyFrom, CoordonneeJeu copyTo){
         int rangee = -1;
         for(boolean bool[] : copyFrom.getCoordoneeJeu()){

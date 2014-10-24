@@ -145,7 +145,7 @@ public class Fenetre extends JFrame implements ActionListener{
     }
     public void addJeuTetris(){
         
-        jeu = new JeuTetris(20,20,new Dimension(200,400));
+        jeu = new JeuTetris(10,20,new Dimension(500,600));
         add(jeu);
     }
 

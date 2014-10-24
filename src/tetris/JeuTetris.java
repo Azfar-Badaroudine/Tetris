@@ -11,6 +11,7 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import static java.awt.event.KeyEvent.VK_DOWN;
 import static java.awt.event.KeyEvent.VK_LEFT;
 import static java.awt.event.KeyEvent.VK_RIGHT;
 import static java.awt.event.KeyEvent.VK_UP;
@@ -19,6 +20,8 @@ import java.awt.geom.Rectangle2D;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -47,6 +50,9 @@ public class JeuTetris extends JPanel  implements ActionListener{
     
     /**
      * Constructeur du jeu Tetris par défaut
+     * @param colonne
+     * @param rangee
+     * @param dimension
      */
     public JeuTetris(int colonne, int rangee, Dimension dimension) {
         // Dimension du jeu
@@ -105,7 +111,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
         Color couleur = Color.getHSBColor(hue, saturation, luminance);
         
         // Ajout du Tetrominoe à l'ArrayList<> 
-        tetrominoes.add(new Tetrominoes(4, couleur, coordonneJeu.getNombreColonne(), coordonneJeu.getNombreRangee()));
+        tetrominoes.add(new Tetrominoes(1, couleur, coordonneJeu.getNombreColonne(), coordonneJeu.getNombreRangee()));
     }
     /**
      * Est-ce que les block peuvent descendre?
@@ -162,7 +168,33 @@ public class JeuTetris extends JPanel  implements ActionListener{
        for(int x=0; x < coordonneJeu.getNombreColonne(); x++)
             for(int y=0; y < coordonneJeu.getNombreRangee(); y++)
                 if(!tetrominoes.get(tetrominoes.size()-1).IsEmpty(x, y))
-                    coordonneJeu.setCoordonee(x, y, true);    
+                    coordonneJeu.setCoordonee(x, y, true);
+       // Vérifie si une ligne est compléter
+        for(int y=1; y < coordonneJeu.getNombreRangee(); y++)
+            verifyCompletedRow(y);
+                
+    }
+    /**
+     *  Vérification d'une rangée compléter
+     * @param rangee rangee a vérifier;
+     * @return True == Ligne completer False == Ligne non-compléter
+     */
+    public boolean verifyCompletedRow(int rangee){
+        for(int x=0; x < coordonneJeu.getNombreColonne(); x++)
+            if(!coordonneJeu.IsEmpty(x, rangee)){}
+            else
+                return false;
+        for(int x=0; x<coordonneJeu.getNombreColonne() ; x++)
+            coordonneJeu.setCoordonee(x, rangee, false);
+        for(int y=rangee; y>0 ; y--)
+            for(int x=0; x<coordonneJeu.getNombreColonne() ; x++)
+                if(!coordonneJeu.IsEmpty(x, y)){
+                    coordonneJeu.setCoordonee(x, y+1, true);
+                    coordonneJeu.setCoordonee(x, y, false);
+                };
+        for(Tetrominoes tetrominoe : tetrominoes)
+            tetrominoe.completedRow(rangee);
+        return true;               
     }
     /**
      * Paint les blocks qui ont atteint le fond
@@ -285,7 +317,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
      */
     @Override
     public void actionPerformed(ActionEvent timer) {
-  
+        
         // Si le tetrominoe ne peut pas descendre
         if (!canFall()){
             System.out.print("newBlock");
@@ -335,30 +367,33 @@ public class JeuTetris extends JPanel  implements ActionListener{
                 }
                 else if(ke.getKeyCode() == VK_UP) {
                     
-                     tetrominoes.get(tetrominoes.size()-1).rotateLeft();
+                    tetrominoes.get(tetrominoes.size()-1).rotateLeft();
                     if(canMove())
                         repaint();
                     else
                         tetrominoes.get(tetrominoes.size()-1).rotateRight();
                 }
-                /*else if(ke.getKeyCode() == VK_RIGHT) {
+                else if(ke.getKeyCode() == VK_DOWN) {
                     
-                    if(tetrominoes.get(tetrominoes.size()-1).right()){ 
-                    }
+                    tetrominoes.get(tetrominoes.size()-1).prochaineRangee();
+                    if(!canMove())
+                        tetrominoes.get(tetrominoes.size()-1).precedentRangee();
                     repaint();
-                }*/
+                    
+                }
             }
 
             if (ke.getID()==KeyEvent.KEY_RELEASED){
                
-                if(ke.getKeyCode() == 107) {
+                if(ke.getKeyCode() == 107 || ke.getKeyCode() == 45) {
                     System.out.print("Diminution de la difficulté");
                     timer.setDifficulte(timer.getDifficulte()-50);
                 }
-                else if(ke.getKeyCode() == 109) {
+                else if(ke.getKeyCode() == 109|| ke.getKeyCode() == 61) {
                      System.out.print("Augumentation de la difficulté");
                     timer.setDifficulte(timer.getDifficulte()+50);
                 }
+                
             }
             return true;
         }

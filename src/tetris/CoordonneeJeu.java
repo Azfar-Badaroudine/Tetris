@@ -3,7 +3,7 @@ package tetris;
 import java.util.ArrayList;
 
 /**
- * Classe CoordonneeJeu
+ * Classe CoordonneeJeuf
  * @author Donavan
  */
 public class CoordonneeJeu {
