@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_LEFT;
 import static java.awt.event.KeyEvent.VK_RIGHT;
+import static java.awt.event.KeyEvent.VK_UP;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import static java.lang.Math.abs;
@@ -104,7 +105,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
         Color couleur = Color.getHSBColor(hue, saturation, luminance);
         
         // Ajout du Tetrominoe à l'ArrayList<> 
-        tetrominoes.add(new Tetrominoes(forme, couleur, coordonneJeu.getNombreColonne(), coordonneJeu.getNombreRangee()));
+        tetrominoes.add(new Tetrominoes(4, couleur, coordonneJeu.getNombreColonne(), coordonneJeu.getNombreRangee()));
     }
     /**
      * Est-ce que les block peuvent descendre?
@@ -112,7 +113,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
      */
     public boolean canFall(){
         // Parcours les coordonnées du jeu 
-        for(int x=0; x < coordonneJeu.getNombreColonne()-1; x++)
+        for(int x=0; x <= coordonneJeu.getNombreColonne()-1; x++)
             for(int y=0; y <= coordonneJeu.getNombreRangee()-1; y++)
                 // Si un Tetrominoe est présent vérifie la position du desous
                 if(!tetrominoes.get(tetrominoes.size()-1).IsEmpty(x, y))
@@ -176,7 +177,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
                     if(!tetrominoes.get(index).IsEmpty(x, y)){
                         paintBlock((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,
                                     (dimension.getHeight()/coordonneJeu.getNombreRangee())*y,
-                                     tetrominoes.get(tetrominoes.size()-1).getCouleur(), g2d);
+                                     tetrominoes.get(index).getCouleur(), g2d);
                     }
     }
     /**
@@ -214,7 +215,9 @@ public class JeuTetris extends JPanel  implements ActionListener{
                                                   dimension.getWidth()/coordonneJeu.getNombreColonne(),
                                                   dimension.getHeight()/coordonneJeu.getNombreRangee());
         g2d.setPaint(color);
+     
         g2d.fill(rect);
+        g2d.draw(rect);
     }   
     
     /**
@@ -265,6 +268,16 @@ public class JeuTetris extends JPanel  implements ActionListener{
     public int getDifficultee() {
         return difficultee;
     }
+    public boolean canMove(){
+        int rangee = -1;
+        for(boolean bool[] : tetrominoes.get(tetrominoes.size()-1).getEmplacement().getCoordoneeJeu()){
+            rangee++;
+            for(int x=0; x< coordonneJeu.getNombreColonne(); x++)
+                if(true==bool[x]&& bool[x]== !coordonneJeu.IsEmpty(x, rangee))
+                    return false;
+        }
+        return true;
+    }
     
      /**
      * Avancement du jeu dans le temps
@@ -303,16 +316,37 @@ public class JeuTetris extends JPanel  implements ActionListener{
                 if(ke.getKeyCode() == VK_LEFT) {
                     
                     if(tetrominoes.get(tetrominoes.size()-1).left()){
-                        tetrominoes.get(tetrominoes.size()-1).getEmplacement().afficheTable();
+                        if(!canMove())
+                            tetrominoes.get(tetrominoes.size()-1).right();
+                        else
+                            repaint(); 
                     }
-                    repaint();      
+                          
                 }
                 else if(ke.getKeyCode() == VK_RIGHT) {
+                    
+                    if(tetrominoes.get(tetrominoes.size()-1).right()){
+                        if(!canMove())
+                            tetrominoes.get(tetrominoes.size()-1).left();
+                        else
+                            repaint(); 
+                    }
+
+                }
+                else if(ke.getKeyCode() == VK_UP) {
+                    
+                     tetrominoes.get(tetrominoes.size()-1).rotateLeft();
+                    if(canMove())
+                        repaint();
+                    else
+                        tetrominoes.get(tetrominoes.size()-1).rotateRight();
+                }
+                /*else if(ke.getKeyCode() == VK_RIGHT) {
                     
                     if(tetrominoes.get(tetrominoes.size()-1).right()){ 
                     }
                     repaint();
-                }
+                }*/
             }
 
             if (ke.getID()==KeyEvent.KEY_RELEASED){

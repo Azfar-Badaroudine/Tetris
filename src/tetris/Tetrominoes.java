@@ -53,6 +53,7 @@ public class Tetrominoes {
     private boolean[][] coordoneeTetrominoes;// Coordonnée de la forme [2][4]
     private CoordonneeJeu emplacement;       // Emplacement dans le jeu 
     private boolean isFalling;               // La piece est en train de tomber?
+    private int rotation;
     
     /**
      * 
@@ -66,6 +67,7 @@ public class Tetrominoes {
         emplacement = new CoordonneeJeu(nombreColonne,nombreRangee);
         System.out.print("La forme du Tetrominoe est : "+ forme);
         coordoneeTetrominoes = new boolean[4][4];
+        rotation = 0;
         switch(forme){
             case 1: for(int x = 0; x < 4; x++)
                         coordoneeTetrominoes[0][x]= true;
@@ -223,4 +225,588 @@ public class Tetrominoes {
                 }
         return true;
     }
+    public boolean rotateLeft(){
+        CoordonneeJeu temporaire = new CoordonneeJeu(emplacement.getNombreColonne(),emplacement.getNombreRangee());
+        copyEmplacement(temporaire);
+  
+        switch(forme){
+            case 1: 
+                    if(rotation==0)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x+1, rangee-2, true);
+                                        emplacement.setCoordonee(x+1, rangee-1, true);
+                                        emplacement.setCoordonee(x+1, rangee+1, true);
+                                        emplacement.setCoordonee(x  , rangee, false);
+                                        emplacement.setCoordonee(x+2, rangee, false);
+                                        emplacement.setCoordonee(x+3, rangee, false);
+                                        rotation=1;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            copyEmplacement(temporaire, emplacement);
+                            System.out.print(e.toString());
+                            return false;
+                        }
+                    else
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x-1, rangee+2, true);
+                                        emplacement.setCoordonee(x+1, rangee+2, true);
+                                        emplacement.setCoordonee(x+2, rangee+2, true);
+                                        emplacement.setCoordonee(x  , rangee,   false);
+                                        emplacement.setCoordonee(x  , rangee+1, false);
+                                        emplacement.setCoordonee(x  , rangee+3, false);
+                                        rotation=0;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+                    break;  
+             //Toujours la même forme   
+            /*case 2: for(int x = beginIndex; x < 2+beginIndex; x++)
+                        */
+                
+            case 3: if(rotation==0)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x+1, rangee-1, true);
+                                        emplacement.setCoordonee(x, rangee,   false);
+                                        rotation=1;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            copyEmplacement(temporaire, emplacement);
+                            System.out.print(e.toString());
+                            return false;
+                        }
+                    else if(rotation==1)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x-1, rangee+1, true);
+                                        emplacement.setCoordonee(x, rangee+2,   false);
+                                        rotation=2;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+                    else if(rotation==2)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x, rangee+2, true);
+                                        emplacement.setCoordonee(x+1, rangee+1,   false);
+                                        rotation=3;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+                    else if(rotation==3)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x+1, rangee+1, true);
+                                        emplacement.setCoordonee(x, rangee,false);
+                                        rotation=0;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+
+                    break;  
+                
+            case 4: if(rotation==0)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        
+                                        emplacement.setCoordonee(x+2, rangee-1, true);
+                                        emplacement.setCoordonee(x+1, rangee-1, true);
+                                        emplacement.setCoordonee(x+2, rangee+1, true);
+                                        emplacement.setCoordonee(x, rangee,     false);
+                                        emplacement.setCoordonee(x+1, rangee,   false);
+                                        emplacement.setCoordonee(x, rangee+1,   false);
+                                        rotation=1;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            copyEmplacement(temporaire, emplacement);
+                            System.out.print(e.toString());
+                            return false;
+                        }
+                    else if(rotation==1)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x-1, rangee+2,true);
+                                        emplacement.setCoordonee(x, rangee+2,  true);
+                                        emplacement.setCoordonee(x, rangee,    false);
+                                        emplacement.setCoordonee(x+1, rangee,  false);
+                                        rotation=2;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+                    else if(rotation==2)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x-2, rangee,  true);
+                                        emplacement.setCoordonee(x-2, rangee+2,true);
+                                        emplacement.setCoordonee(x-1, rangee+2,true);
+                                        emplacement.setCoordonee(x, rangee,    false);
+                                        emplacement.setCoordonee(x, rangee+1,  false);
+                                        emplacement.setCoordonee(x-1, rangee+1,false);
+                                        rotation=3;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+                    else if(rotation==3)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x+1, rangee+1,true);
+                                        emplacement.setCoordonee(x+2, rangee+1,true);
+                                        emplacement.setCoordonee(x, rangee,    false);
+                                        emplacement.setCoordonee(x+1, rangee+2,false);
+                                        rotation=0;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+
+                    break;
+                
+            case 6: if(rotation==0)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true && bool[x+1]){
+                                        
+                                        emplacement.setCoordonee(x+1, rangee+1, true);
+                                        emplacement.setCoordonee(x+1, rangee+2, true);
+                                        emplacement.setCoordonee(x+1, rangee,   false);
+                                        emplacement.setCoordonee(x-1, rangee+1, false);
+                                        rotation=1;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            copyEmplacement(temporaire, emplacement);
+                            System.out.print(e.toString());
+                            return false;
+                        }
+                    else
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x+1, rangee,   true);
+                                        emplacement.setCoordonee(x-1, rangee+1, true);
+                                        emplacement.setCoordonee(x+1, rangee+2, false);
+                                        emplacement.setCoordonee(x+1, rangee+1, false);
+                                        
+                                        rotation=0;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                            
+                        }
+                    
+                    break;  
+                
+           case 7: if(rotation==0)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true && bool[x+1]){
+                                        
+                                        emplacement.setCoordonee(x, rangee+1, true);
+                                        emplacement.setCoordonee(x, rangee+2, true);
+                                        emplacement.setCoordonee(x, rangee,   false);
+                                        emplacement.setCoordonee(x+2, rangee+1, false);
+                                        rotation=1;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            copyEmplacement(temporaire, emplacement);
+                            System.out.print(e.toString());
+                            return false;
+                        }
+                    else
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x-1, rangee, true);
+                                        emplacement.setCoordonee(x+1, rangee+1, true);
+                                        emplacement.setCoordonee(x-1, rangee+1,  false);
+                                        emplacement.setCoordonee(x-1, rangee+2, false);
+                                        
+                                        rotation=0;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                            
+                        }
+                    
+                    break;  
+        }
+    return true;
+    }
+    public boolean rotateRight(){
+        CoordonneeJeu temporaire = new CoordonneeJeu(emplacement.getNombreColonne(),emplacement.getNombreRangee());
+        copyEmplacement(temporaire);
+  
+        switch(forme){
+            case 1: 
+                    if(rotation==0)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x+1, rangee-2, true);
+                                        emplacement.setCoordonee(x+1, rangee-1, true);
+                                        emplacement.setCoordonee(x+1, rangee+1, true);
+                                        emplacement.setCoordonee(x  , rangee, false);
+                                        emplacement.setCoordonee(x+2, rangee, false);
+                                        emplacement.setCoordonee(x+3, rangee, false);
+                                        rotation=1;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            copyEmplacement(temporaire, emplacement);
+                            System.out.print(e.toString());
+                            return false;
+                        }
+                    else
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x-1, rangee+2, true);
+                                        emplacement.setCoordonee(x+1, rangee+2, true);
+                                        emplacement.setCoordonee(x+2, rangee+2, true);
+                                        emplacement.setCoordonee(x  , rangee,   false);
+                                        emplacement.setCoordonee(x  , rangee+1, false);
+                                        emplacement.setCoordonee(x  , rangee+3, false);
+                                        rotation=0;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                            
+                        }
+                    
+                    break;  
+            // Toujours pareil
+            /*case 2: for(int x = beginIndex; x < 2+beginIndex; x++)
+                        
+                */
+            case 3: if(rotation==3)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true ){
+                                        emplacement.setCoordonee(x+1, rangee+1, true);
+                                        emplacement.setCoordonee(x, rangee+2,   false);
+                                        
+                                        rotation=2;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            copyEmplacement(temporaire, emplacement);
+                            System.out.print(e.toString());
+                            return false;
+                        }
+                    else if(rotation==2)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x, rangee+2, true);
+                                        emplacement.setCoordonee(x-1, rangee+1,   false);
+                                        rotation=1;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+                    else if(rotation==1)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x-1, rangee+1, true);
+                                        emplacement.setCoordonee(x, rangee,  false);
+                                        rotation=0;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+                    else if(rotation==0)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x+1, rangee-1, true);
+                                        emplacement.setCoordonee(x+2, rangee,false);
+                                        rotation=3;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                        }
+
+                    break;  /*
+                
+            case 4: for(int x = beginIndex; x < 3+beginIndex; x++)
+                            emplacement.setCoordonee(x, 0, true);
+                    emplacement.setCoordonee(beginIndex, 1, true);break;*/
+                
+            case 6: if(rotation==0)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true && bool[x+1]){
+                                        
+                                        emplacement.setCoordonee(x+1, rangee+1, true);
+                                        emplacement.setCoordonee(x+1, rangee+2, true);
+                                        emplacement.setCoordonee(x+1, rangee,   false);
+                                        emplacement.setCoordonee(x-1, rangee+1, false);
+                                        rotation=1;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            copyEmplacement(temporaire, emplacement);
+                            System.out.print(e.toString());
+                            return false;
+                        }
+                    else
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x+1, rangee,   true);
+                                        emplacement.setCoordonee(x-1, rangee+1, true);
+                                        emplacement.setCoordonee(x+1, rangee+2, false);
+                                        emplacement.setCoordonee(x+1, rangee+1, false);
+                                        
+                                        rotation=0;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                            
+                        }
+                    
+                    break;  
+                
+            case 7: if(rotation==0)
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true && bool[x+1]){
+                                        
+                                        emplacement.setCoordonee(x, rangee+1, true);
+                                        emplacement.setCoordonee(x, rangee+2, true);
+                                        emplacement.setCoordonee(x, rangee,   false);
+                                        emplacement.setCoordonee(x+2, rangee+1, false);
+                                        rotation=1;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            copyEmplacement(temporaire, emplacement);
+                            System.out.print(e.toString());
+                            return false;
+                        }
+                    else
+                        try{
+                            int rangee = -1;
+                            for(boolean bool[] : emplacement.getCoordoneeJeu()){
+                                rangee++;
+                                for(int x=0; x<emplacement.getNombreColonne() ; x++){
+                                    if(bool[x]==true){
+                                        emplacement.setCoordonee(x-1, rangee, true);
+                                        emplacement.setCoordonee(x+1, rangee+1, true);
+                                        emplacement.setCoordonee(x-1, rangee+1,   false);
+                                        emplacement.setCoordonee(x-1, rangee+2, false);
+                                        
+                                        rotation=0;
+                                        return true;
+                                    }
+                                }
+                            }
+                        }catch(Exception e){
+                            System.out.print(e.toString());
+                            copyEmplacement(temporaire, emplacement);
+                            return false;
+                            
+                        }
+                    
+                    break;  
+        }
+    return true;
+    }
+    public void copyEmplacement(CoordonneeJeu temporaire){
+        int rangee = -1;
+        for(boolean bool[] : emplacement.getCoordoneeJeu()){
+            rangee++;
+            for(int x=0; x< emplacement.getNombreColonne(); x++)
+                temporaire.setCoordonee(x, rangee, bool[x]);
+        }
+    }
+    public void copyEmplacement(CoordonneeJeu copyFrom, CoordonneeJeu copyTo){
+        int rangee = -1;
+        for(boolean bool[] : copyFrom.getCoordoneeJeu()){
+            rangee++;
+            for(int x=0; x< copyFrom.getNombreColonne(); x++)
+                copyTo.setCoordonee(x, rangee, bool[x]);
+        }
+    }
+    
 }
