@@ -1,16 +1,15 @@
 package tetris;
-
 import java.util.ArrayList;
 
 /**
- * Classe CoordonneeJeuf
+ * Classe CoordonneeJeu de dimension 2
  * @author Donavan
  */
 public class CoordonneeJeu {
-    private final ArrayList<boolean[]> coordoneeJeu;
-    private boolean[] coordonneeColonne; //  False == vide   True == utilisée 
-    private int nombreColonne;
-    private int nombreRangee;
+    private final ArrayList<boolean[]> coordoneeJeu;// Liste des coordonnée
+    private boolean[] coordonneeColonne;            // False == vide   True == utilisée 
+    private int nombreColonne;                      // Nombre de colonne
+    private int nombreRangee;                       // Nombre de rangee
     
     /**
      * Constructeur de la classe Coordonnee_Jeu 
@@ -29,13 +28,13 @@ public class CoordonneeJeu {
             coordoneeJeu.add(coordonneeColonne);
         }
     }
+    
     /**
      * Affiche les coordonnée actuel du jeu.
      * <p> False == vide
      * <p> True  == utilisée
      */
     public void afficheTable(){
-        
         System.out.println("\nVoici la table de coordonnées [" + nombreColonne + "]["+ nombreRangee+ "]");
         for(boolean[] temp : coordoneeJeu){
             //System.out.print("Poura la rangée " + rangee);
@@ -44,6 +43,7 @@ public class CoordonneeJeu {
             System.out.println();
         }   
     }
+    
     /**
      * Getteur de la table des coordonées du jeu
      * @return coordoneeJeu table des coordonées du jeu
@@ -59,6 +59,7 @@ public class CoordonneeJeu {
     public int getNombreColonne() {
         return nombreColonne;
     }
+    
     /**
      * Setteur du nombre de colonne
      * @param nombre_colonne Le nombre de colonne
@@ -66,6 +67,7 @@ public class CoordonneeJeu {
     public void setNombreColonne(int nombre_colonne){
         this.nombreColonne = nombre_colonne;
     }
+    
     /**
      * Getteur du nombre de rangée
      * @return Le nombre de rangée
@@ -73,6 +75,7 @@ public class CoordonneeJeu {
     public int getNombreRangee() {
         return nombreRangee;
     }
+    
     /**
      * Setteur du nombre de rangée
      * @param nombre_rangee Le nombre de rangée
@@ -88,7 +91,6 @@ public class CoordonneeJeu {
      * @return  True == Coordonnée n'est pas dans la table  <p>  False == Coordonnée dans la table 
      */
     public boolean outOfBound(int colonne, int rangee){
-        
         if(colonne > nombreColonne || rangee > nombreRangee){
             System.out.println("Cette coordonée ( " + colonne + " , " + rangee + " ) n'est pas dans la table.");
             return true;
@@ -98,6 +100,7 @@ public class CoordonneeJeu {
             return false;
         }
     }
+    
     /**
      * Vérifie si la coordonée est vide ou utilisé.
      * @param colonne le numéro de colonne a vérifier
@@ -106,14 +109,13 @@ public class CoordonneeJeu {
      */
     public boolean IsEmpty(int colonne, int rangee){
         if(coordoneeJeu.get(rangee)[colonne]==false){
-            //System.out.println("La coordonée ( " + colonne + " , " + rangee + " ) est vide.");
             return true;
         }
         else{
-            //System.out.println("La coordonée ( " + colonne + " , " + rangee + " ) est utilisé.");
             return false;
         }
     }
+    
     /**
      * Setteur d'une coordonée dans la table.
      * @param colonne le numéro de colonne a setter
@@ -124,7 +126,7 @@ public class CoordonneeJeu {
         coordoneeJeu.get(rangee)[colonne]= use;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         // Construit
         CoordonneeJeu coordonnee_jeu = new CoordonneeJeu(10,9);
         // Affiche
@@ -134,9 +136,7 @@ public class CoordonneeJeu {
         coordonnee_jeu.setCoordonee(0, 0, true);
         // Set dernière coordonée
         coordonnee_jeu.setCoordonee(coordonnee_jeu.getNombreColonne()-1, coordonnee_jeu.getNombreRangee()-1, true);
-        
-        
-        
+         
         // Cette coordonnée exist t'elle?
         coordonnee_jeu.outOfBound(500, 500);
         coordonnee_jeu.outOfBound(0,0);
@@ -148,9 +148,7 @@ public class CoordonneeJeu {
         coordonnee_jeu.IsEmpty(0,0);
         coordonnee_jeu.IsEmpty(9,8);
         
-    }
-    
-    
+    }*/
 }
     
 

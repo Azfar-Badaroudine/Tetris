@@ -1,22 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package tetris;
 
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 /**
- *
+ * Classe TimerLoops pour la classe jeuTetris
  * @author Donavan
  */
 public class Timer_Loops extends Timer{
-    private int difficulte;  // La difficulter dselon le temps
+    private int difficulte;  // La difficulter selon le temps
     /**
-     * Constructeur du Timer avec un difficulté par défaut
+     * Constructeur du Timer avec une difficulté 
      * @param delay Delay entre les update de la fenêtre
      * @param listener start/stop timer
      */
@@ -24,6 +18,7 @@ public class Timer_Loops extends Timer{
         super(delay, listener);
         this.difficulte = delay;
     }
+    
     /**
      * Getteur de la difficulte par rapport au temps
      * @return difficulte
@@ -31,14 +26,15 @@ public class Timer_Loops extends Timer{
     public int getDifficulte() {
         return difficulte;
     }
+    
     /**
      * Setteur de la difficulte par rapport au temps
      * @param difficulte 
      */
     public void setDifficulte(int difficulte) {
-        super.setDelay(difficulte);
-        this.difficulte = difficulte;
-    }
-    
-    
+        if(difficulte>0){
+            super.setDelay(difficulte);
+            this.difficulte = difficulte;
+        }
+    } 
 }

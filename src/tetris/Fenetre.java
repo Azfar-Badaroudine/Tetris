@@ -144,8 +144,14 @@ public class Fenetre extends JFrame implements ActionListener{
         addJeuTetris();
     }
     public void addJeuTetris(){
-        
+        // Initialise le jeu
         jeu = new JeuTetris(10,20,new Dimension(500,600));
+        //Démarre le jeu avec une difficulté
+        jeu.start(2);
+        // Pause le jeu
+        //jeu.stop();
+        // Resume 
+        //jeu.resume();
         add(jeu);
     }
 
