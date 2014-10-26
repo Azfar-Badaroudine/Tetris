@@ -3,17 +3,31 @@ package tetris;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 
 /**
@@ -22,7 +36,11 @@ import javax.swing.JPanel;
  */
 public class Fenetre extends JFrame implements ActionListener{
     //Menu principal
-    private JLabel principal = new JLabel();
+    private JLabel principal;
+    private JButton play;
+    private JButton regle;
+    private JButton high;
+    private JButton quit;
     // ---------------------Menu------------------------
     private JMenuBar menuBar;
 
@@ -68,20 +86,17 @@ public class Fenetre extends JFrame implements ActionListener{
         super("Tetris");
         setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        init();
+        BuildAccueil();
     }
 
     /**
     * Permet d'initalisé les composantes de la fenêtre
     */
-    private void init() {
-    // menu principal
-        principal.setIcon(new ImageIcon("principal.png"));
-        ImageIcon image = new ImageIcon("principal.png"); //Trouver un autre iconimage eventuellement
-        this.setIconImage(image.getImage());
-        GridBagLayout layout = new GridBagLayout();
-
-        this.add(principal);
+    private void BuildAccueil() {
+    //-------------PAGE D'ACCUEIL---------
+        setSize(550,700); //On donne une taille à notre fenêtre
+        setResizable(false);
+        setLocationRelativeTo(null);
 
         // ---------------------Menu--------------------------
         menuBar = new JMenuBar();
@@ -114,35 +129,86 @@ public class Fenetre extends JFrame implements ActionListener{
         menuBar.add(menuJeu);
         menuBar.add(menuQuestionnement);
         setJMenuBar(menuBar);
+        
+        nouvellePartie.addActionListener(this);
         // -----------------------------------------------
+        
+        
 
-
-
-
-
-
-        setSize(550,700); //On donne une taille à notre fenêtre
-        setResizable(false);
-        setLocationRelativeTo(null);
-
-
-
-
-        /*for (int i=0; i<10; i++){
-        for (int j = 0; j<22; j++){
-        block[i][j] = new JLabel();
-        block[i][j].setLocation(i*20, j*20+50);
-        block[i][j].setSize(20, 20);
-        block[i][j].setOpaque(true);
-        block[i][j].setBackground(Color.WHITE);
-        block[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-        pan.add(block[i][j]);
-        if (j < 2)
-        block[i][j].setVisible(false);
-        }
-        }*/
-        addJeuTetris();
+        int longueur = 230;
+        int hauteur = 70;
+        
+        play = new JButton("Play");
+        play.setSize(longueur, hauteur);
+        play.setLocation(this.getWidth()/2 - longueur/2, (int)(0.42 * this.getHeight() - hauteur/2));
+        setStyle(play);
+        play.setFont(new Font("Times New Roman", Font.BOLD, 60));
+        this.add(play);
+        play.addActionListener(this);
+        
+        regle = new JButton("Réglement");
+        regle.addActionListener(this);
+        setStyle(regle);
+        regle.setSize(longueur, hauteur);
+        regle.setLocation(this.getWidth()/2 - longueur/2, (int)(0.6 * this.getHeight() - hauteur/2));
+        this.add(regle);
+        
+        high = new JButton("High Score");
+        high.addActionListener(this);
+        setStyle(high);
+        high.setSize(longueur, hauteur);
+        high.setLocation(this.getWidth()/2 - longueur/2, (int)(0.7 * this.getHeight() - hauteur/2));
+        this.add(high);
+        
+        quit = new JButton("Quitter");
+        quit.addActionListener(this);
+        setStyle(quit);
+        quit.setSize(longueur, hauteur);
+        quit.setLocation(this.getWidth()/2 - longueur/2, (int)(0.8 * this.getHeight() - hauteur/2));
+        this.add(quit);
+        
+        principal = new JLabel();
+        //principal.setIcon(new ImageIcon("principal.png"));  //il faut scale l'image pour fité dans la fenetre
+        this.setIconImage(new ImageIcon("principal.png").getImage());//Trouver un autre iconimage eventuellement
+        principal.setSize(this.getWidth(), this.getHeight());
+        principal.setIcon(new ImageIcon(imageFit(principal)));
+        this.add(principal);
+        
+        
+        
+        
+        
     }
+    
+    public BufferedImage imageFit(JLabel label){
+        BufferedImage bi = null;
+        try {
+            bi=new BufferedImage(label.getWidth(),label.getHeight(),BufferedImage.TYPE_INT_RGB);
+            
+            Graphics2D g=bi.createGraphics();
+            
+            Image img=ImageIO.read(new File("principal2.png"));
+            
+            g.drawImage(img, 0, 0, label.getWidth(),label.getHeight(), null);
+            
+            g.dispose();
+            
+            return bi;
+        } catch (IOException ex) {
+            
+        }
+        return bi;
+    }
+    
+    public void add(JComponent component, GridBagLayout layout, GridBagConstraints constraints, int x, int y, int width, int height){
+        constraints.gridx = x;
+        constraints.gridy = y;
+        constraints.gridwidth = width;
+        constraints.gridheight = height;
+        layout.setConstraints(component, constraints);
+        add(component);
+    }
+    
     public void addJeuTetris(){
         // Initialise le jeu
         jeu = new JeuTetris(10,20,new Dimension(500,600));
@@ -169,7 +235,7 @@ public class Fenetre extends JFrame implements ActionListener{
     }
 
     public void play(){
-        layoutFenetre= new BorderLayout();
+        /*layoutFenetre= new BorderLayout();
         setLayout(layoutFenetre);
         nord = new JPanel(new GridLayout(1,4));
         add(nord, BorderLayout.NORTH);
@@ -177,12 +243,46 @@ public class Fenetre extends JFrame implements ActionListener{
 
 
         centre = new JPanel(new GridLayout(1,2));
-        add(centre, BorderLayout.CENTER);
+        add(centre, BorderLayout.CENTER);*/
       
+        play.setVisible(false);
+        regle.setVisible(false);
+        high.setVisible(false);
+        quit.setVisible(false);
+        principal.setVisible(false);
+        setLayout(null);
+        addJeuTetris();
+        
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-
+        Object source = ae.getSource();
+        
+        if (source == play || source == nouvellePartie)
+            play();
+        else if(source == high)
+            openHighScore();
+        else if (source == regle)
+            openRegle();
+        else if (source == quit)
+            dispose();
     }
+
+    public void openHighScore() {
+        
+    }
+    
+    public void openRegle(){
+        
+    }
+    
+    public void setStyle(JButton bouton){
+        bouton.setOpaque(false);
+        bouton.setContentAreaFilled(false);
+        bouton.setBorderPainted(false);
+        bouton.setFont(new Font("Times New Roman", Font.BOLD, 40));
+        bouton.setForeground(Color.YELLOW);
+    }
+    
 }
