@@ -1,6 +1,7 @@
 package tetris;
 
-import SoundsMusics.Sound;
+
+import SoundsMusics.Sounds;
 import SoundsMusics.ThemeMusic;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -97,6 +98,9 @@ public class Fenetre extends JFrame implements ActionListener{
     
     // Music Theme
     private ThemeMusic themeMusic;
+    
+    // Sounds 
+    private Sounds splash;
 
 
     public Fenetre() {
@@ -219,6 +223,7 @@ public class Fenetre extends JFrame implements ActionListener{
         principal.setIcon(new ImageIcon(imageFit(principal)));
         this.add(principal);
         
+        splash = new Sounds("splash");
         
         
         

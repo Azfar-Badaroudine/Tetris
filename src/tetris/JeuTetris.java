@@ -1,5 +1,6 @@
 package tetris;
 
+import SoundsMusics.Sounds;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -44,6 +45,20 @@ public class JeuTetris extends JPanel  implements ActionListener{
     // Graphics
     private Graphics bufferGraphics;            // Buffer évite le scintillement
     private Image offscreen;                    // Image du buffer
+    
+    // Sounds
+    
+    private Sounds drop;
+    
+    private int cleared;
+    private Sounds clearSingle;
+    private Sounds clearDouble;
+    private Sounds clearTriple;
+    private Sounds clearTetris;
+    private Sounds lineCompleted;
+    private Sounds rotateFail;
+
+    
     
     /**
      * Constructeur du jeu Tetris par défaut
@@ -154,8 +169,25 @@ public class JeuTetris extends JPanel  implements ActionListener{
                 if(!tetrominoes.get(tetrominoes.size()-1).IsEmpty(x, y))
                     coordonneJeu.setCoordonee(x, y, true);
        // Vérifie si une ligne est compléter
-        for(int y=1; y < coordonneJeu.getNombreRangee(); y++)
-            verifyCompletedRow(y);   
+        for(int y=1; y < coordonneJeu.getNombreRangee(); y++){
+            if(verifyCompletedRow(y))
+                cleared++;
+        }
+        switch (cleared){
+            case 0 : clearSingle = new Sounds("Drop"); 
+                     break;
+            case 1 : clearSingle = new Sounds("ClearSingle");
+                     break;
+            case 2 : clearSingle = new Sounds("ClearDouble");
+                     break;
+            case 3 : clearSingle = new Sounds("ClearTriple");
+                     break;
+            case 4 : clearSingle = new Sounds("ClearTetris");
+                     break;
+            default : break;   
+        }
+        cleared=-1;
+                
     }
     /**
      * Paint les blocks qui ne peuvent plus descendre
@@ -345,6 +377,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
         
         // Si le tetrominoe ne peut pas descendre
         if (!canFall()){
+            cleared=0; // Pour le son " Drop "
             newBlock();
             repaint();
             //tetrominoes.get(tetrominoes.size()-1).dropTetrominoe();
