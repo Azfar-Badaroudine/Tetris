@@ -86,6 +86,11 @@ public class Fenetre extends JFrame implements ActionListener{
     
     //a deleter
     private JPanel temp1;
+    private JPanel temp2;
+    private JPanel temp3;
+    
+    // Dimension frame
+    private Dimension dimension;
 
 
     public Fenetre() {
@@ -93,7 +98,7 @@ public class Fenetre extends JFrame implements ActionListener{
         setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BuildAccueil();
-        //play();// <--------------------------------------------------------- À DELETER
+        play();// <--------------------------------------------------------- À DELETER
     }
 
     /**
@@ -101,7 +106,9 @@ public class Fenetre extends JFrame implements ActionListener{
     */
     private void BuildAccueil() {
     //-------------PAGE D'ACCUEIL---------
-        setSize(1550,700); //On donne une taille à notre fenêtre
+        
+        dimension = new Dimension(800,700);
+        setSize(dimension); //On donne une taille à notre fenêtre
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -218,7 +225,7 @@ public class Fenetre extends JFrame implements ActionListener{
         add(component);
     }
     
-    public void addJeuTetris(Dimension dim){
+    public JeuTetris addJeuTetris(Dimension dim){
         // Initialise le jeu
         jeu = new JeuTetris(10,20,dim);
         //Démarre le jeu avec une difficulté
@@ -227,7 +234,7 @@ public class Fenetre extends JFrame implements ActionListener{
         //jeu.stop();
         // Resume 
         //jeu.resume();
-        add(jeu);
+        return jeu;
     }
 
     public void setColor(int i, int j, int type){
@@ -264,29 +271,30 @@ public class Fenetre extends JFrame implements ActionListener{
         
         temp1 = new JPanel();
         temp1.setBackground(Color.BLACK);
-        //temp1.setPreferredSize(new Dimension(250,300));
+        temp1.setPreferredSize(new Dimension(dimension.width,  dimension.height));
         grid.anchor = GridBagConstraints.NORTH;
-        add(temp1,layout,grid,0,0,0,1,1,0.2);
+        add(temp1,layout,grid,0,0,2,1,0.5,0.2);
         
         System.out.print(this.getHeight());
-        Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.7)); //<--------Devrait etre 0.8
+        Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.735)); //<--------Devrait etre 0.8
         //Dimension dim = new Dimension(250,300);
-        addJeuTetris(dim);
+        //addJeuTetris(dim);
         //grid.anchor = GridBagConstraints.SOUTHWEST;
-        add(jeu,layout,grid,0,0,1,1,1,0.8);
+        add(addJeuTetris(dim),layout,grid,0,1,1,2,0.5,0.4);
         jeu.setPreferredSize(dim);
         
-        JPanel temp2 = new JPanel();
+        temp2 = new JPanel();
         temp2.setBackground(Color.BLUE);
-        //temp2.setPreferredSize(new Dimension(250, (int) (this.getHeight()*0.7)));
-        grid.anchor = GridBagConstraints.SOUTHEAST;
-        add(temp2,layout,grid,1,0,0,1,1,0.8);
+        //temp2.setPreferredSize(new Dimension(250, (int) (this.getHeight()*0.6)));
+        //grid.anchor = GridBagConstraints.SOUTHEAST;
+        add(temp2,layout,grid,1,1,1,1,0.5,0.6);
         
-        /*JPanel temp3 = new JPanel();
+        temp3 = new JPanel();
         temp3.setBackground(Color.YELLOW);
-        temp3.setPreferredSize(new Dimension(250,300));
-        add(temp3,layout,grid,1,2,1,4,1,0.3);*/
-         
+        //temp3.setPreferredSize(new Dimension(250,(int) (this.getHeight()*0.1)));
+        //grid.anchor = GridBagConstraints.SOUTHEAST;
+        add(temp3,layout,grid,1,2,1,1,0.5,0.2);
+        
 
     }
 
