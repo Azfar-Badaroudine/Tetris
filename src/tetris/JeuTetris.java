@@ -293,8 +293,8 @@ public class JeuTetris extends JPanel  implements ActionListener{
      * Setteur de la difficultée 
      * @param timerDifficulte La difficulté du jeu
      */
-    public void setTimerDifficulte(Timer_Loops timerDifficulte) {
-        this.timer = timerDifficulte; 
+    public void setTimerDifficulte(int difficulte) { 
+        this.timer.setDifficulte(difficulte);
     }
     
     /**

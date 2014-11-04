@@ -33,7 +33,7 @@ public class Timer_Loops extends Timer{
      */
     public void setDifficulte(int difficulte) {
         if(difficulte>0){
-            super.setDelay(difficulte);
+            super.setDelay(1000/difficulte);
             this.difficulte = difficulte;
         }
     } 

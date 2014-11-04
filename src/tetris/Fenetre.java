@@ -18,6 +18,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,7 +30,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.SwingConstants;
+import static javax.swing.SwingConstants.CENTER;
+import javax.swing.event.ChangeEvent;
 
 
 /**
@@ -45,17 +50,21 @@ public class Fenetre extends JFrame implements ActionListener{
     // ---------------------Menu------------------------
     private JMenuBar menuBar;
 
-    //[1] Menu -> Affichage
+    // --> Jeu 
     private JMenu menuJeu;
     private JMenuItem nouvellePartie;
     private JMenuItem couperSon;
     private JMenuItem classement;
-    // Menu -> Affichage -> difficulté
+    // --> Jeu  --> difficulté
     private JMenu difficulte;
     private JMenuItem facile;
     private JMenuItem moyen;
     private JMenuItem difficile;
-    private JMenuItem personnalise;
+    
+    // --> Jeu  --> difficulté -- > personnalisé
+    private JMenu personnalise;
+    private JMenuItem level;
+    private JSlider sliderDifficulte;
 
     //[2] Menu -> ?
     private JMenu menuQuestionnement;
@@ -114,17 +123,32 @@ public class Fenetre extends JFrame implements ActionListener{
 
         // ---------------------Menu--------------------------
         menuBar = new JMenuBar();
-        //[1] Menu -> Affichage
-        menuJeu = new JMenu("Jeu");
+        //[1] --> Jeu
+        menuJeu        = new JMenu("Jeu");
         nouvellePartie = new JMenuItem("Nouvelle Partie");
-        couperSon = new JMenuItem("Couper le son");
-        classement = new JMenuItem("Classement");
+        couperSon      = new JMenuItem("Couper le son");
+        classement     = new JMenuItem("Classement");
+        
+        //[1] --> Jeu --> Difficulté
+        difficulte   = new JMenu("Difficulté");
+        facile       = new JMenuItem("Facile");
+        moyen        = new JMenuItem("Moyen");
+        difficile    = new JMenuItem("Difficile");
+        
+        //[1] --> Jeu --> Difficulté --> Personnalisé
+        personnalise = new JMenu("Personnalisé");
+
+        level    = new JMenuItem("1");
+        level.setBorderPainted(false);
+        level.setEnabled(false);
+        level.setAlignmentX(JLabel.CENTER);
+        sliderDifficulte = new JSlider(JSlider.HORIZONTAL, 1, 15, 1);
+        sliderDifficulte.setEnabled(false);
+        personnalise.add(level);
+        personnalise.add(sliderDifficulte);
+        
+        
         // Menu -> Affichage -> difficulté
-        difficulte = new JMenu("Difficulté");
-        facile = new JMenuItem("Facile");
-        moyen = new JMenuItem("Moyen");
-        difficile = new JMenuItem("Difficile");
-        personnalise = new JMenuItem("Personnalisé");
         difficulte.add(facile);
         difficulte.add(moyen);
         difficulte.add(difficile);
@@ -133,6 +157,7 @@ public class Fenetre extends JFrame implements ActionListener{
         menuJeu.add(couperSon);
         menuJeu.add(classement);
         menuJeu.add(difficulte);
+        //// Menu -> Affichage -> difficulté
         //[2] Menu -> ?
         menuQuestionnement = new JMenu("?");
         aide = new JMenuItem("Aide");
@@ -145,6 +170,15 @@ public class Fenetre extends JFrame implements ActionListener{
         setJMenuBar(menuBar);
         
         nouvellePartie.addActionListener(this);
+        couperSon     .addActionListener(this);
+        classement    .addActionListener(this);
+        facile        .addActionListener(this);
+        moyen         .addActionListener(this);
+        difficile     .addActionListener(this);
+        sliderDifficulte.addChangeListener(new SliderListener());
+        
+        
+        
         // -----------------------------------------------
         
         
@@ -256,11 +290,14 @@ public class Fenetre extends JFrame implements ActionListener{
         nord = new JPanel(new GridLayout(1,4));
         add(nord, BorderLayout.NORTH);*/
 
-        play.setVisible(false);
+        play. setVisible(false);
         regle.setVisible(false);
-        high.setVisible(false);
-        quit.setVisible(false);
+        high. setVisible(false);
+        quit. setVisible(false);
         principal.setVisible(false);
+        
+        sliderDifficulte.setEnabled(true);
+        level.setEnabled(true);
         
         layout = new GridBagLayout();
         setLayout(layout);
@@ -301,12 +338,25 @@ public class Fenetre extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent ae) {
         Object source = ae.getSource();
-        
         if (source == play )
             play();
         else if(source == nouvellePartie){
             jeu.nouvellePartie(10, 20);
         }
+        else if(source == facile){
+            sliderDifficulte.setValue(1);
+        }
+        else if(source == moyen){
+           sliderDifficulte.setValue(5);
+        }
+        else if(source == difficile){
+            sliderDifficulte.setValue(10);
+        }
+        else if(source == personnalise){
+            jeu.nouvellePartie(10, 20);
+        }        
+
+
         else if(source == high)
             openHighScore();
         else if (source == regle)
@@ -330,5 +380,17 @@ public class Fenetre extends JFrame implements ActionListener{
         bouton.setFont(new Font("Times New Roman", Font.BOLD, 40));
         bouton.setForeground(Color.YELLOW);
     }
-    
+
+    class SliderListener implements javax.swing.event.ChangeListener {
+
+        @Override
+        public void stateChanged(ChangeEvent e) {
+           JSlider source = (JSlider)e.getSource();
+            if (!source.getValueIsAdjusting()) {
+                jeu.setTimerDifficulte((int)source.getValue());
+                level.setText(String.valueOf((int)source.getValue()));
+            }    
+        }
+    }
+  
 }
