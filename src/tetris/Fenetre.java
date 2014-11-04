@@ -1,14 +1,14 @@
 package tetris;
 
+import SoundsMusics.Sound;
+import SoundsMusics.ThemeMusic;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -16,10 +16,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,8 +27,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.SwingConstants;
-import static javax.swing.SwingConstants.CENTER;
 import javax.swing.event.ChangeEvent;
 
 
@@ -100,6 +94,9 @@ public class Fenetre extends JFrame implements ActionListener{
     
     // Dimension frame
     private Dimension dimension;
+    
+    // Music Theme
+    private ThemeMusic themeMusic;
 
 
     public Fenetre() {
@@ -332,6 +329,9 @@ public class Fenetre extends JFrame implements ActionListener{
         //grid.anchor = GridBagConstraints.SOUTHEAST;
         add(temp3,layout,grid,1,2,1,1,0.5,0.2);
         
+        
+        // Re/Commence le sons du jeu
+        themeMusic = new ThemeMusic();
 
     }
 
