@@ -120,6 +120,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
         
         // Ajout du Tetrominoe à l'ArrayList<> 
         tetrominoes.add(new Tetrominoes(forme, couleur, coordonneJeu.getNombreColonne(), coordonneJeu.getNombreRangee()));
+        repaint();
     }
     
     /**
@@ -345,7 +346,8 @@ public class JeuTetris extends JPanel  implements ActionListener{
         // Si le tetrominoe ne peut pas descendre
         if (!canFall()){
             newBlock();
-            tetrominoes.get(tetrominoes.size()-1).dropTetrominoe();
+            repaint();
+            //tetrominoes.get(tetrominoes.size()-1).dropTetrominoe();
             if(!canFall()){
                 vivant = false;
                 this.timer.stop();
@@ -353,9 +355,10 @@ public class JeuTetris extends JPanel  implements ActionListener{
             }
         }
         // Si le tetrominoe peut descendre
-        else if(canFall())
+        else if(canFall()){
             tetrominoes.get(tetrominoes.size()-1).dropTetrominoe(); 
-        repaint();
+            repaint();
+        }
     }   
  
     /**
@@ -414,7 +417,16 @@ public class JeuTetris extends JPanel  implements ActionListener{
             }
             return true;
         }
-    }  
+    }
+    public void nouvellePartie(int colonne, int rangee){
+        
+        coordonneJeu = new CoordonneeJeu(colonne,rangee);
+        tetrominoes = new ArrayList<>();
+        newBlock();
+        nbRangeeCompleted=0;
+        timer.restart();
+        
+    }
 }
     
     

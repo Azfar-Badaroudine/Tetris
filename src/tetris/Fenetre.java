@@ -98,7 +98,7 @@ public class Fenetre extends JFrame implements ActionListener{
         setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BuildAccueil();
-        play();// <--------------------------------------------------------- À DELETER
+        //play();// <--------------------------------------------------------- À DELETER
     }
 
     /**
@@ -302,8 +302,11 @@ public class Fenetre extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent ae) {
         Object source = ae.getSource();
         
-        if (source == play || source == nouvellePartie)
+        if (source == play )
             play();
+        else if(source == nouvellePartie){
+            jeu.nouvellePartie(10, 20);
+        }
         else if(source == high)
             openHighScore();
         else if (source == regle)
