@@ -326,8 +326,8 @@ public class Fenetre extends JFrame implements ActionListener{
         
  
 
-    //// Touche pas au ligne suivante ----------------------------------------------------------------------------------------|
-                                                                                                                        //    |
+   
+   
     // JEU
     Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.73)); //<--------Devrait etre 0.8
     grid.anchor = GridBagConstraints.SOUTHWEST;

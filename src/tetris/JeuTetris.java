@@ -362,8 +362,9 @@ public class JeuTetris extends JPanel  implements ActionListener{
         for(boolean bool[] : tetrominoes.get(tetrominoes.size()-1).getEmplacement().getCoordoneeJeu()){
             rangee++;
             for(int x=0; x< coordonneJeu.getNombreColonne(); x++)
-                if(true==bool[x]&& bool[x]== !coordonneJeu.IsEmpty(x, rangee))
+                if(true==bool[x]&& bool[x]== !coordonneJeu.IsEmpty(x, rangee)){
                     return false;
+                }
         }
         return true;
     }
@@ -423,11 +424,13 @@ public class JeuTetris extends JPanel  implements ActionListener{
 
                 // Haut
                 else if(ke.getKeyCode() == VK_UP) {
-                    tetrominoes.get(tetrominoes.size()-1).rotateLeft();
-                    if(canMove())
-                        repaint();
-                    else
-                        tetrominoes.get(tetrominoes.size()-1).rotateRight();
+                    if(tetrominoes.get(tetrominoes.size()-1).rotateLeft())
+                        if(!canMove()) 
+                            tetrominoes.get(tetrominoes.size()-1).rotateRight();
+                        else
+                            repaint();
+                    else 
+                        rotateFail = new Sounds("RotateFail");
                 }
                 
                 // Bas
