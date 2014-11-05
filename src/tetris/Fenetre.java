@@ -296,112 +296,49 @@ public class Fenetre extends JFrame implements ActionListener{
 
     public void interfaceJeu(){
 
-        enableMenuPrincipal(false);
-        sliderDifficulte.setEnabled(true);
-        level.setEnabled(true);
-       
-        layout = new GridBagLayout();
-        setLayout(layout);
-        grid = new GridBagConstraints();
-        grid.fill = GridBagConstraints.BOTH;
-        grid.insets = new Insets(0,0,0,0);
-    
+    enableMenuPrincipal(false);
+    sliderDifficulte.setEnabled(true);
+    level.setEnabled(true);
+  
+    layout = new GridBagLayout();
+    setLayout(layout);
+    grid = new GridBagConstraints();
+    grid.fill = GridBagConstraints.BOTH;
+    grid.insets = new Insets(0,0,0,0);
         
-        
-       // Initialisation des pannels :
-        
-        
-        
+    // Initialisation des pannels :
         
     //TOP PANEL INIT <---------------------------------
-        topPanel = new JPanel();
-        topPanel.setBackground(Color.BLACK);
-        topPanel.setPreferredSize(new Dimension(dimension.width,  dimension.height));
-        grid.anchor = GridBagConstraints.NORTH;
-        add(topPanel,layout,grid,0,0,2,1,0.5,0.2);
-        topPanel.setSize(this.getWidth(), (int) (this.getHeight()*0.2));
+    topPanel = new JPanel();
+    topPanel.setBackground(Color.BLACK);
+    topPanel.setPreferredSize(new Dimension(dimension.width,  dimension.height));
+    grid.anchor = GridBagConstraints.NORTH;
+    add(topPanel,layout,grid,0,0,2,1,0.5,0.2);
+    topPanel.setSize(this.getWidth(), (int) (this.getHeight()*0.2));
         
-        
-        //add(topPanel);
-    
-    //TETRIS INIT <---------------------------------------
-        Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.73)); //<--------Devrait etre 0.8
-        addJeuTetris(dim);
-        grid.anchor = GridBagConstraints.SOUTHWEST;
-        add(addJeuTetris(dim),layout,grid,0,1,1,2,0.5,0.4);
-        jeu.setPreferredSize(dim);
-        jeu = new JeuTetris(10,20,dim);
-        //Démarre le jeu avec une difficulté
-        jeu.start(2);
-        jeu.setLocation(0, topPanel.getHeight());
-        
-        //add(jeu);
-        
-    //STATISTIQUE INIT <-----------------------------------
-        statistique = new Statistiques(new Dimension(this.getWidth()/2, this.getHeight()/10));
-        add(statistique,layout,grid,1,1,1,1,0.5,0.6);
-    
-        
-    //HIGHSCORE PANEL INIT <---------------------------------    
-        HS = new JPanel();
-        HS.setBackground(Color.YELLOW);
-        HS.setSize(this.getWidth()/2, (int) (this.getHeight()*0.2));
-        //grid.anchor = GridBagConstraints.SOUTHEAST;
-        add(HS,layout,grid,1,2,1,1,0.5,0.2);
-        
-        
-        // Re/Commence le sons du jeu
-        themeMusic = new ThemeMusic();
 
         
+    //HIGHSCORE PANEL INIT <---------------------------------    
+    HS = new JPanel();
+    HS.setBackground(Color.YELLOW);
+    HS.setSize(this.getWidth()/2, (int) (this.getHeight()*0.2));
+    add(HS,layout,grid,1,2,1,1,0.5,0.2);
         
+ 
+
+    //// Touche pas au ligne suivante ----------------------------------------------------------------------------------------|
+                                                                                                                        //    |
+    // JEU
+    Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.73)); //<--------Devrait etre 0.8
+    grid.anchor = GridBagConstraints.SOUTHWEST;
+    add(addJeuTetris(dim),layout,grid,0,1,1,2,0.7,0.7);
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+    //STATISTIQUE 
+    statistique = new Statistiques(new Dimension(this.getWidth()/2, this.getHeight()/10));
+    add(statistique,layout,grid,1,1,1,1,0.5,0.6);
+       
+    // Re/Commence le sons du jeu
+    themeMusic = new ThemeMusic();    
         
     }
 
