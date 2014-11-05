@@ -83,7 +83,7 @@ public class Fenetre extends JFrame implements ActionListener{
 
     // Contenue du panel centre
      private JeuTetris jeu;
-    //////////private Statistique statistique;
+    private Statistiques statistique;
     //---------------------------------------------------
 
     private JLabel block[][] = new JLabel[10][22]; // Vérification de l'optimisation --> plus tard
@@ -297,74 +297,112 @@ public class Fenetre extends JFrame implements ActionListener{
     public void interfaceJeu(){
 
         enableMenuPrincipal(false);
-        
         sliderDifficulte.setEnabled(true);
         level.setEnabled(true);
-        
+       
         layout = new GridBagLayout();
-        //setLayout(layout);
-        setLayout(null);
-        
+        setLayout(layout);
         grid = new GridBagConstraints();
         grid.fill = GridBagConstraints.BOTH;
         grid.insets = new Insets(0,0,0,0);
     
+        
+        
+       // Initialisation des pannels :
+        
+        
+        
+        
     //TOP PANEL INIT <---------------------------------
         topPanel = new JPanel();
         topPanel.setBackground(Color.BLACK);
-        //topPanel.setPreferredSize(new Dimension(dimension.width,  dimension.height));
+        topPanel.setPreferredSize(new Dimension(dimension.width,  dimension.height));
         grid.anchor = GridBagConstraints.NORTH;
-        //add(topPanel,layout,grid,0,0,2,1,0.5,0.2);
-        topPanel.setLocation(0, 0);
+        add(topPanel,layout,grid,0,0,2,1,0.5,0.2);
         topPanel.setSize(this.getWidth(), (int) (this.getHeight()*0.2));
-        add(topPanel);
+        
+        
+        //add(topPanel);
     
     //TETRIS INIT <---------------------------------------
         Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.73)); //<--------Devrait etre 0.8
-        //Dimension dim = new Dimension(250,300);
-        //addJeuTetris(dim);
-        //grid.anchor = GridBagConstraints.SOUTHWEST;
-        //add(addJeuTetris(dim),layout,grid,0,1,1,2,0.5,0.4);
-        //jeu.setPreferredSize(dim);
+        addJeuTetris(dim);
+        grid.anchor = GridBagConstraints.SOUTHWEST;
+        add(addJeuTetris(dim),layout,grid,0,1,1,2,0.5,0.4);
+        jeu.setPreferredSize(dim);
         jeu = new JeuTetris(10,20,dim);
         //Démarre le jeu avec une difficulté
         jeu.start(2);
         jeu.setLocation(0, topPanel.getHeight());
         
-        add(jeu);
+        //add(jeu);
         
     //STATISTIQUE INIT <-----------------------------------
-        stat = new JPanel();
-        //stat.setBackground(Color.BLUE);
-        stat.setLocation(jeu.getWidth(), topPanel.getHeight());
-        stat.setSize(this.getWidth()/2, (int) (this.getHeight()*0.6));
-        //add(stat);
-        //temp2.setPreferredSize(new Dimension(250, (int) (this.getHeight()*0.6)));
-        //grid.anchor = GridBagConstraints.SOUTHEAST;
-        statLayout = new GridBagLayout();
-        stat.setLayout(statLayout);
-        statGrid = new GridBagConstraints();
-        statGrid.fill = GridBagConstraints.BOTH;
-        statGrid.insets = new Insets(0,0,25,25);
-        test1 = new JButton("gdfg");
-        add(test1,statLayout,statGrid, 0,0,2,1,0.5,0.5);
-        //add(stat,layout,grid,1,1,1,1,0.5,0.6);
-        add(stat);
+        statistique = new Statistiques(new Dimension(this.getWidth()/2, this.getHeight()/10));
+        add(statistique,layout,grid,1,1,1,1,0.5,0.6);
+    
         
     //HIGHSCORE PANEL INIT <---------------------------------    
         HS = new JPanel();
         HS.setBackground(Color.YELLOW);
-        HS.setLocation(jeu.getWidth(), topPanel.getHeight() + stat.getHeight());
         HS.setSize(this.getWidth()/2, (int) (this.getHeight()*0.2));
-        add(HS);
-        //temp3.setPreferredSize(new Dimension(250,(int) (this.getHeight()*0.1)));
         //grid.anchor = GridBagConstraints.SOUTHEAST;
-        //add(HS,layout,grid,1,2,1,1,0.5,0.2);
+        add(HS,layout,grid,1,2,1,1,0.5,0.2);
         
         
         // Re/Commence le sons du jeu
         themeMusic = new ThemeMusic();
 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
 
     @Override
