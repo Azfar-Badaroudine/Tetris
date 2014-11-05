@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package tetris;
 
+import SoundsMusics.Sounds;
+import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_DOWN;
@@ -15,49 +11,71 @@ import static java.awt.event.KeyEvent.VK_UP;
 
 /**
  *
- * @author Donavan
+ * @author Donavan Martin
  */
-public class Controls extends KeyAdapter{
-    private int key_code_pressed; // 1==UP 2==DOWN 3==LEFT 4==RIGHT
-    private Tetrominoes tetrominoes;
-    public Controls(Tetrominoes tetrominoes){
+public class Controls implements KeyEventDispatcher {
+    private JeuTetris jeu;
+    private Sounds rotateFail;
     
+    
+    public Controls(JeuTetris jeu){
+        this.jeu = jeu;
+        
     }
-    
-    /**
-     * Lorsque l'utilisateur enfonce une touche
-     * @param ke Événement du clavier 
-     */
+
     @Override
-    public void keyPressed(KeyEvent ke) {
-        if(ke.getKeyCode() == VK_UP) {
-          key_code_pressed = 1;
+    public boolean dispatchKeyEvent(KeyEvent ke) {
+        // Touches enfoncées
+        if (ke.getID()==KeyEvent.KEY_PRESSED){
+            // Gauche
+            if(ke.getKeyCode() == VK_LEFT){ 
+                if(jeu.getTetrominoes().get(jeu.getTetrominoes().size()-1).left())
+                    if(!jeu.canMove())
+                        jeu.getTetrominoes().get(jeu.getTetrominoes().size()-1).right();
+                    else
+                        jeu.repaint();
+            }
+
+            // Droite
+            else if(ke.getKeyCode() == VK_RIGHT) {
+                if(jeu.getTetrominoes().get(jeu.getTetrominoes().size()-1).right())
+                    if(!jeu.canMove())
+                        jeu.getTetrominoes().get(jeu.getTetrominoes().size()-1).left();
+                    else
+                        jeu.repaint(); 
+                }
+
+            // Haut
+            else if(ke.getKeyCode() == VK_UP) {
+                if(jeu.getTetrominoes().get(jeu.getTetrominoes().size()-1).rotateLeft())
+                    if(!jeu.canMove()) 
+                        jeu.getTetrominoes().get(jeu.getTetrominoes().size()-1).rotateRight();
+                    else
+                        jeu.repaint();
+                else 
+                    rotateFail = new Sounds("RotateFail");
+            }
+
+            // Bas
+            else if(ke.getKeyCode() == VK_DOWN) {
+                if(jeu.canFall()){
+                    jeu.getTetrominoes().get(jeu.getTetrominoes().size()-1).dropTetrominoe();
+                    jeu.repaint();
+                }  
+            }
         }
-        if(ke.getKeyCode() == VK_DOWN) {
-          key_code_pressed = 2;
+
+        if (ke.getID()==KeyEvent.KEY_RELEASED){
+            // +  Augumentation de la difficulté
+            if(ke.getKeyCode() == 107 || ke.getKeyCode() == 45) {
+                jeu.getTimer().setDifficulte( jeu.getTimer().getDifficulte()-50);
+            }
+            // -   Diminution de la difficulté
+            else if(ke.getKeyCode() == 109|| ke.getKeyCode() == 61) 
+                 jeu.getTimer().setDifficulte( jeu.getTimer().getDifficulte()+50);  
         }
-        if(ke.getKeyCode() == VK_LEFT) {
-          key_code_pressed = 3;
-        }
-        if(ke.getKeyCode() == VK_RIGHT) {
-          key_code_pressed = 4;
-        }
-    }
-    /**
-     * Lorsque l'utilisateur relache la touche
-     * @param ke Événement du clavier 
-     */
-    @Override
-    public void keyReleased(KeyEvent ke) {
-          key_code_pressed = 0;
-    }
-    
-    /**
-     * Getteur de la touche enfoncé
-     * @return 
-     */
-    public int getKey_code_pressed() {
-        return key_code_pressed;
+        return true;
     }
 }
+
 

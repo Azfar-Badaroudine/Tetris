@@ -6,15 +6,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import static java.awt.event.KeyEvent.VK_DOWN;
-import static java.awt.event.KeyEvent.VK_LEFT;
-import static java.awt.event.KeyEvent.VK_RIGHT;
-import static java.awt.event.KeyEvent.VK_UP;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import static java.lang.Math.abs;
@@ -56,7 +50,6 @@ public class JeuTetris extends JPanel  implements ActionListener{
     private Sounds clearTriple;
     private Sounds clearTetris;
     private Sounds lineCompleted;
-    private Sounds rotateFail;
 
     
     
@@ -78,7 +71,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
         
         // Pour les événements du clavier
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        manager.addKeyEventDispatcher(new Controls());
+        manager.addKeyEventDispatcher(new Controls(this));
 
         
     }
@@ -395,65 +388,6 @@ public class JeuTetris extends JPanel  implements ActionListener{
         }
     }   
  
-    /**
-     * Classe Controls Gestion des controles du jeu
-     */
-    public class Controls implements KeyEventDispatcher {
-        @Override
-        public boolean dispatchKeyEvent(KeyEvent ke){
-            
-            // Touches enfoncées
-            if (ke.getID()==KeyEvent.KEY_PRESSED){
-                // Gauche
-                if(ke.getKeyCode() == VK_LEFT){ 
-                    if(tetrominoes.get(tetrominoes.size()-1).left())
-                        if(!canMove())
-                            tetrominoes.get(tetrominoes.size()-1).right();
-                        else
-                            repaint();
-                }
-
-                // Droite
-                else if(ke.getKeyCode() == VK_RIGHT) {
-                    if(tetrominoes.get(tetrominoes.size()-1).right())
-                        if(!canMove())
-                            tetrominoes.get(tetrominoes.size()-1).left();
-                        else
-                            repaint(); 
-                    }
-
-                // Haut
-                else if(ke.getKeyCode() == VK_UP) {
-                    if(tetrominoes.get(tetrominoes.size()-1).rotateLeft())
-                        if(!canMove()) 
-                            tetrominoes.get(tetrominoes.size()-1).rotateRight();
-                        else
-                            repaint();
-                    else 
-                        rotateFail = new Sounds("RotateFail");
-                }
-                
-                // Bas
-                else if(ke.getKeyCode() == VK_DOWN) {
-                    if(canFall()){
-                        tetrominoes.get(tetrominoes.size()-1).dropTetrominoe();
-                        repaint();
-                    }  
-                }
-            }
-            
-            if (ke.getID()==KeyEvent.KEY_RELEASED){
-                // +  Augumentation de la difficulté
-                if(ke.getKeyCode() == 107 || ke.getKeyCode() == 45) {
-                    timer.setDifficulte(timer.getDifficulte()-50);
-                }
-                // -   Diminution de la difficulté
-                else if(ke.getKeyCode() == 109|| ke.getKeyCode() == 61) 
-                    timer.setDifficulte(timer.getDifficulte()+50);  
-            }
-            return true;
-        }
-    }
     public void nouvellePartie(int colonne, int rangee){
         
         coordonneJeu = new CoordonneeJeu(colonne,rangee);
@@ -463,6 +397,20 @@ public class JeuTetris extends JPanel  implements ActionListener{
         timer.restart();
         
     }
+    /**
+     * Getteur de la liste des tetrominoes
+     * @return tetrominoes la lsite des tetrominoes
+     */
+    public ArrayList<Tetrominoes> getTetrominoes() {
+        return tetrominoes;
+    }
+    /**
+     * Getteur du timer 
+     * @return timer le timer du jeu
+     */
+    public Timer_Loops getTimer() {
+        return timer;
+    }   
 }
     
     

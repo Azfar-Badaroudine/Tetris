@@ -14,7 +14,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * Permet de faire jouer de la musique et des sons
- * @author Donavan
+ * @author Donavan Martin
  */
 public class ThemeMusic {
     private File audioFile;

@@ -1,0 +1,5 @@
+Insertion d'un score
+
+example :
+
+INSERT INTO `tetris`.`high score` (`Nom`, `Temps`, `Lignes`, `Niv`, `Score`) VALUES ('Azfar', '10', '12', '2', '85');

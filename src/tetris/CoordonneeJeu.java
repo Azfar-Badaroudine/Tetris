@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 /**
  * Classe CoordonneeJeu de dimension 2
- * @author Donavan
+ * @author Donavan Martin
  */
 public class CoordonneeJeu {
     private final ArrayList<boolean[]> coordoneeJeu;// Liste des coordonnée
