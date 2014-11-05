@@ -28,6 +28,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JTextArea;
 import javax.swing.event.ChangeEvent;
 
 
@@ -88,10 +89,13 @@ public class Fenetre extends JFrame implements ActionListener{
     private JLabel block[][] = new JLabel[10][22]; // Vérification de l'optimisation --> plus tard
     private JPanel pan;
     
-    //a deleter
-    private JPanel temp1;
-    private JPanel temp2;
-    private JPanel temp3;
+    //<--------------------------------INCOMPLET<----------------------------------------------------------------------
+    private JPanel topPanel;
+    private JPanel stat;
+    private JPanel HS;
+    private GridBagLayout statLayout;
+    private GridBagConstraints statGrid;
+    private JButton test1;
     
     // Dimension frame
     private Dimension dimension;
@@ -108,7 +112,7 @@ public class Fenetre extends JFrame implements ActionListener{
         setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BuildAccueil();
-        //play();// <--------------------------------------------------------- À DELETER
+        //interfaceJeu();// <--------------------------------------------------------- À DELETER
     }
 
     /**
@@ -181,9 +185,6 @@ public class Fenetre extends JFrame implements ActionListener{
         
         
         // -----------------------------------------------
-        
-        
-
         int longueur = 230;
         int hauteur = 70;
         
@@ -220,8 +221,11 @@ public class Fenetre extends JFrame implements ActionListener{
         //principal.setIcon(new ImageIcon("principal.png"));  //il faut scale l'image pour fité dans la fenetre
         this.setIconImage(new ImageIcon("principal.png").getImage());//Trouver un autre iconimage eventuellement
         principal.setSize(this.getWidth(), this.getHeight());
-        principal.setIcon(new ImageIcon(imageFit(principal)));
+        principal.setIcon(new ImageIcon(imageFit(principal, "principal2.png")));
         this.add(principal);
+        
+
+        
         
         splash = new Sounds("splash");
         
@@ -230,14 +234,18 @@ public class Fenetre extends JFrame implements ActionListener{
         
     }
     
-    public BufferedImage imageFit(JLabel label){
+    public void menuPrincipal(){
+        
+    }
+    
+    public BufferedImage imageFit(JLabel label, String path){
         BufferedImage bi = null;
         try {
             bi=new BufferedImage(label.getWidth(),label.getHeight(),BufferedImage.TYPE_INT_RGB);
             
             Graphics2D g=bi.createGraphics();
             
-            Image img=ImageIO.read(new File("principal2.png"));
+            Image img=ImageIO.read(new File(path));
             
             g.drawImage(img, 0, 0, label.getWidth(),label.getHeight(), null);
             
@@ -286,53 +294,72 @@ public class Fenetre extends JFrame implements ActionListener{
 
     }
 
-    public void play(){
-        /*layoutFenetre= new BorderLayout();
-        setLayout(layoutFenetre);
-        nord = new JPanel(new GridLayout(1,4));
-        add(nord, BorderLayout.NORTH);*/
+    public void interfaceJeu(){
 
-        play. setVisible(false);
-        regle.setVisible(false);
-        high. setVisible(false);
-        quit. setVisible(false);
-        principal.setVisible(false);
+        enableMenuPrincipal(false);
         
         sliderDifficulte.setEnabled(true);
         level.setEnabled(true);
         
         layout = new GridBagLayout();
-        setLayout(layout);
+        //setLayout(layout);
+        setLayout(null);
         
         grid = new GridBagConstraints();
         grid.fill = GridBagConstraints.BOTH;
         grid.insets = new Insets(0,0,0,0);
-        
-        temp1 = new JPanel();
-        temp1.setBackground(Color.BLACK);
-        temp1.setPreferredSize(new Dimension(dimension.width,  dimension.height));
+    
+    //TOP PANEL INIT <---------------------------------
+        topPanel = new JPanel();
+        topPanel.setBackground(Color.BLACK);
+        //topPanel.setPreferredSize(new Dimension(dimension.width,  dimension.height));
         grid.anchor = GridBagConstraints.NORTH;
-        add(temp1,layout,grid,0,0,2,1,0.5,0.2);
-        
-        System.out.print(this.getHeight());
-        Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.735)); //<--------Devrait etre 0.8
+        //add(topPanel,layout,grid,0,0,2,1,0.5,0.2);
+        topPanel.setLocation(0, 0);
+        topPanel.setSize(this.getWidth(), (int) (this.getHeight()*0.2));
+        add(topPanel);
+    
+    //TETRIS INIT <---------------------------------------
+        Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.73)); //<--------Devrait etre 0.8
         //Dimension dim = new Dimension(250,300);
         //addJeuTetris(dim);
         //grid.anchor = GridBagConstraints.SOUTHWEST;
-        add(addJeuTetris(dim),layout,grid,0,1,1,2,0.5,0.4);
-        jeu.setPreferredSize(dim);
+        //add(addJeuTetris(dim),layout,grid,0,1,1,2,0.5,0.4);
+        //jeu.setPreferredSize(dim);
+        jeu = new JeuTetris(10,20,dim);
+        //Démarre le jeu avec une difficulté
+        jeu.start(2);
+        jeu.setLocation(0, topPanel.getHeight());
         
-        temp2 = new JPanel();
-        temp2.setBackground(Color.BLUE);
+        add(jeu);
+        
+    //STATISTIQUE INIT <-----------------------------------
+        stat = new JPanel();
+        //stat.setBackground(Color.BLUE);
+        stat.setLocation(jeu.getWidth(), topPanel.getHeight());
+        stat.setSize(this.getWidth()/2, (int) (this.getHeight()*0.6));
+        //add(stat);
         //temp2.setPreferredSize(new Dimension(250, (int) (this.getHeight()*0.6)));
         //grid.anchor = GridBagConstraints.SOUTHEAST;
-        add(temp2,layout,grid,1,1,1,1,0.5,0.6);
+        statLayout = new GridBagLayout();
+        stat.setLayout(statLayout);
+        statGrid = new GridBagConstraints();
+        statGrid.fill = GridBagConstraints.BOTH;
+        statGrid.insets = new Insets(0,0,25,25);
+        test1 = new JButton("gdfg");
+        add(test1,statLayout,statGrid, 0,0,2,1,0.5,0.5);
+        //add(stat,layout,grid,1,1,1,1,0.5,0.6);
+        add(stat);
         
-        temp3 = new JPanel();
-        temp3.setBackground(Color.YELLOW);
+    //HIGHSCORE PANEL INIT <---------------------------------    
+        HS = new JPanel();
+        HS.setBackground(Color.YELLOW);
+        HS.setLocation(jeu.getWidth(), topPanel.getHeight() + stat.getHeight());
+        HS.setSize(this.getWidth()/2, (int) (this.getHeight()*0.2));
+        add(HS);
         //temp3.setPreferredSize(new Dimension(250,(int) (this.getHeight()*0.1)));
         //grid.anchor = GridBagConstraints.SOUTHEAST;
-        add(temp3,layout,grid,1,2,1,1,0.5,0.2);
+        //add(HS,layout,grid,1,2,1,1,0.5,0.2);
         
         
         // Re/Commence le sons du jeu
@@ -344,7 +371,7 @@ public class Fenetre extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent ae) {
         Object source = ae.getSource();
         if (source == play )
-            play();
+            interfaceJeu();
         else if(source == nouvellePartie){
             jeu.nouvellePartie(10, 20);
         }
@@ -371,6 +398,23 @@ public class Fenetre extends JFrame implements ActionListener{
     }
 
     public void openHighScore() {
+        enableMenuPrincipal(false);
+        
+        JPanel test1 = new JPanel();
+        JTextArea test = new JTextArea("gfdgdfgsgagsfd ");
+        test.setFont(new Font("Times New Roman", Font.BOLD, 60));
+        
+        add(test1);
+        test1.add(test);
+        test1.setBackground(Color.BLUE);
+        test.setOpaque(false);
+        test.setEnabled(false);
+        
+        
+        JLabel imageFont = new JLabel();
+        imageFont.setSize(this.getWidth(), this.getHeight());
+        imageFont.setIcon(new ImageIcon(imageFit(imageFont, "High Score.png")));
+        this.add(imageFont);
         
     }
     
@@ -386,6 +430,23 @@ public class Fenetre extends JFrame implements ActionListener{
         bouton.setForeground(Color.YELLOW);
     }
 
+    public void enableMenuPrincipal(boolean bool){
+        if (bool == true){
+            play. setVisible(true);
+            regle.setVisible(true);
+            high. setVisible(true);
+            quit. setVisible(true);
+            principal.setVisible(true);
+        }else {
+            play. setVisible(false);
+            regle.setVisible(false);
+            high. setVisible(false);
+            quit. setVisible(false);
+            principal.setVisible(false);
+        }
+    }
+    
+    
     class SliderListener implements javax.swing.event.ChangeListener {
 
         @Override
