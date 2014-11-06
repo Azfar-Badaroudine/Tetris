@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -96,6 +97,10 @@ public class Fenetre extends JFrame implements ActionListener{
     private GridBagLayout statLayout;
     private GridBagConstraints statGrid;
     private JButton test1;
+    private GridBagLayout HSLayout;
+    private GridBagConstraints HSGrid;
+    private JLabel label[][];
+    private JPanel HSPanel;
     
     // Dimension frame
     private Dimension dimension;
@@ -191,28 +196,27 @@ public class Fenetre extends JFrame implements ActionListener{
         play = new JButton("Play");
         play.setSize(longueur, hauteur);
         play.setLocation(this.getWidth()/2 - longueur/2, (int)(0.42 * this.getHeight() - hauteur/2));
-        setStyle(play);
-        play.setFont(new Font("Times New Roman", Font.BOLD, 60));
+        setStyle(play,60);
         this.add(play);
         play.addActionListener(this);
         
         regle = new JButton("Réglement");
         regle.addActionListener(this);
-        setStyle(regle);
+        setStyle(regle,40);
         regle.setSize(longueur, hauteur);
         regle.setLocation(this.getWidth()/2 - longueur/2, (int)(0.6 * this.getHeight() - hauteur/2));
         this.add(regle);
         
         high = new JButton("High Score");
         high.addActionListener(this);
-        setStyle(high);
+        setStyle(high,40);
         high.setSize(longueur, hauteur);
         high.setLocation(this.getWidth()/2 - longueur/2, (int)(0.7 * this.getHeight() - hauteur/2));
         this.add(high);
         
         quit = new JButton("Quitter");
         quit.addActionListener(this);
-        setStyle(quit);
+        setStyle(quit,40);
         quit.setSize(longueur, hauteur);
         quit.setLocation(this.getWidth()/2 - longueur/2, (int)(0.8 * this.getHeight() - hauteur/2));
         this.add(quit);
@@ -375,21 +379,51 @@ public class Fenetre extends JFrame implements ActionListener{
     public void openHighScore() {
         enableMenuPrincipal(false);
         
-        JPanel test1 = new JPanel();
-        JTextArea test = new JTextArea("gfdgdfgsgagsfd ");
-        test.setFont(new Font("Times New Roman", Font.BOLD, 60));
+        HSPanel = new JPanel();
+        HSPanel.setLayout(new GridLayout(11,5));
+        HSLayout = new GridBagLayout();
+        //HSPanel.setLayout(HSLayout);
+        HSGrid = new GridBagConstraints();
+        HSGrid.fill = GridBagConstraints.BOTH;
         
-        add(test1);
-        test1.add(test);
-        test1.setBackground(Color.BLUE);
-        test.setOpaque(false);
-        test.setEnabled(false);
+        label = new JLabel[11][5];
+        String text[] = { "Nom","Temps","Lignes","Niveau","Score","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"};
+        String stats[][] = null;
+        /*Aller chercher les stats des 10 meilleurs joueurs (mettre des valeurs par défaut s'il n'y a pas 10 entrées)
+        les placer dans stats*/
+        for (int i=0; i<5; i++){
+            label[0][i] = new JLabel(text[i]);
+            label[0][i].setFont(new Font("Times New Roman", Font.BOLD, 10));
+            HSPanel.add(label[0][i]);
+            //add(label[0][i],HSLayout,HSGrid,i,0,1,1,0.5,0.5);
+        }
+        /*for (int row=1; row<11; row++){
+            //stats[row][0] = sql.getNom;
+            //get temps, get ligne, get etc.
+            for (int col=0; col<5; col++){
+                label[row][col] = new JLabel(stats[row][col]);
+                label[row][col].setFont(new Font("Times New Roman", Font.BOLD, 10));
+                HSPanel.add(label[row][col]);
+            }
+        }*/
         
-        
+        for (int row=1; row<11; row++){
+            //stats[row][0] = sql.getNom;
+            //get temps, get ligne, get etc.
+            for (int col=0; col<5; col++){
+                label[row][col] = new JLabel(text[row*5 + col]);
+                label[row][col].setFont(new Font("Times New Roman", Font.BOLD, 10));
+                HSPanel.add(label[row][col]);
+                //add(label[row][col],HSLayout,HSGrid,col,row,1,1,0.5,0.5);
+            }
+        }
+
+        add(HSPanel);
         JLabel imageFont = new JLabel();
         imageFont.setSize(this.getWidth(), this.getHeight());
         imageFont.setIcon(new ImageIcon(imageFit(imageFont, "High Score.png")));
-        this.add(imageFont);
+        imageFont.setOpaque(false);
+        //this.add(imageFont);
         
     }
     
@@ -397,11 +431,11 @@ public class Fenetre extends JFrame implements ActionListener{
         
     }
     
-    public void setStyle(JButton bouton){
+    public void setStyle(JButton bouton, int size){
         bouton.setOpaque(false);
         bouton.setContentAreaFilled(false);
         bouton.setBorderPainted(false);
-        bouton.setFont(new Font("Times New Roman", Font.BOLD, 40));
+        bouton.setFont(new Font("Times New Roman", Font.BOLD, size));
         bouton.setForeground(Color.YELLOW);
     }
 
