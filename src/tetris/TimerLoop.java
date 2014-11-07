@@ -4,17 +4,17 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 /**
- * Classe TimerLoops pour la classe jeuTetris
+ * Classe TimerLoop pour la classe jeuTetris
  * @author Donavan
  */
-public class Timer_Loops extends Timer{
+public class TimerLoop extends Timer{
     private int difficulte;  // La difficulter selon le temps
     /**
      * Constructeur du Timer avec une difficulté 
      * @param delay Delay entre les update de la fenêtre
      * @param listener start/stop timer
      */
-    public Timer_Loops(int delay, ActionListener listener) {
+    public TimerLoop (int delay, ActionListener listener) {
         super(delay, listener);
         this.difficulte = delay;
     }

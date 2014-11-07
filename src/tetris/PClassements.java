@@ -26,6 +26,21 @@ import javax.swing.JPanel;
  *
  * @author DLU_usager
  */
+
+class PClassements extends JPanel {
+        Image bg = new ImageIcon("High Score.png").getImage();
+        
+        public PClassements(){
+            setLayout(new BorderLayout());
+            add(new PClassements(), BorderLayout.CENTER);
+            repaint();
+        }
+        
+        @Override
+        public void paintComponent(Graphics g) {
+            g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
+    }
+}
 class Classements extends JPanel {
     
     public Classements() {
@@ -66,20 +81,6 @@ class Classements extends JPanel {
         }catch(Exception e){
         } 
     }
-    
 }
 
-class Panel_test extends JPanel {
-        Image bg = new ImageIcon("High Score.png").getImage();
-        
-        public Panel_test(){
-            setLayout(new BorderLayout());
-            add(new Classements(), BorderLayout.CENTER);
-            repaint();
-        }
-        
-        @Override
-        public void paintComponent(Graphics g) {
-            g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
-    }
-}
+

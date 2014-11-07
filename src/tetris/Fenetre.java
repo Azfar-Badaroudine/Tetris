@@ -93,9 +93,9 @@ public class Fenetre extends JFrame implements ActionListener{
     ///////////////private TShape next_block[3];
 
     // Contenue du panel centre
-     private JeuTetris jeu;
-    private Statistiques statistique;
-    //---------------------------------------------------
+     private PJeuTetris jeu;
+    private PStatistiques statistique;
+
 
     private JLabel block[][] = new JLabel[10][22]; // Vérification de l'optimisation --> plus tard
     private JPanel pan;
@@ -276,9 +276,9 @@ public class Fenetre extends JFrame implements ActionListener{
         add(component);
     }
     
-    public JeuTetris addJeuTetris(Dimension dim){
+    public PJeuTetris addJeuTetris(Dimension dim){
         // Initialise le jeu
-        jeu = new JeuTetris(10,20,dim);
+        jeu = new PJeuTetris(10,20,dim);
         //Démarre le jeu avec une difficulté
         jeu.start(2);
         // Pause le jeu
@@ -341,7 +341,7 @@ public class Fenetre extends JFrame implements ActionListener{
     add(addJeuTetris(dim),layout,grid,0,1,1,2,0.7,0.7);
         
     //STATISTIQUE 
-    statistique = new Statistiques(new Dimension(this.getWidth()/2, this.getHeight()/10));
+    statistique = new PStatistiques(new Dimension(this.getWidth()/2, this.getHeight())); 
     add(statistique,layout,grid,1,1,1,1,0.5,0.6);
        
     // Re/Commence le sons du jeu
@@ -381,11 +381,8 @@ public class Fenetre extends JFrame implements ActionListener{
 
     public void openHighScore() {
         enableMenuPrincipal(false);
-      
-        Panel_test  HSPanel = new Panel_test();
-
-        add(HSPanel); 
-        
+        PClassements  HSPanel = new PClassements();
+        add(HSPanel);   
     }
     
     public void openRegle(){
@@ -433,9 +430,7 @@ public class Fenetre extends JFrame implements ActionListener{
         }
     }
 
-    public Statistiques getStatistique() {
-        return statistique;
+    public PStatistiques getStatistique() {
+        return statistique; 
     }
-    
-  
 }

@@ -20,18 +20,17 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 /**
- * Classe JeuTetris
+ * Classe PJeuTetris
  * @author Azfar et Donaven
  */
-public class JeuTetris extends JPanel  implements ActionListener{  
+public class PJeuTetris extends JPanel  implements ActionListener{  
     
     // Paramètres de la fenetre 
     private CoordonneeJeu coordonneJeu;         // Coordonnee du jeu
     private Dimension dimension;                // Dimension du jeu
 
     // Paramètres jeu
-    private Timer_Loops timer;                  // Timer du jeu
-    private boolean vivant;                     // True == Joueur joue False == Fin de la partie
+    private TimerLoop timer;                      private boolean vivant;                     // True == Joueur joue False == Fin de la partie
     private int nbRangeeCompleted;              // Nombre de rangée completé
 
     // Boucle du jeu
@@ -61,7 +60,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
      * @param rangee Nombre de rangee du jeu
      * @param dimension Dimension du JPannel
      */
-    public JeuTetris(int colonne, int rangee, Dimension dimension) {
+    public PJeuTetris(int colonne, int rangee, Dimension dimension) {
         // Dimension du jeu
         coordonneJeu = new CoordonneeJeu(colonne,rangee);
         this.dimension = dimension;
@@ -85,7 +84,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
     public void start(int difficultee){
         newBlock();
         this.difficultee = 1000/difficultee;
-        timer = new Timer_Loops(this.difficultee, this);
+        timer = new TimerLoop(this.difficultee, this);
         timer.start();
         vivant = true;
         nbRangeeCompleted=0;
@@ -203,7 +202,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
     
     /**
      * Fonction qui paint le jeu
-     * @param g Graphics du JPannel (JeuTetris)
+     * @param g Graphics du JPannePJeuTetrisris)
      */   
     @Override
     public void paintComponent(Graphics g) {
@@ -314,7 +313,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
      * Getteur de la difficultée 
      * @return timer La difficulté du jeu
      */
-    public Timer_Loops getTimerDifficulte() {
+    public TimerLoop getTimerDifficulte() {
         return timer;
     }
     
@@ -414,7 +413,7 @@ public class JeuTetris extends JPanel  implements ActionListener{
      * Getteur du timer 
      * @return timer le timer du jeu
      */
-    public Timer_Loops getTimer() {
+    public TimerLoop getTimer() {
         return timer;
     }   
 }

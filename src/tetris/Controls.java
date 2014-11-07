@@ -14,11 +14,11 @@ import static java.awt.event.KeyEvent.VK_UP;
  * @author Donavan Martin
  */
 public class Controls implements KeyEventDispatcher {
-    private JeuTetris jeu;
+    private PJeuTetris jeu;
     private Sounds rotateFail;
     
     
-    public Controls(JeuTetris jeu){
+    public Controls (PJeuTetris jeu){
         this.jeu = jeu;
         
     }

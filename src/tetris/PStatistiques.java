@@ -21,7 +21,7 @@ import javax.swing.SwingConstants;
  *
  * @author Donavan
  */
-public class Statistiques extends JPanel {
+public class PStatistiques extends JPanel {
     private BorderLayout layout;
     private GridLayout Center;
     private JLabel statistique;
@@ -31,7 +31,7 @@ public class Statistiques extends JPanel {
     
     
     
-    public Statistiques(Dimension dimension){
+    public PStatistiques(Dimension dimension){
         
         layout = new BorderLayout();
         statistique = new JLabel("Statistique");
