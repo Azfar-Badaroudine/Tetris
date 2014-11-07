@@ -14,8 +14,10 @@ import java.awt.geom.Rectangle2D;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  * Classe JeuTetris
@@ -250,6 +252,8 @@ public class JeuTetris extends JPanel  implements ActionListener{
                 return false;
         
         nbRangeeCompleted++;
+        Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
+        topFrame.getStatistique().setRangeeComplete(nbRangeeCompleted);
         // [1] Si une rangée est compléter on l'efface
         for(int x=0; x<coordonneJeu.getNombreColonne() ; x++)
             coordonneJeu.setCoordonee(x, rangee, false);
@@ -379,6 +383,8 @@ public class JeuTetris extends JPanel  implements ActionListener{
                 vivant = false;
                 this.timer.stop();
                 JOptionPane.showMessageDialog(this, "Fin de la partie \nNombre de rangée compléter : " + nbRangeeCompleted);
+                Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
+                topFrame.getStatistique().setRangeeComplete(nbRangeeCompleted);
             }
         }
         // Si le tetrominoe peut descendre

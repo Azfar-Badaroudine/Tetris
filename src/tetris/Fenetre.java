@@ -431,5 +431,10 @@ public class Fenetre extends JFrame implements ActionListener{
             }    
         }
     }
+
+    public Statistiques getStatistique() {
+        return statistique;
+    }
+    
   
 }
