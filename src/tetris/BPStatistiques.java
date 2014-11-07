@@ -22,7 +22,7 @@ import javax.swing.SwingConstants;
  *
  * @author Donavan
  */
-public class PStatistiques extends JPanel {
+public class BPStatistiques extends JPanel {
     private BorderLayout layout;
     private JPanel panelCentre;
     
@@ -35,7 +35,7 @@ public class PStatistiques extends JPanel {
     private JLabel numeroNiveau;
     
   
-    public PStatistiques(Dimension dimension){
+    publicBPStatistiquess(Dimension dimension){
         layout = new BorderLayout();
         setLayout(layout);
         statistique = new JLabel("Statistique");
