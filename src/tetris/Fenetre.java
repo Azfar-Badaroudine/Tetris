@@ -1,43 +1,17 @@
 package tetris;
 
 
-import Scores.ListeScore;
-import Scores.ScoreJoueur;
+
 import SoundsMusics.Sounds;
 import SoundsMusics.ThemeMusic;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.JTextArea;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.plaf.ColorUIResource;
 
@@ -119,7 +93,7 @@ public class Fenetre extends JFrame implements ActionListener{
         setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BuildAccueil();
-        //interfaceJeu();// <--------------------------------------------------------- À DELETER
+        //openHighScore();// <--------------------------------------------------------- À DELETER
     }
 
     /**
@@ -360,10 +334,7 @@ public class Fenetre extends JFrame implements ActionListener{
         }
         else if(source == personnalise){
             jeu.nouvellePartie(10, 20);
-        }        
-
-
-        else if(source == high)
+        }else if(source == high)
             openHighScore();
         else if (source == regle)
             openRegle();
@@ -375,10 +346,8 @@ public class Fenetre extends JFrame implements ActionListener{
         enableMenuPrincipal(false);
 
       
-        Panel_test  HSPanel = new Panel_test(this.getWidth());
-
+        Panel_test  HSPanel = new Panel_test(this.getWidth(),this.getHeight());
         add(HSPanel); 
-        
 
     }
     
