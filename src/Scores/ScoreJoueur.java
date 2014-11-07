@@ -1,4 +1,4 @@
-package mySQL;
+package Scores;
 
 import java.util.Comparator;
 

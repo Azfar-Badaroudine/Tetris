@@ -1,6 +1,8 @@
 package tetris;
 
 
+import Scores.ListeScore;
+import Scores.ScoreJoueur;
 import SoundsMusics.Sounds;
 import SoundsMusics.ThemeMusic;
 import java.awt.BorderLayout;
@@ -18,6 +20,10 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,10 +33,14 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
+import javax.swing.plaf.ColorUIResource;
+
 
 
 /**
@@ -100,7 +110,7 @@ public class Fenetre extends JFrame implements ActionListener{
     private GridBagLayout HSLayout;
     private GridBagConstraints HSGrid;
     private JLabel label[][];
-    private JPanel HSPanel;
+    //private JPanel HSPanel;
     
     // Dimension frame
     private Dimension dimension;
@@ -227,16 +237,9 @@ public class Fenetre extends JFrame implements ActionListener{
         principal.setSize(this.getWidth(), this.getHeight());
         principal.setIcon(new ImageIcon(imageFit(principal, "principal2.png")));
         this.add(principal);
-        
-
-        
-        
+   
         splash = new Sounds("splash");
-        
-        
-        
-        
-    }
+       }
     
     public void menuPrincipal(){
         
@@ -378,57 +381,18 @@ public class Fenetre extends JFrame implements ActionListener{
 
     public void openHighScore() {
         enableMenuPrincipal(false);
-        
-        HSPanel = new JPanel();
-        HSPanel.setLayout(new GridLayout(11,5));
-        HSLayout = new GridBagLayout();
-        //HSPanel.setLayout(HSLayout);
-        HSGrid = new GridBagConstraints();
-        HSGrid.fill = GridBagConstraints.BOTH;
-        
-        label = new JLabel[11][5];
-        String text[] = { "Nom","Temps","Lignes","Niveau","Score","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"};
-        String stats[][] = null;
-        /*Aller chercher les stats des 10 meilleurs joueurs (mettre des valeurs par défaut s'il n'y a pas 10 entrées)
-        les placer dans stats*/
-        for (int i=0; i<5; i++){
-            label[0][i] = new JLabel(text[i]);
-            label[0][i].setFont(new Font("Times New Roman", Font.BOLD, 10));
-            HSPanel.add(label[0][i]);
-            //add(label[0][i],HSLayout,HSGrid,i,0,1,1,0.5,0.5);
-        }
-        /*for (int row=1; row<11; row++){
-            //stats[row][0] = sql.getNom;
-            //get temps, get ligne, get etc.
-            for (int col=0; col<5; col++){
-                label[row][col] = new JLabel(stats[row][col]);
-                label[row][col].setFont(new Font("Times New Roman", Font.BOLD, 10));
-                HSPanel.add(label[row][col]);
-            }
-        }*/
-        
-        for (int row=1; row<11; row++){
-            //stats[row][0] = sql.getNom;
-            //get temps, get ligne, get etc.
-            for (int col=0; col<5; col++){
-                label[row][col] = new JLabel(text[row*5 + col]);
-                label[row][col].setFont(new Font("Times New Roman", Font.BOLD, 10));
-                HSPanel.add(label[row][col]);
-                //add(label[row][col],HSLayout,HSGrid,col,row,1,1,0.5,0.5);
-            }
-        }
-
-        add(HSPanel);
-        JLabel imageFont = new JLabel();
-        imageFont.setSize(this.getWidth(), this.getHeight());
-        imageFont.setIcon(new ImageIcon(imageFit(imageFont, "High Score.png")));
-        imageFont.setOpaque(false);
-        //this.add(imageFont);
+      
+        Classements HSPanel = new Classements();
+        add(HSPanel); 
         
     }
     
     public void openRegle(){
-        
+        ImageIcon image = new ImageIcon("Regle.jpg");
+        new UIManager();
+        UIManager.put("OptionPane.background", new ColorUIResource(255, 255, 255));
+        UIManager.put("Panel.background", new ColorUIResource(255, 255, 255));
+        JOptionPane.showMessageDialog(null, null, "Règlement", JOptionPane.PLAIN_MESSAGE, image);
     }
     
     public void setStyle(JButton bouton, int size){
