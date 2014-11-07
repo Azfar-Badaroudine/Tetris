@@ -10,6 +10,7 @@ import Scores.ListeScore;
 import Scores.ScoreJoueur;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
@@ -43,7 +44,7 @@ class PClassements extends JPanel {
 }
 class Classements extends JPanel {
     
-    public Classements() {
+    public Classements(int width) {
         
         try{
             ListeScore listeScore = new ListeScore();
@@ -51,15 +52,18 @@ class Classements extends JPanel {
             //Ajout le rang au joeur
             listeScore.SetRangByScore();
      
-            this.setLayout(new GridLayout(11,5));
-
+            GridLayout HSLayout = new GridLayout(11,5);
+            HSLayout.setHgap((int) (width*0.11));
+            this.setLayout(HSLayout);
+            
             JLabel[][] label = new JLabel[11][6];
-            String text[] = {"Rang", "Nom","Temps","Lignes","Niveau","Score","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"};
+            String text[] = {"Rang", "Nom","Temps","Lignes","Niveau","Score"};
             String stats[][] = null;
 
             for (int i=0; i<6; i++){
                 label[0][i] = new JLabel(text[i]);
-                label[0][i].setFont(new Font("Times New Roman", Font.BOLD, 10));
+                label[0][i].setFont(new Font("Times New Roman", Font.BOLD, 20));
+                label[0][i].setForeground(Color.yellow);
                 this.add(label[0][i]);
             }
             int row =1;
@@ -71,7 +75,8 @@ class Classements extends JPanel {
                 label[row][4] = new JLabel(String.valueOf(listescore.getNiveau()));
                 label[row][5] = new JLabel(String.valueOf(listescore.getScore()));
                 for (int col=0; col<6; col++){
-                    label[row][col].setFont(new Font("Times New Roman", Font.BOLD, 10));
+                    label[row][col].setFont(new Font("Times New Roman", Font.BOLD, 14));
+                    label[row][col].setForeground(Color.yellow);
                     this.add(label[row][col]);
                 }
                 row ++;
@@ -83,4 +88,19 @@ class Classements extends JPanel {
     }
 }
 
+
+class Panel_test extends JPanel {
+        Image image = new ImageIcon("High Score.png").getImage();
+        
+        public Panel_test(int width){
+            setLayout(new BorderLayout());
+            add(new Classements(width), BorderLayout.CENTER);
+            repaint();
+        }
+        
+        @Override
+        public void paintComponent(Graphics g) {
+            g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+    }
+}
 

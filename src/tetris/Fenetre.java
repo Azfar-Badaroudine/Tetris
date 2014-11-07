@@ -102,15 +102,7 @@ public class Fenetre extends JFrame implements ActionListener{
     
     //<--------------------------------INCOMPLET<----------------------------------------------------------------------
     private JPanel topPanel;
-    private JPanel stat;
     private JPanel HS;
-    private GridBagLayout statLayout;
-    private GridBagConstraints statGrid;
-    private JButton test1;
-    private GridBagLayout HSLayout;
-    private GridBagConstraints HSGrid;
-    private JLabel label[][];
-    //private JPanel HSPanel;
     
     // Dimension frame
     private Dimension dimension;
@@ -381,8 +373,13 @@ public class Fenetre extends JFrame implements ActionListener{
 
     public void openHighScore() {
         enableMenuPrincipal(false);
-        PClassements  HSPanel = new PClassements();
-        add(HSPanel);   
+
+      
+        Panel_test  HSPanel = new Panel_test(this.getWidth());
+
+        add(HSPanel); 
+        
+
     }
     
     public void openRegle(){
