@@ -27,21 +27,21 @@ import javax.swing.JPanel;
  *
  * @author DLU_usager
  */
-
-class PClassements extends JPanel {
-        Image bg = new ImageIcon("High Score.png").getImage();
+class BPClassements extends JPanel {
+        private Image image = new ImageIcon("High Score.png").getImage();
         
-        public PClassements(){
+        public BPClassements(int width){
             setLayout(new BorderLayout());
-            add(new PClassements(), BorderLayout.CENTER);
+            add(new Classements(width), BorderLayout.CENTER);
             repaint();
         }
         
         @Override
         public void paintComponent(Graphics g) {
-            g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
+            g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
     }
 }
+
 class Classements extends JPanel {
     
     public Classements(int width) {
@@ -88,19 +88,4 @@ class Classements extends JPanel {
     }
 }
 
-
-class Panel_test extends JPanel {
-        Image image = new ImageIcon("High Score.png").getImage();
-        
-        public Panel_test(int width){
-            setLayout(new BorderLayout());
-            add(new Classements(width), BorderLayout.CENTER);
-            repaint();
-        }
-        
-        @Override
-        public void paintComponent(Graphics g) {
-            g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-    }
-}
 

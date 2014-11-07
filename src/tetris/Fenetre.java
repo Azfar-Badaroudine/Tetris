@@ -1,18 +1,14 @@
 package tetris;
 
 
-import Scores.ListeScore;
-import Scores.ScoreJoueur;
 import SoundsMusics.Sounds;
 import SoundsMusics.ThemeMusic;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -20,10 +16,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -36,7 +28,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.plaf.ColorUIResource;
@@ -84,25 +75,17 @@ public class Fenetre extends JFrame implements ActionListener{
     // Les pannels
     private GridBagLayout layout;
     private GridBagConstraints grid;
-    private BorderLayout layoutFenetre;
-    private JPanel nord; // Les pièces suivantes du jeu
-    private JPanel centre;// Le jeu et les satistique
-
-    // Contenue du panel nord
-    private JLabel message_suivant;
-    ///////////////private TShape next_block[3];
 
     // Contenue du panel centre
-     private PJeuTetris jeu;
+    private PJeuTetris jeu;
     private PStatistiques statistique;
 
 
     private JLabel block[][] = new JLabel[10][22]; // Vérification de l'optimisation --> plus tard
-    private JPanel pan;
     
     //<--------------------------------INCOMPLET<----------------------------------------------------------------------
     private JPanel topPanel;
-    private JPanel HS;
+    private JPanel bestScore;
     
     // Dimension frame
     private Dimension dimension;
@@ -305,36 +288,32 @@ public class Fenetre extends JFrame implements ActionListener{
     grid.fill = GridBagConstraints.BOTH;
     grid.insets = new Insets(0,0,0,0);
         
-    // Initialisation des pannels :
-        
-    //TOP PANEL INIT <---------------------------------
+
+    
+    
+   /* //TOP PANEL INIT <---------------------------------
     topPanel = new JPanel();
     topPanel.setBackground(Color.BLACK);
     topPanel.setPreferredSize(new Dimension(dimension.width,  dimension.height));
     grid.anchor = GridBagConstraints.NORTH;
     add(topPanel,layout,grid,0,0,2,1,0.5,0.2);
-    topPanel.setSize(this.getWidth(), (int) (this.getHeight()*0.2));
-        
+    topPanel.setSize(this.getWidth(), (int) (this.getHeight()*0.2));*/
 
-        
-    //HIGHSCORE PANEL INIT <---------------------------------    
-    HS = new JPanel();
-    HS.setBackground(Color.YELLOW);
-    HS.setSize(this.getWidth()/2, (int) (this.getHeight()*0.2));
-    add(HS,layout,grid,1,2,1,1,0.5,0.2);
-        
- 
+    
 
-   
-   
     // JEU
     Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.73)); //<--------Devrait etre 0.8
-    grid.anchor = GridBagConstraints.SOUTHWEST;
+    //grid.anchor = GridBagConstraints.WEST;
     add(addJeuTetris(dim),layout,grid,0,1,1,2,0.7,0.7);
         
     //STATISTIQUE 
     statistique = new PStatistiques(new Dimension(this.getWidth()/2, this.getHeight())); 
-    add(statistique,layout,grid,1,1,1,1,0.5,0.6);
+    add(statistique,layout,grid,1,1,1,1,0.2,0.3);
+    
+    //BEST SCORE
+    BPBestScore bestScore = new BPBestScore(); 
+    add(bestScore,layout,grid,1,2,1,1,0.2,0.4);
+    
        
     // Re/Commence le sons du jeu
     themeMusic = new ThemeMusic();    
@@ -373,14 +352,9 @@ public class Fenetre extends JFrame implements ActionListener{
 
     public void openHighScore() {
         enableMenuPrincipal(false);
-
-      
-        Panel_test  HSPanel = new Panel_test(this.getWidth());
-
+        BPClassements  HSPanel = new BPClassements(this.getWidth());
         add(HSPanel); 
-        
-
-    }
+     }
     
     public void openRegle(){
         ImageIcon image = new ImageIcon("Regle.jpg");
