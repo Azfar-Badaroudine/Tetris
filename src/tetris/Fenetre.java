@@ -1,34 +1,17 @@
 package tetris;
 
 
+
 import SoundsMusics.Sounds;
 import SoundsMusics.ThemeMusic;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.plaf.ColorUIResource;
 
@@ -78,10 +61,10 @@ public class Fenetre extends JFrame implements ActionListener{
 
     // Contenue du panel centre
     private PJeuTetris jeu;
-    private PStatistiques statistique;
-
+    private BPStatistiques statistique;
 
     private JLabel block[][] = new JLabel[10][22]; // Vérification de l'optimisation --> plus tard
+
     
     //<--------------------------------INCOMPLET<----------------------------------------------------------------------
     private JPanel topPanel;
@@ -95,6 +78,8 @@ public class Fenetre extends JFrame implements ActionListener{
     
     // Sounds 
     private Sounds splash;
+    
+
 
 
     public Fenetre() {
@@ -102,7 +87,7 @@ public class Fenetre extends JFrame implements ActionListener{
         setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BuildAccueil();
-        //interfaceJeu();// <--------------------------------------------------------- À DELETER
+        //openHighScore();// <--------------------------------------------------------- À DELETER
     }
 
     /**
@@ -172,49 +157,45 @@ public class Fenetre extends JFrame implements ActionListener{
         difficile     .addActionListener(this);
         sliderDifficulte.addChangeListener(new SliderListener());
         
-        
-        
-        // -----------------------------------------------
+
         int longueur = 230;
         int hauteur = 70;
         
+        
+       
         play = new JButton("Play");
-        play.setSize(longueur, hauteur);
-        play.setLocation(this.getWidth()/2 - longueur/2, (int)(0.42 * this.getHeight() - hauteur/2));
-        setStyle(play,60);
-        this.add(play);
-        play.addActionListener(this);
+        addButton (play,this.getWidth()/2 - longueur/2, (int)(0.42 * this.getHeight() - hauteur/2), 60 );
+        
         
         regle = new JButton("Réglement");
-        regle.addActionListener(this);
-        setStyle(regle,40);
-        regle.setSize(longueur, hauteur);
-        regle.setLocation(this.getWidth()/2 - longueur/2, (int)(0.6 * this.getHeight() - hauteur/2));
-        this.add(regle);
+        addButton (regle,this.getWidth()/2 - longueur/2, (int)(0.6 * this.getHeight() - hauteur/2), 40 );
+       
         
         high = new JButton("High Score");
-        high.addActionListener(this);
-        setStyle(high,40);
-        high.setSize(longueur, hauteur);
-        high.setLocation(this.getWidth()/2 - longueur/2, (int)(0.7 * this.getHeight() - hauteur/2));
-        this.add(high);
+        addButton (high,this.getWidth()/2 - longueur/2, (int)(0.7 * this.getHeight() - hauteur/2), 40 );
+       
         
         quit = new JButton("Quitter");
-        quit.addActionListener(this);
-        setStyle(quit,40);
-        quit.setSize(longueur, hauteur);
-        quit.setLocation(this.getWidth()/2 - longueur/2, (int)(0.8 * this.getHeight() - hauteur/2));
-        this.add(quit);
+        addButton (quit,this.getWidth()/2 - longueur/2, (int)(0.8 * this.getHeight() - hauteur/2), 40 );
+      
         
         principal = new JLabel();
-        //principal.setIcon(new ImageIcon("principal.png"));  //il faut scale l'image pour fité dans la fenetre
-        this.setIconImage(new ImageIcon("principal.png").getImage());//Trouver un autre iconimage eventuellement
+        this.setIconImage(new ImageIcon("principal.png").getImage());
         principal.setSize(this.getWidth(), this.getHeight());
         principal.setIcon(new ImageIcon(imageFit(principal, "principal2.png")));
         this.add(principal);
    
         splash = new Sounds("splash");
-       }
+    }
+    public void addButton (JButton button, int x , int y, int style ){
+        int longueur = 230;
+        int hauteur = 70;
+        button.setSize(longueur, hauteur);
+        button.setLocation(x, y);
+        setStyle(button,style);
+        this.add(button);
+        button.addActionListener(this);
+    }
     
     public void menuPrincipal(){
         
@@ -224,18 +205,12 @@ public class Fenetre extends JFrame implements ActionListener{
         BufferedImage bi = null;
         try {
             bi=new BufferedImage(label.getWidth(),label.getHeight(),BufferedImage.TYPE_INT_RGB);
-            
-            Graphics2D g=bi.createGraphics();
-            
-            Image img=ImageIO.read(new File(path));
-            
-            g.drawImage(img, 0, 0, label.getWidth(),label.getHeight(), null);
-            
-            g.dispose();
-            
+            Graphics2D g=bi.createGraphics();            
+            Image img=ImageIO.read(new File(path));            
+            g.drawImage(img, 0, 0, label.getWidth(),label.getHeight(), null);            
+            g.dispose();            
             return bi;
         } catch (IOException ex) {
-            
         }
         return bi;
     }
@@ -254,12 +229,7 @@ public class Fenetre extends JFrame implements ActionListener{
     public PJeuTetris addJeuTetris(Dimension dim){
         // Initialise le jeu
         jeu = new PJeuTetris(10,20,dim);
-        //Démarre le jeu avec une difficulté
         jeu.start(2);
-        // Pause le jeu
-        //jeu.stop();
-        // Resume 
-        //jeu.resume();
         return jeu;
     }
 
@@ -278,46 +248,45 @@ public class Fenetre extends JFrame implements ActionListener{
 
     public void interfaceJeu(){
 
-    enableMenuPrincipal(false);
-    sliderDifficulte.setEnabled(true);
-    level.setEnabled(true);
-  
-    layout = new GridBagLayout();
-    setLayout(layout);
-    grid = new GridBagConstraints();
-    grid.fill = GridBagConstraints.BOTH;
-    grid.insets = new Insets(0,0,0,0);
-        
+        enableMenuPrincipal(false);
+        sliderDifficulte.setEnabled(true);
+        level.setEnabled(true);
 
-    
-    
-   /* //TOP PANEL INIT <---------------------------------
-    topPanel = new JPanel();
-    topPanel.setBackground(Color.BLACK);
-    topPanel.setPreferredSize(new Dimension(dimension.width,  dimension.height));
-    grid.anchor = GridBagConstraints.NORTH;
-    add(topPanel,layout,grid,0,0,2,1,0.5,0.2);
-    topPanel.setSize(this.getWidth(), (int) (this.getHeight()*0.2));*/
+        layout = new GridBagLayout();
+        setLayout(layout);
+        grid = new GridBagConstraints();
+        grid.fill = GridBagConstraints.BOTH;
+        grid.insets = new Insets(0,0,0,0);
 
-    
+        // Initialisation des pannels :
 
-    // JEU
-    Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.73)); //<--------Devrait etre 0.8
-    //grid.anchor = GridBagConstraints.WEST;
-    add(addJeuTetris(dim),layout,grid,0,1,1,2,0.7,0.7);
-        
-    //STATISTIQUE 
-    statistique = new PStatistiques(new Dimension(this.getWidth()/2, this.getHeight())); 
-    add(statistique,layout,grid,1,1,1,1,0.2,0.3);
-    
-    //BEST SCORE
-    BPBestScore bestScore = new BPBestScore(); 
-    add(bestScore,layout,grid,1,2,1,1,0.2,0.4);
-    
-       
-    // Re/Commence le sons du jeu
-    themeMusic = new ThemeMusic();    
-        
+        //TOP PANEL INIT <---------------------------------
+        topPanel = new JPanel();
+        topPanel.setBackground(Color.BLACK);
+        topPanel.setPreferredSize(new Dimension(dimension.width,  dimension.height));
+        grid.anchor = GridBagConstraints.NORTH;
+        add(topPanel,layout,grid,0,0,2,1,0.5,0.2);
+        topPanel.setSize(this.getWidth(), (int) (this.getHeight()*0.2));
+
+
+
+        //HIGHSCORE PANEL INIT <---------------------------------    
+        bestScore = new BPBestScore();
+        add(bestScore,layout,grid,1,2,1,1,0.5,0.2);
+
+
+        // JEU
+        Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.73)); //<--------Devrait etre 0.8
+        grid.anchor = GridBagConstraints.SOUTHWEST;
+        add(addJeuTetris(dim),layout,grid,0,1,1,2,0.7,0.7);
+
+        //STATISTIQUE 
+        statistique = new BPStatistiques(new Dimension(this.getWidth()/2, this.getHeight())); 
+        add(statistique,layout,grid,1,1,1,1,0.5,0.6);
+
+        // Re/Commence le sons du jeu
+        themeMusic = new ThemeMusic();    
+   
     }
 
     @Override
@@ -339,10 +308,7 @@ public class Fenetre extends JFrame implements ActionListener{
         }
         else if(source == personnalise){
             jeu.nouvellePartie(10, 20);
-        }        
-
-
-        else if(source == high)
+        }else if(source == high)
             openHighScore();
         else if (source == regle)
             openRegle();
@@ -352,13 +318,12 @@ public class Fenetre extends JFrame implements ActionListener{
 
     public void openHighScore() {
         enableMenuPrincipal(false);
-        BPClassements  HSPanel = new BPClassements(this.getWidth());
+        Panel_test  HSPanel = new Panel_test(this.getWidth(),this.getHeight());
         add(HSPanel); 
-     }
+    }
     
     public void openRegle(){
         ImageIcon image = new ImageIcon("Regle.jpg");
-        new UIManager();
         UIManager.put("OptionPane.background", new ColorUIResource(255, 255, 255));
         UIManager.put("Panel.background", new ColorUIResource(255, 255, 255));
         JOptionPane.showMessageDialog(null, null, "Règlement", JOptionPane.PLAIN_MESSAGE, image);
@@ -388,7 +353,6 @@ public class Fenetre extends JFrame implements ActionListener{
         }
     }
     
-    
     class SliderListener implements javax.swing.event.ChangeListener {
 
         @Override
@@ -401,7 +365,7 @@ public class Fenetre extends JFrame implements ActionListener{
         }
     }
 
-    public PStatistiques getStatistique() {
+    public BPStatistiques getStatistique() {
         return statistique; 
     }
 }
