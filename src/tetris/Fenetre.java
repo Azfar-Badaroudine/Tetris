@@ -1,7 +1,5 @@
 package tetris;
 
-
-
 import SoundsMusics.Sounds;
 import SoundsMusics.ThemeMusic;
 import java.awt.*;
@@ -15,8 +13,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.plaf.ColorUIResource;
 
-
-
 /**
  *
  * @author Azfar
@@ -28,9 +24,9 @@ public class Fenetre extends JFrame implements ActionListener{
     private JButton regle;
     private JButton high;
     private JButton quit;
-    // ---------------------Menu------------------------
+    
+    // Bar menu
     private JMenuBar menuBar;
-
     // --> Jeu 
     private JMenu menuJeu;
     private JMenuItem nouvellePartie;
@@ -41,34 +37,24 @@ public class Fenetre extends JFrame implements ActionListener{
     private JMenuItem facile;
     private JMenuItem moyen;
     private JMenuItem difficile;
-    
     // --> Jeu  --> difficulté -- > personnalisé
     private JMenu personnalise;
     private JMenuItem level;
     private JSlider sliderDifficulte;
-
-    //[2] Menu -> ?
+    // -> ?
     private JMenu menuQuestionnement;
     private JMenuItem aide;
     private JMenuItem createurs;
-    //--------------------------------------------------
-
-    //-----------------Layout---------------------------
-
+    
     // Les pannels
     private GridBagLayout layout;
     private GridBagConstraints grid;
-
-    // Contenue du panel centre
-    private PJeuTetris jeu;
-    private BPStatistiques statistique;
-
-    private JLabel block[][] = new JLabel[10][22]; // Vérification de l'optimisation --> plus tard
-
-    
-    //<--------------------------------INCOMPLET<----------------------------------------------------------------------
     private JPanel topPanel;
     private JPanel bestScore;
+    
+    // Contenue du panel centre
+    private PJeuTetris jeu;
+    private BPStatistiques statistique; 
     
     // Dimension frame
     private Dimension dimension;
@@ -78,44 +64,38 @@ public class Fenetre extends JFrame implements ActionListener{
     
     // Sounds 
     private Sounds splash;
-    
-
-
 
     public Fenetre() {
         super("Tetris");
         setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BuildAccueil();
-        //openHighScore();// <--------------------------------------------------------- À DELETER
     }
 
     /**
-    * Permet d'initalisé les composantes de la fenêtre
+    * Initalise les composantes de la fenêtre
     */
     private void BuildAccueil() {
-    //-------------PAGE D'ACCUEIL---------
-        
         dimension = new Dimension(800,700);
         setSize(dimension); //On donne une taille à notre fenêtre
         setResizable(false);
         setLocationRelativeTo(null);
 
-        // ---------------------Menu--------------------------
+        // ---------------------Menu Bar--------------------------
         menuBar = new JMenuBar();
-        //[1] --> Jeu
+        //--> Jeu
         menuJeu        = new JMenu("Jeu");
         nouvellePartie = new JMenuItem("Nouvelle Partie");
         couperSon      = new JMenuItem("Couper le son");
         classement     = new JMenuItem("Classement");
         
-        //[1] --> Jeu --> Difficulté
+        //--> Jeu --> Difficulté
         difficulte   = new JMenu("Difficulté");
         facile       = new JMenuItem("Facile");
         moyen        = new JMenuItem("Moyen");
         difficile    = new JMenuItem("Difficile");
         
-        //[1] --> Jeu --> Difficulté --> Personnalisé
+        //--> Jeu --> Difficulté --> Personnalisé
         personnalise = new JMenu("Personnalisé");
 
         level    = new JMenuItem("1");
@@ -127,8 +107,7 @@ public class Fenetre extends JFrame implements ActionListener{
         personnalise.add(level);
         personnalise.add(sliderDifficulte);
         
-        
-        // Menu -> Affichage -> difficulté
+        //--> Affichage -> difficulté
         difficulte.add(facile);
         difficulte.add(moyen);
         difficulte.add(difficile);
@@ -137,8 +116,9 @@ public class Fenetre extends JFrame implements ActionListener{
         menuJeu.add(couperSon);
         menuJeu.add(classement);
         menuJeu.add(difficulte);
-        //// Menu -> Affichage -> difficulté
-        //[2] Menu -> ?
+
+        
+        //--> ?
         menuQuestionnement = new JMenu("?");
         aide = new JMenuItem("Aide");
         createurs = new JMenuItem("Créateurs");
@@ -157,36 +137,27 @@ public class Fenetre extends JFrame implements ActionListener{
         difficile     .addActionListener(this);
         sliderDifficulte.addChangeListener(new SliderListener());
         
-
+        //-------------Page D'acceuil---------
         int longueur = 230;
         int hauteur = 70;
-        
-        
-       
         play = new JButton("Play");
-        addButton (play,this.getWidth()/2 - longueur/2, (int)(0.42 * this.getHeight() - hauteur/2), 60 );
-        
-        
         regle = new JButton("Réglement");
-        addButton (regle,this.getWidth()/2 - longueur/2, (int)(0.6 * this.getHeight() - hauteur/2), 40 );
-       
-        
         high = new JButton("High Score");
-        addButton (high,this.getWidth()/2 - longueur/2, (int)(0.7 * this.getHeight() - hauteur/2), 40 );
-       
-        
         quit = new JButton("Quitter");
+        addButton (play,this.getWidth()/2 - longueur/2, (int)(0.42 * this.getHeight() - hauteur/2), 60 );
+        addButton (regle,this.getWidth()/2 - longueur/2, (int)(0.6 * this.getHeight() - hauteur/2), 40 );
+        addButton (high,this.getWidth()/2 - longueur/2, (int)(0.7 * this.getHeight() - hauteur/2), 40 );
         addButton (quit,this.getWidth()/2 - longueur/2, (int)(0.8 * this.getHeight() - hauteur/2), 40 );
-      
-        
+         // Image BackGround
         principal = new JLabel();
         this.setIconImage(new ImageIcon("principal.png").getImage());
         principal.setSize(this.getWidth(), this.getHeight());
         principal.setIcon(new ImageIcon(imageFit(principal, "principal2.png")));
         this.add(principal);
-   
+        // Sons D'acceuil
         splash = new Sounds("splash");
     }
+    
     public void addButton (JButton button, int x , int y, int style ){
         int longueur = 230;
         int hauteur = 70;
@@ -233,20 +204,7 @@ public class Fenetre extends JFrame implements ActionListener{
         return jeu;
     }
 
-    public void setColor(int i, int j, int type){
-        switch (type){
-            case 1: block[i][j].setBackground(Color.CYAN); break;
-            case 2: block[i][j].setBackground(Color.BLUE); break;
-            case 3: block[i][j].setBackground(Color.ORANGE); break;
-            case 4: block[i][j].setBackground(Color.YELLOW); break;
-            case 5: block[i][j].setBackground(Color.GREEN); break;
-            case 6: block[i][j].setBackground(Color.PINK); break;
-            case 7: block[i][j].setBackground(Color.RED); break;
-        }
-
-    }
-
-    public void interfaceJeu(){
+     public void interfaceJeu(){
 
         enableMenuPrincipal(false);
         sliderDifficulte.setEnabled(true);
@@ -261,32 +219,27 @@ public class Fenetre extends JFrame implements ActionListener{
         // Initialisation des pannels :
 
         //TOP PANEL INIT <---------------------------------
-        topPanel = new JPanel();
+        /*topPanel = new JPanel();
         topPanel.setBackground(Color.BLACK);
         topPanel.setPreferredSize(new Dimension(dimension.width,  dimension.height));
         grid.anchor = GridBagConstraints.NORTH;
         add(topPanel,layout,grid,0,0,2,1,0.5,0.2);
-        topPanel.setSize(this.getWidth(), (int) (this.getHeight()*0.2));
+        topPanel.setSize(this.getWidth(), (int) (this.getHeight()*0.2));*/
 
 
 
         //HIGHSCORE PANEL INIT <---------------------------------    
         bestScore = new BPBestScore();
-        add(bestScore,layout,grid,1,2,1,1,0.5,0.2);
-
+        add(bestScore,layout,grid,1,2,1,1,0.2,0.2);
 
         // JEU
-        Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.73)); //<--------Devrait etre 0.8
+        Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.73));
         grid.anchor = GridBagConstraints.SOUTHWEST;
         add(addJeuTetris(dim),layout,grid,0,1,1,2,0.7,0.7);
 
         //STATISTIQUE 
         statistique = new BPStatistiques(new Dimension(this.getWidth()/2, this.getHeight())); 
-        add(statistique,layout,grid,1,1,1,1,0.5,0.6);
-
-        // Re/Commence le sons du jeu
-        themeMusic = new ThemeMusic();    
-   
+        add(statistique,layout,grid,1,1,1,1,0.2,0.2);
     }
 
     @Override

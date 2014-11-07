@@ -1,6 +1,7 @@
 package tetris;
 
 import SoundsMusics.Sounds;
+import SoundsMusics.ThemeMusic;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -42,7 +43,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     private Image offscreen;                    // Image du buffer
     
     // Sounds
-    
+    ThemeMusic themeMusic;
     private Sounds drop;
     
     private int cleared;
@@ -73,7 +74,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         // Pour les événements du clavier
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addKeyEventDispatcher(new Controls(this));
-
+        themeMusic = new ThemeMusic(); 
         
     }
     
