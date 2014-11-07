@@ -35,7 +35,7 @@ public class BPStatistiques extends JPanel {
     private JLabel numeroNiveau;
     
   
-    publicBPStatistiquess(Dimension dimension){
+    public BPStatistiques(Dimension dimension){
         layout = new BorderLayout();
         setLayout(layout);
         statistique = new JLabel("Statistique");
