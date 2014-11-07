@@ -30,6 +30,11 @@ import javax.swing.SwingConstants;
  */
 class BPBestScore extends JPanel {
     private Image image = new ImageIcon("Sans titre.png").getImage();
+
+
+    private JPanel centre; 
+    
+    
     private JLabel bestScore  = new JLabel("Best Score");
     private JLabel joueur     = new JLabel("Joueur : ");
     private JLabel playerName = new JLabel("qwerty");
@@ -42,14 +47,15 @@ class BPBestScore extends JPanel {
         repaint();
     }
      public void BestScore() {
+    
+  
+        centre = new JPanel(new GridLayout(2,2));
         
-        GridLayout center = new GridLayout(2,2);
-        JPanel centre = new JPanel();
-        centre.setLayout(center);
         centre.add(joueur,     BorderLayout.CENTER);
         centre.add(playerName, BorderLayout.CENTER);
         centre.add(points,     BorderLayout.CENTER);
         centre.add(score,      BorderLayout.CENTER);
+        
         bestScore.setHorizontalAlignment(SwingConstants.CENTER);
 
         this.add(bestScore, BorderLayout.NORTH);
