@@ -8,11 +8,17 @@ package tetris;
 
 import Scores.ListeScore;
 import Scores.ScoreJoueur;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -21,9 +27,9 @@ import javax.swing.JPanel;
  * @author DLU_usager
  */
 class Classements extends JPanel {
-
+    
     public Classements() {
-
+        
         try{
             ListeScore listeScore = new ListeScore();
           
@@ -56,16 +62,24 @@ class Classements extends JPanel {
                 row ++;
             }  
 
-
-           
-            this.add(image);
-            setVisible(true);
+            this.setOpaque(false);
         }catch(Exception e){
-
         } 
-  }
-    public void paintComponent(Graphics g){
+    }
+    
+}
 
-        g.drawImage(new ImageIcon("High Score.png").getImage(),0,0 this));
+class Panel_test extends JPanel {
+        Image bg = new ImageIcon("High Score.png").getImage();
+        
+        public Panel_test(){
+            setLayout(new BorderLayout());
+            add(new Classements(), BorderLayout.CENTER);
+            repaint();
+        }
+        
+        @Override
+        public void paintComponent(Graphics g) {
+            g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
     }
 }

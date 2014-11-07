@@ -382,7 +382,8 @@ public class Fenetre extends JFrame implements ActionListener{
     public void openHighScore() {
         enableMenuPrincipal(false);
       
-        Classements HSPanel = new Classements();
+        Panel_test  HSPanel = new Panel_test();
+
         add(HSPanel); 
         
     }
