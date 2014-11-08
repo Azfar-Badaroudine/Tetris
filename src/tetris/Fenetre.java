@@ -218,11 +218,11 @@ public class Fenetre extends JFrame implements ActionListener{
         bestScore = new BPBestScore();
 
         // JEU
-        Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.925));
+        Dimension dim = new Dimension((int) (this.getWidth()*0.6), (int) (this.getHeight()*0.925));
         initJeuTetris(dim);
 
         //STATISTIQUE 
-        statistique = new BPStatistiques(new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.9))); 
+        statistique = new BPStatistiques(new Dimension(this.getWidth()/3, (int) (this.getHeight()*0.9))); 
 
     }
     public void openInterfaceJeu(){
@@ -248,9 +248,9 @@ public class Fenetre extends JFrame implements ActionListener{
         topPanel.setSize(this.getWidth(), (int) (this.getHeight()*0.2));*/
 
      
-        add(jeu,        layout,grid,0,0,1,2,1,1);
-        add(statistique,layout,grid,1,0,1,1,0.34,1);
-        add(bestScore,  layout,grid,1,1,1,1,0.34,0.5);
+        add(jeu,        layout,grid,0,0,1,2,1.5,1.5);
+        add(statistique,layout,grid,1,0,1,1,0.18,0.7);
+        add(bestScore,  layout,grid,1,1,1,1,0.18,0.3);
 
     
         
