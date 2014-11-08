@@ -78,10 +78,7 @@ class Classements extends JPanel {
 
             this.setLayout(null);
             JLabel titre = new JLabel("High Scores");
-            titre.setFont(new Font("Times New Roman", Font.BOLD, 35));
-            titre.setForeground(Color.yellow);
-            titre.setSize(200, 50);
-            titre.setLocation((int) (width*0.5-titre.getWidth()*0.5), (int) (height*0.21));
+            setStyle(titre,35,2,200,50,(int) (width*0.5-100), (int) (height*0.21));
             this.add(titre); 
             
             label = new JLabel[11][6];
@@ -90,35 +87,26 @@ class Classements extends JPanel {
 
             for (int i=0; i<6; i++){
                 label[0][i] = new JLabel(text[i]);
-                label[0][i].setFont(new Font("Times New Roman", Font.BOLD, 25));
-                label[0][i].setForeground(Color.yellow);
-                label[0][i].setSize(100, 50);
-                label[0][i].setLocation((int) (width*0.175*i+20), (int) (height*0.28));
+                setStyle(label[0][i],25,2,100,50,(int) (width*0.175*i+20), (int) (height*0.28));
                 this.add(label[0][i]);
             }
             
-            int row =1;
-            for(int i =0; i<10 ; i++){
-                label[row][0] = new JLabel(String.valueOf(listeScore.getListeScores().get(i).getRang()));
-                label[row][1] = new JLabel(String.valueOf(listeScore.getListeScores().get(i).getJoueur()));
-                label[row][2] = new JLabel(String.valueOf(listeScore.getListeScores().get(i).getTemps()));
-                label[row][3] = new JLabel(String.valueOf(listeScore.getListeScores().get(i).getLignes()));
-                label[row][4] = new JLabel(String.valueOf(listeScore.getListeScores().get(i).getNiveau()));
-                label[row][5] = new JLabel(String.valueOf(listeScore.getListeScores().get(i).getScore()));
+            for(int row=0; row<10 ; row++){
+                label[row+1][0] = new JLabel(String.valueOf(listeScore.getListeScores().get(row).getRang()));
+                label[row+1][1] = new JLabel(String.valueOf(listeScore.getListeScores().get(row).getJoueur()));
+                label[row+1][2] = new JLabel(String.valueOf(listeScore.getListeScores().get(row).getTemps()));
+                label[row+1][3] = new JLabel(String.valueOf(listeScore.getListeScores().get(row).getLignes()));
+                label[row+1][4] = new JLabel(String.valueOf(listeScore.getListeScores().get(row).getNiveau()));
+                label[row+1][5] = new JLabel(String.valueOf(listeScore.getListeScores().get(row).getScore()));
                 for (int col=0; col<6; col++){
-                    label[row][col].setFont(new Font("Times New Roman", Font.BOLD, 18));
-                    label[row][col].setForeground(Color.yellow);
-                    label[row][col].setSize(60, 30);
-                    label[row][col].setLocation((int) (width*0.174*col+20), (int) (height*0.31+row*0.05*height));
-                    this.add(label[row][col]);
+                    this.add(label[row+1][col]);
                     if (col != 0 && col != 1)
-                        label[row][col].setHorizontalAlignment(RIGHT);
+                        setStyle(label[row+1][col],18,4,60,30,(int) (width*0.174*col+20), (int) (height*0.31+(row+1)*0.05*height));
                     else if(col == 0)
-                        label[row][0].setHorizontalAlignment(CENTER);
+                        setStyle(label[row+1][col],18,0,60,30,(int) (width*0.174*col+20), (int) (height*0.31+(row+1)*0.05*height));
                     else
-                        label[row][col].setSize(150, 30);
+                        setStyle(label[row+1][col],18,2,150,30,(int) (width*0.174*col+20), (int) (height*0.31+(row+1)*0.05*height));
                 }
-                row ++;
             }
             retour = new JButton("Retour");
             retour.addActionListener(parent);
@@ -136,10 +124,17 @@ class Classements extends JPanel {
         } 
     }
     
-
     public JButton getRetour() {
         return retour;
-    }  
+    }
+    
+    public void setStyle(JLabel label,int size, int coté, int longueur, int largeur, int positionX, int positionY){
+         label.setForeground(Color.yellow);
+         label.setFont(new Font("Times New Roman", Font.BOLD, size));
+         label.setHorizontalAlignment(coté);
+         label.setLocation(positionX, positionY);
+         label.setSize(longueur, largeur);
+     }
 }
 
 

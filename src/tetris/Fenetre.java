@@ -222,7 +222,7 @@ public class Fenetre extends JFrame implements ActionListener{
         initJeuTetris(dim);
 
         //STATISTIQUE 
-        statistique = new BPStatistiques(new Dimension(this.getWidth()/3, (int) (this.getHeight()*0.9))); 
+        statistique = new BPStatistiques();
 
     }
     public void openInterfaceJeu(){
@@ -249,8 +249,8 @@ public class Fenetre extends JFrame implements ActionListener{
 
      
         add(jeu,        layout,grid,0,0,1,2,1.5,1.5);
-        add(statistique,layout,grid,1,0,1,1,0.18,0.7);
-        add(bestScore,  layout,grid,1,1,1,1,0.18,0.3);
+        add(statistique,layout,grid,1,0,1,1,0.53,0.7);
+        add(bestScore,  layout,grid,1,1,1,1,0.53,0.3);
 
     }
 

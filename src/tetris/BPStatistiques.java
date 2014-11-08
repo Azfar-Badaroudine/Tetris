@@ -27,27 +27,44 @@ public class BPStatistiques extends JPanel {
     private JLabel nombreRangeeComplete;
     private JLabel niveau;
     private JLabel numeroNiveau;
+    private JLabel score;
+    private JLabel scoreActuel;
+    private JLabel temps;
+    private JLabel chrono;
     
-    public BPStatistiques(Dimension dimension){
+    public BPStatistiques(){
         repaint();
-        System.out.println(this.getWidth());
         setLayout(new BorderLayout());
         // Statistique
-        statistique = new JLabel("Statistique");
-        setStyle(statistique,25,0);
+        statistique = new JLabel("Statistiques");
+        setStyle(statistique,25,1);
 
         // Rangée complétée
-        rangeeComplete = new JLabel("Rangé Complèter : ");
-        setStyle(rangeeComplete,16,4);
-        nombreRangeeComplete = new JLabel("1");
-        setStyle(nombreRangeeComplete,16,0);
+        rangeeComplete = new JLabel("Lignes :  ");
+        setStyle(rangeeComplete,20,0);
+        nombreRangeeComplete = new JLabel("15");
+        setStyle(nombreRangeeComplete,20,0);
         nombreRangeeComplete.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         
+        // Score
+        score = new JLabel("Points :  ");
+        setStyle(score,20,0);
+        scoreActuel = new JLabel("67860");
+        setStyle(scoreActuel,20,0);
+        scoreActuel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        
+        // Temps
+        temps = new JLabel("Temps :  ");
+        setStyle(temps,20,0);
+        chrono = new JLabel("8760");
+        setStyle(chrono,20,0);
+        chrono.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        
         // Niveau 
-        niveau = new JLabel("Niveau : ");
-        setStyle(niveau,16,4);
-        numeroNiveau = new JLabel("5");
-        setStyle(numeroNiveau,16,0);
+        niveau = new JLabel("Niveau :  ");
+        setStyle(niveau,20,0);
+        numeroNiveau = new JLabel("10");
+        setStyle(numeroNiveau,20,0);
         numeroNiveau.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         
         createCenterPanel();
@@ -60,9 +77,13 @@ public class BPStatistiques extends JPanel {
     }
     
     public void createCenterPanel(){
-        panelCentre = new JPanel(new GridLayout(2,2));
+        panelCentre = new JPanel(new GridLayout(4,2));
         panelCentre.add(rangeeComplete);
         panelCentre.add(nombreRangeeComplete);
+        panelCentre.add(score);
+        panelCentre.add(scoreActuel);
+        panelCentre.add(temps);
+        panelCentre.add(chrono);
         panelCentre.add(niveau);
         panelCentre.add(numeroNiveau);
     }
@@ -81,10 +102,10 @@ public class BPStatistiques extends JPanel {
         }
     }
     
-    public void setStyle(JLabel label,int size, int coté){
+    public void setStyle(JLabel label,int size, int font){
          label.setForeground(Color.BLACK);
-         label.setFont(new Font("Times New Roman", Font.BOLD, size));
-         label.setHorizontalAlignment(coté); 
+         label.setFont(new Font("Times New Roman", font, size));
+         label.setHorizontalAlignment(SwingConstants.CENTER); 
      }
     
     @Override
