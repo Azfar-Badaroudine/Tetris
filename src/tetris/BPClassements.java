@@ -15,6 +15,12 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -92,13 +98,13 @@ class Classements extends JPanel {
             }
             
             int row =1;
-            for(ScoreJoueur listescore :listeScore.getListeScores()){
-                label[row][0] = new JLabel(String.valueOf(listescore.getRang()));
-                label[row][1] = new JLabel(String.valueOf(listescore.getJoueur()));
-                label[row][2] = new JLabel(String.valueOf(listescore.getTemps()));
-                label[row][3] = new JLabel(String.valueOf(listescore.getLignes()));
-                label[row][4] = new JLabel(String.valueOf(listescore.getNiveau()));
-                label[row][5] = new JLabel(String.valueOf(listescore.getScore()));
+            for(int i =0; i<10 ; i++){
+                label[row][0] = new JLabel(String.valueOf(listeScore.getListeScores().get(i).getRang()));
+                label[row][1] = new JLabel(String.valueOf(listeScore.getListeScores().get(i).getJoueur()));
+                label[row][2] = new JLabel(String.valueOf(listeScore.getListeScores().get(i).getTemps()));
+                label[row][3] = new JLabel(String.valueOf(listeScore.getListeScores().get(i).getLignes()));
+                label[row][4] = new JLabel(String.valueOf(listeScore.getListeScores().get(i).getNiveau()));
+                label[row][5] = new JLabel(String.valueOf(listeScore.getListeScores().get(i).getScore()));
                 for (int col=0; col<6; col++){
                     label[row][col].setFont(new Font("Times New Roman", Font.BOLD, 18));
                     label[row][col].setForeground(Color.yellow);
@@ -129,10 +135,11 @@ class Classements extends JPanel {
         }catch(Exception e){
         } 
     }
+    
 
     public JButton getRetour() {
         return retour;
-    }
-    
+    }  
 }
+
 

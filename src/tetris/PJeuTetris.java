@@ -53,6 +53,12 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     private KeyboardFocusManager manager;
     private Controls controls;
     
+    // Ecoulement du temps
+    private int temps;
+    private long startTime;
+    private long stopTime = System.currentTimeMillis();
+
+    
     // Sounds
     private ThemeMusic themeMusic;
     private Sounds drop;
@@ -102,12 +108,14 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         timer.start();
         vivant = true;
         nbRangeeCompleted=0;
+        startTime = System.currentTimeMillis();
     }
    
     /**
      * Fin de la partie
      */
     public void stop(){
+        
         timer.stop();
         vivant = false;
     }
@@ -116,6 +124,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
      * Fait une pause de la partie 
      */
     public void pause(){
+        stopTime = startTime;
         timer.stop();
     }
     
@@ -123,6 +132,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
      * Resume la partie
      */
     public void resume(){
+        startTime = stopTime;
         timer.start();
     }
     
@@ -398,8 +408,9 @@ public class PJeuTetris extends JPanel  implements ActionListener{
                 this.timer.stop();
                 manager.removeKeyEventDispatcher(controls);
                 String nomJoueur = JOptionPane.showInputDialog(null, "Fin de la partie \nNombre de rangée compléter : " + nbRangeeCompleted +"\nEntrez votre nom pour le classement.");
-                System.out.print(timer.getWhen());
-                addScore(nomJoueur, 1, 1, 1, 1);
+                temps = (int)(System.currentTimeMillis() - startTime/1000) ;
+                
+                addScore(nomJoueur, temps, nbRangeeCompleted, 1, 1);
                 manager.addKeyEventDispatcher(controls);
 
                 Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
@@ -414,7 +425,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     }   
  
     public void nouvellePartie(int colonne, int rangee){
-        
+        startTime = System.currentTimeMillis();
         coordonneJeu = new CoordonneeJeu(colonne,rangee);
         tetrominoes = new ArrayList<>();
         newBlock();
