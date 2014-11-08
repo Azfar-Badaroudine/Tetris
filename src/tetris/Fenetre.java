@@ -252,9 +252,6 @@ public class Fenetre extends JFrame implements ActionListener{
         add(statistique,layout,grid,1,0,1,1,0.18,0.7);
         add(bestScore,  layout,grid,1,1,1,1,0.18,0.3);
 
-    
-        
-    
     }
 
     @Override

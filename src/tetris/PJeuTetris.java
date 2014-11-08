@@ -12,9 +12,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -44,6 +50,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     private Image offscreen;                    // Image du buffer
     
     // Controls
+    private KeyboardFocusManager manager;
     private Controls controls;
     
     // Sounds
@@ -78,7 +85,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         
         // Pour les événements du clavier
         controls = new Controls(this);
-        KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addKeyEventDispatcher(controls);
         themeMusic = new ThemeMusic(); 
         
@@ -389,7 +396,12 @@ public class PJeuTetris extends JPanel  implements ActionListener{
             if(!canFall()){
                 vivant = false;
                 this.timer.stop();
-                JOptionPane.showMessageDialog(this, "Fin de la partie \nNombre de rangée compléter : " + nbRangeeCompleted);
+                manager.removeKeyEventDispatcher(controls);
+                String nomJoueur = JOptionPane.showInputDialog(null, "Fin de la partie \nNombre de rangée compléter : " + nbRangeeCompleted +"\nEntrez votre nom pour le classement.");
+                System.out.print(timer.getWhen());
+                addScore(nomJoueur, 1, 1, 1, 1);
+                manager.addKeyEventDispatcher(controls);
+
                 Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
                 topFrame.getStatistique().setRangeeComplete(nbRangeeCompleted);
             }
@@ -433,6 +445,16 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         controls.setMute(mute);
         this.mute = mute;
     }
+    public void addScore(String name, int temps, int rangeeComplete, int level, int Score){
+        try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("src\\Scores\\ScoreListe.txt", true)))) {
+            out.println(name +" "+ String.valueOf(temps)+" "+ String.valueOf(rangeeComplete)+ " " + String.valueOf(level)+ " " + String.valueOf(Score));
+        }catch (IOException e) {
+  
+            Logger.getLogger(PJeuTetris.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+    
+}
 }
     
     
