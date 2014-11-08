@@ -58,6 +58,15 @@ public class BPStatistiques extends JPanel {
     public void setRangeeComplete(int rangeeComplete) {
         this.nombreRangeeComplete.setText(String.valueOf(rangeeComplete));
     }
+    public void enableStatistique(boolean bool){
+        if (bool == true){
+            statistique. setVisible(true);
+            panelCentre.setVisible(true);
+        }else {
+            statistique. setVisible(false);
+            panelCentre.setVisible(false);
+        }
+    }
 }    
 
 

@@ -31,7 +31,8 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     private Dimension dimension;                // Dimension du jeu
 
     // Paramètres jeu
-    private TimerLoop timer;                      private boolean vivant;                     // True == Joueur joue False == Fin de la partie
+    private TimerLoop timer;                      
+    private boolean vivant;                     // True == Joueur joue False == Fin de la partie
     private int nbRangeeCompleted;              // Nombre de rangée completé
 
     // Boucle du jeu
@@ -42,10 +43,14 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     private Graphics bufferGraphics;            // Buffer évite le scintillement
     private Image offscreen;                    // Image du buffer
     
+    // Controls
+    private Controls controls;
+    
     // Sounds
-    ThemeMusic themeMusic;
+    private ThemeMusic themeMusic;
     private Sounds drop;
     
+    private boolean mute; 
     private int cleared;
     private Sounds clearSingle;
     private Sounds clearDouble;
@@ -72,8 +77,9 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         
         
         // Pour les événements du clavier
+        controls = new Controls(this);
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        manager.addKeyEventDispatcher(new Controls(this));
+        manager.addKeyEventDispatcher(controls);
         themeMusic = new ThemeMusic(); 
         
     }
@@ -90,7 +96,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         vivant = true;
         nbRangeeCompleted=0;
     }
-    
+   
     /**
      * Fin de la partie
      */
@@ -168,6 +174,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
             if(verifyCompletedRow(y))
                 cleared++;
         }
+        if (mute == false)
         switch (cleared){
             case 0 : clearSingle = new Sounds("Drop"); 
                      break;
@@ -416,7 +423,16 @@ public class PJeuTetris extends JPanel  implements ActionListener{
      */
     public TimerLoop getTimer() {
         return timer;
-    }   
+    }
+     /**
+     * Setteur mute
+     * @param mute 
+     */
+    public void setMute(boolean mute) {
+        themeMusic.mute(mute);
+        controls.setMute(mute);
+        this.mute = mute;
+    }
 }
     
     

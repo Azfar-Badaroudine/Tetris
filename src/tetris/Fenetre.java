@@ -51,6 +51,7 @@ public class Fenetre extends JFrame implements ActionListener{
     private GridBagConstraints grid;
     private JPanel topPanel;
     private JPanel bestScore;
+    private BPClassements HSPanel;
     
     // Contenue du panel centre
     private PJeuTetris jeu;
@@ -59,10 +60,8 @@ public class Fenetre extends JFrame implements ActionListener{
     // Dimension frame
     private Dimension dimension;
     
-    // Music Theme
-    private ThemeMusic themeMusic;
-    
-    // Sounds 
+    // Sounds
+    private boolean mute;
     private Sounds splash;
 
     public Fenetre() {
@@ -70,12 +69,13 @@ public class Fenetre extends JFrame implements ActionListener{
         setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BuildAccueil();
+        splash = new Sounds("splash");
     }
 
     /**
     * Initalise les composantes de la fenêtre
     */
-    private void BuildAccueil() {
+    public void BuildAccueil() {
         dimension = new Dimension(800,700);
         setSize(dimension); //On donne une taille à notre fenêtre
         setResizable(false);
@@ -155,7 +155,6 @@ public class Fenetre extends JFrame implements ActionListener{
         principal.setIcon(new ImageIcon(imageFit(principal, "principal2.png")));
         this.add(principal);
         // Sons D'acceuil
-        splash = new Sounds("splash");
     }
     
     public void addButton (JButton button, int x , int y, int style ){
@@ -197,16 +196,38 @@ public class Fenetre extends JFrame implements ActionListener{
         add(component);
     }
     
-    public PJeuTetris addJeuTetris(Dimension dim){
+    public void initJeuTetris(Dimension dim){
         // Initialise le jeu
         jeu = new PJeuTetris(10,20,dim);
         jeu.start(2);
-        return jeu;
+
     }
 
-     public void interfaceJeu(){
+     public void initInterfaceJeu(){
+        // Initialisation des pannels :
 
-        enableMenuPrincipal(false);
+        //TOP PANEL INIT <---------------------------------
+        /*topPanel = new JPanel();
+        topPanel.setBackground(Color.BLACK);
+        topPanel.setPreferredSize(new Dimension(dimension.width,  dimension.height));
+        grid.anchor = GridBagConstraints.NORTH;
+        add(topPanel,layout,grid,0,0,2,1,0.5,0.2);
+        topPanel.setSize(this.getWidth(), (int) (this.getHeight()*0.2));*/
+
+        //HIGHSCORE PANEL INIT <---------------------------------    
+        bestScore = new BPBestScore();
+
+        // JEU
+        Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.925));
+        initJeuTetris(dim);
+
+        //STATISTIQUE 
+        statistique = new BPStatistiques(new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.9))); 
+
+    }
+    public void openInterfaceJeu(){
+        visibleInterfaceJeu(true);
+        visibleMenuPrincipal(false);
         sliderDifficulte.setEnabled(true);
         level.setEnabled(true);
 
@@ -226,29 +247,43 @@ public class Fenetre extends JFrame implements ActionListener{
         add(topPanel,layout,grid,0,0,2,1,0.5,0.2);
         topPanel.setSize(this.getWidth(), (int) (this.getHeight()*0.2));*/
 
+     
+        add(jeu,        layout,grid,0,0,1,2,1,1);
+        add(statistique,layout,grid,1,0,1,1,0.34,1);
+        add(bestScore,  layout,grid,1,1,1,1,0.34,0.5);
 
-
-        //HIGHSCORE PANEL INIT <---------------------------------    
-        bestScore = new BPBestScore();
-        add(bestScore,layout,grid,1,2,1,1,0.2,0.2);
-
-        // JEU
-        Dimension dim = new Dimension(this.getWidth()/2, (int) (this.getHeight()*0.73));
-        grid.anchor = GridBagConstraints.SOUTHWEST;
-        add(addJeuTetris(dim),layout,grid,0,1,1,2,0.7,0.7);
-
-        //STATISTIQUE 
-        statistique = new BPStatistiques(new Dimension(this.getWidth()/2, this.getHeight())); 
-        add(statistique,layout,grid,1,1,1,1,0.2,0.2);
+    
+        
+    
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
         Object source = ae.getSource();
-        if (source == play )
-            interfaceJeu();
+        if (source == play ){
+            initInterfaceJeu();
+            openInterfaceJeu();
+        }
         else if(source == nouvellePartie){
-            jeu.nouvellePartie(10, 20);
+            if(jeu != null)
+                jeu.nouvellePartie(10, 20);
+        }
+        else if(source == couperSon){
+            try{
+                if (mute== true){
+                    jeu.setMute(false);
+                    mute=true;
+                }
+                else{
+                    jeu.setMute(true);
+                    mute= true;
+                }
+            }catch(Exception e){}
+        }
+        else if(source == classement){
+            jeu.getTimer().stop();
+            visibleInterfaceJeu(false);
+            openClassements();
         }
         else if(source == facile){
             sliderDifficulte.setValue(1);
@@ -262,17 +297,18 @@ public class Fenetre extends JFrame implements ActionListener{
         else if(source == personnalise){
             jeu.nouvellePartie(10, 20);
         }else if(source == high)
-            openHighScore();
+            openClassements();
         else if (source == regle)
             openRegle();
         else if (source == quit)
             dispose();
     }
 
-    public void openHighScore() {
-        enableMenuPrincipal(false);
-        //BPClassements HSPanel = new BPClassements(this.getWidth());
-        Panel_test  HSPanel = new Panel_test(this.getWidth(),this.getHeight());
+    public void openClassements() {
+        visibleMenuPrincipal(false);
+        BorderLayout layout_ = new BorderLayout();
+        setLayout(layout_);
+        HSPanel = new BPClassements (this.getWidth(),this.getHeight());
         add(HSPanel); 
     }
     
@@ -291,21 +327,20 @@ public class Fenetre extends JFrame implements ActionListener{
         bouton.setForeground(Color.YELLOW);
     }
 
-    public void enableMenuPrincipal(boolean bool){
-        if (bool == true){
-            play. setVisible(true);
-            regle.setVisible(true);
-            high. setVisible(true);
-            quit. setVisible(true);
-            principal.setVisible(true);
-        }else {
-            play. setVisible(false);
-            regle.setVisible(false);
-            high. setVisible(false);
-            quit. setVisible(false);
-            principal.setVisible(false);
-        }
+    public void visibleMenuPrincipal(boolean bool){
+        play. setVisible(bool);
+        regle.setVisible(bool);
+        high. setVisible(bool);
+        quit. setVisible(bool);
+        principal.setVisible(bool);
     }
+    
+    public void visibleInterfaceJeu(boolean bool){
+        bestScore.setVisible(bool);
+        statistique.setVisible(bool);
+        jeu.setVisible(bool);
+    }
+    
     
     class SliderListener implements javax.swing.event.ChangeListener {
 
@@ -322,4 +357,11 @@ public class Fenetre extends JFrame implements ActionListener{
     public BPStatistiques getStatistique() {
         return statistique; 
     }
+
+    public PJeuTetris getJeu() {
+        return jeu;
+    }
+    public void mute(boolean mute){ 
+        jeu.setMute(mute);
+     }
 }

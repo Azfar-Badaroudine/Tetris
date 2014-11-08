@@ -20,17 +20,20 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import static javax.swing.SwingConstants.*;
+import javax.swing.SwingUtilities;
 
 /**
  *
  * @author DLU_usager
  */
-class BPClassements extends JPanel {
+class BPClassements extends JPanel implements ActionListener {
         private Image image = new ImageIcon("High Score.png").getImage();
-        
+        private Classements classements;
         public BPClassements(int width, int height){
+            this.setVisible(true);
             setLayout(new BorderLayout());
-            add(new Classements(width, height), BorderLayout.CENTER);
+            classements = new Classements(width, height, this);
+            add(classements, BorderLayout.CENTER);
             repaint();
         }
         
@@ -38,13 +41,28 @@ class BPClassements extends JPanel {
         public void paintComponent(Graphics g) {
             g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
     }
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        Object source = ae.getSource();
+        if (source == classements.getRetour() ){
+            System.out.print("RETOUR");
+            this.setVisible(false);
+            Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
+            if (topFrame.getJeu() == null)
+                topFrame.BuildAccueil();
+            else{
+                topFrame.getJeu().getTimer().start();
+                topFrame.visibleInterfaceJeu(true);
+            }
+        }
+    }
 }
 
-class Classements extends JPanel implements ActionListener{
-    private JButton retour;
-    private JLabel[][] label;
+class Classements extends JPanel {
     
-    public Classements(int width, int height) {
+    private JLabel[][] label;
+    private JButton retour;
+    public Classements(int width, int height, ActionListener parent) {
         
         try{
             ListeScore listeScore = new ListeScore();
@@ -97,45 +115,24 @@ class Classements extends JPanel implements ActionListener{
                 row ++;
             }
             retour = new JButton("Retour");
-            retour.addActionListener(this);
+            retour.addActionListener(parent);
             retour.setForeground(Color.yellow);
             retour.setFont(new Font("Times New Roman", Font.BOLD, 20));
             retour.setLocation(width-170, height-100);
             retour.setSize(150, 50);
-            retour.setOpaque(false);
+            retour.setOpaque(true);
             retour.setContentAreaFilled(false);
             retour.setBorderPainted(false);
-            this.add(retour);
-            
+            add(retour, BorderLayout.SOUTH);
             this.setOpaque(false);
             
         }catch(Exception e){
         } 
     }
 
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        Object source = ae.getSource();
-        if (source == retour ){
-
-        }
+    public JButton getRetour() {
+        return retour;
     }
+    
 }
-
-
-class Panel_test extends JPanel {
-    Image image = new ImageIcon("High Score.png").getImage();
-
-    public Panel_test(int width, int height){
-        setLayout(new BorderLayout());
-        add(new Classements(width,height), BorderLayout.CENTER);
-        repaint();
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-    }
-}
-
 

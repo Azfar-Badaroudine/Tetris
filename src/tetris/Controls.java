@@ -2,7 +2,6 @@ package tetris;
 
 import SoundsMusics.Sounds;
 import java.awt.KeyEventDispatcher;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import static java.awt.event.KeyEvent.VK_DOWN;
 import static java.awt.event.KeyEvent.VK_LEFT;
@@ -16,9 +15,11 @@ import static java.awt.event.KeyEvent.VK_UP;
 public class Controls implements KeyEventDispatcher {
     private PJeuTetris jeu;
     private Sounds rotateFail;
+    private Boolean mute;
     
     
     public Controls (PJeuTetris jeu){
+        mute =false;
         this.jeu = jeu;
         
     }
@@ -52,8 +53,9 @@ public class Controls implements KeyEventDispatcher {
                         jeu.getTetrominoes().get(jeu.getTetrominoes().size()-1).rotateRight();
                     else
                         jeu.repaint();
-                else 
-                    rotateFail = new Sounds("RotateFail");
+                else
+                    if(!mute)
+                        rotateFail = new Sounds("RotateFail");
             }
 
             // Bas
@@ -75,6 +77,13 @@ public class Controls implements KeyEventDispatcher {
                  jeu.getTimer().setDifficulte( jeu.getTimer().getDifficulte()+50);  
         }
         return true;
+    }
+    /**
+     * Setteur mute
+     * @param mute 
+     */
+    public void setMute(Boolean mute) {
+        this.mute = mute;
     }
 }
 
