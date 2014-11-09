@@ -42,28 +42,28 @@ public class BPStatistiques extends JPanel {
         // Rangée complétée
         rangeeComplete = new JLabel("Lignes :  ");
         setStyle(rangeeComplete,20,0);
-        nombreRangeeComplete = new JLabel("15");
+        nombreRangeeComplete = new JLabel("0");
         setStyle(nombreRangeeComplete,20,0);
         nombreRangeeComplete.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         
         // Score
         score = new JLabel("Points :  ");
         setStyle(score,20,0);
-        scoreActuel = new JLabel("67860");
+        scoreActuel = new JLabel("0");
         setStyle(scoreActuel,20,0);
         scoreActuel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         
         // Temps
         temps = new JLabel("Temps :  ");
         setStyle(temps,20,0);
-        chrono = new JLabel("8760");
+        chrono = new JLabel("0");
         setStyle(chrono,20,0);
         chrono.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         
         // Niveau 
         niveau = new JLabel("Niveau :  ");
         setStyle(niveau,20,0);
-        numeroNiveau = new JLabel("10");
+        numeroNiveau = new JLabel("1");
         setStyle(numeroNiveau,20,0);
         numeroNiveau.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         
@@ -89,7 +89,19 @@ public class BPStatistiques extends JPanel {
     }
     
     public void setRangeeComplete(int rangeeComplete) {
-        this.nombreRangeeComplete.setText(String.valueOf(rangeeComplete));
+        nombreRangeeComplete.setText(String.valueOf(rangeeComplete));
+    }
+    
+    public void setChrono(int temps){
+        chrono.setText(String.valueOf(temps));
+    }
+    
+    public void setNiveau(int niveau){
+        numeroNiveau.setText(String.valueOf(niveau));
+    }
+    
+    public void setScore(int score){
+        scoreActuel.setText(String.valueOf(score));
     }
     
     public void enableStatistique(boolean bool){

@@ -40,6 +40,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     private TimerLoop timer;                      
     private boolean vivant;                     // True == Joueur joue False == Fin de la partie
     private int nbRangeeCompleted;              // Nombre de rangée completé
+    private int niveau;                         // Niveau de difficulté
 
     // Boucle du jeu
     private ArrayList<Tetrominoes> tetrominoes; // List des Tetrominoe du jeu
@@ -345,9 +346,11 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     /**
      * Setteur de la difficultée 
      * @param timerDifficulte La difficulté du jeu
+     * @param niveau Le niveau de difficulté
      */
     public void setTimerDifficulte(int difficulte) { 
         this.timer.setDifficulte(difficulte);
+        niveau = difficulte;
     }
     
     /**
@@ -408,9 +411,11 @@ public class PJeuTetris extends JPanel  implements ActionListener{
                 this.timer.stop();
                 manager.removeKeyEventDispatcher(controls);
                 String nomJoueur = JOptionPane.showInputDialog(null, "Fin de la partie \nNombre de rangée compléter : " + nbRangeeCompleted +"\nEntrez votre nom pour le classement.");
-                temps = (int)(System.currentTimeMillis() - startTime/1000) ;
+                temps = (int)((System.currentTimeMillis() - startTime)/1000) ;
                 
-                addScore(nomJoueur, temps, nbRangeeCompleted, 1, 1);
+                if (nomJoueur == null)
+                    nomJoueur = ("No Name");
+                addScore(nomJoueur, temps, nbRangeeCompleted, niveau, 1);
                 manager.addKeyEventDispatcher(controls);
 
                 Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
@@ -463,9 +468,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
   
             Logger.getLogger(PJeuTetris.class.getName()).log(Level.SEVERE, null, e);
         }
-        
-    
-}
+    }
 }
     
     

@@ -195,13 +195,6 @@ public class Fenetre extends JFrame implements ActionListener{
         layout.setConstraints(component, constraints);
         add(component);
     }
-    
-    public void initJeuTetris(Dimension dim){
-        // Initialise le jeu
-        jeu = new PJeuTetris(10,20,dim);
-        jeu.start(2);
-
-    }
 
      public void initInterfaceJeu(){
         // Initialisation des pannels :
@@ -218,8 +211,8 @@ public class Fenetre extends JFrame implements ActionListener{
         bestScore = new BPBestScore();
 
         // JEU
-        Dimension dim = new Dimension((int) (this.getWidth()*0.6), (int) (this.getHeight()*0.925));
-        initJeuTetris(dim);
+        jeu = new PJeuTetris(10,20,new Dimension((int) (this.getWidth()*0.6), (int) (this.getHeight()*0.925)));
+        jeu.start(2);
 
         //STATISTIQUE 
         statistique = new BPStatistiques();
@@ -284,12 +277,15 @@ public class Fenetre extends JFrame implements ActionListener{
         }
         else if(source == facile){
             sliderDifficulte.setValue(1);
+            statistique.setNiveau(1);
         }
         else if(source == moyen){
            sliderDifficulte.setValue(5);
+           statistique.setNiveau(5);
         }
         else if(source == difficile){
             sliderDifficulte.setValue(10);
+            statistique.setNiveau(10);
         }
         else if(source == personnalise){
             jeu.nouvellePartie(10, 20);
@@ -347,6 +343,7 @@ public class Fenetre extends JFrame implements ActionListener{
             if (!source.getValueIsAdjusting()) {
                 jeu.setTimerDifficulte((int)source.getValue());
                 level.setText(String.valueOf((int)source.getValue()));
+                statistique.setNiveau((int)source.getValue());
             }    
         }
     }
