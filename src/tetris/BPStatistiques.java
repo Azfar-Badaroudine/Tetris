@@ -110,6 +110,13 @@ public class BPStatistiques extends JPanel {
     public void setChrono(int temps){
         chrono.setText(String.valueOf(temps));
     }
+    /**
+     * Ajout de points au score actuel
+     * @param score
+     */
+    public void addScoreActuel(int score) {
+        scoreActuel.setText(String.valueOf(Integer.parseInt(scoreActuel.getText())+score));
+    }
     
     /**
      * setteur du niveau de difficulté
@@ -126,6 +133,25 @@ public class BPStatistiques extends JPanel {
     public void setScore(int score){
         scoreActuel.setText(String.valueOf(score));
     }
+    /**
+     * getteur du score actuel
+     * @return scoreActuel
+     */
+    public JLabel getScoreActuel() {
+        return scoreActuel;
+    }
+    /** 
+     * getteur chrono
+     * @return chrono
+     */
+    public JLabel getChrono() {
+        return chrono;
+    }
+    
+    
+    
+    
+    
     
     /**
      * Permet de mettre le panel invisible pour en afficher un autre ou de le remettre visible

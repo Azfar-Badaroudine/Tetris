@@ -60,6 +60,8 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     private long startTime;
     private long stopTime;
 
+    // Score
+    private int score;
     
     // Sounds
     private ThemeMusic themeMusic;
@@ -101,8 +103,8 @@ public class PJeuTetris extends JPanel  implements ActionListener{
      */
     public void start(int difficultee){
         newBlock();
-        this.difficultee = 1000/difficultee;
-        timer = new TimerLoop(this.difficultee, this);
+        niveau = difficultee;
+        timer = new TimerLoop(1000/difficultee, this);
         timer.start();
         vivant = true;
         nbRangeeCompleted=0;
@@ -192,14 +194,19 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         if (mute == false)
         switch (cleared){
             case 0 : clearSingle = new Sounds("Drop"); 
+                     addScore(5*niveau);
                      break;
             case 1 : clearSingle = new Sounds("ClearSingle");
+                     addScore(100*niveau);
                      break;
             case 2 : clearSingle = new Sounds("ClearDouble");
+                     addScore(200*niveau);
                      break;
             case 3 : clearSingle = new Sounds("ClearTriple");
+                     addScore(500*niveau);
                      break;
             case 4 : clearSingle = new Sounds("ClearTetris");
+                     addScore(1500*niveau);
                      break;
             default : break;   
         }
@@ -209,9 +216,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
      * Paint les blocks qui ne peuvent plus descendre
      * @param g  Buffer de l'image du JPannel
      */
-    public void paintEndFallingBlocks(Graphics g){
-        Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
-        topFrame.setTime((int) (System.currentTimeMillis()-startTime)/1000);        //Modifie la valeur du temps dans le panel statistique
+    public void paintEndFallingBlocks(Graphics g){       
         Graphics2D g2d = (Graphics2D) g;
         if(tetrominoes.size()>1)
             for(int index =0 ; index<tetrominoes.size()-1;index++)
@@ -337,6 +342,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         g2d.draw(rect);
     }   
     
+    
     /**
      * Getteur de la difficultée 
      * @return timer La difficulté du jeu
@@ -401,7 +407,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
      */
     @Override
     public void actionPerformed(ActionEvent timer) {
-        
+        actualiseStatistique();
         // Si le tetrominoe ne peut pas descendre
         if (!canFall()|| tetrominoes.get(tetrominoes.size()-1).getEmplacement().isAllEmpty()){
             cleared=0; // Pour le son " Drop "
@@ -417,7 +423,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
                 
                 if (nomJoueur == null)
                     nomJoueur = ("No Name");
-                addScore(nomJoueur, temps, nbRangeeCompleted, niveau, 1);
+                addScore(nomJoueur);
                 manager.addKeyEventDispatcher(controls);
 
                 Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
@@ -464,13 +470,28 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         controls.setMute(mute);
         this.mute = mute;
     }
-    public void addScore(String name, int temps, int rangeeComplete, int level, int Score){
+    public void addScore(String name){
+        Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
+        
         try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("src\\Scores\\ScoreListe.txt", true)))) {
-            out.println(name +" "+ String.valueOf(temps)+" "+ String.valueOf(rangeeComplete)+ " " + String.valueOf(level)+ " " + String.valueOf(Score));
+            out.println(name +" "+
+                        String.valueOf(topFrame.getStatistique().getChrono().getText())+" "+
+                        String.valueOf(nbRangeeCompleted)+ " " +
+                        String.valueOf(niveau)+ " " +
+                        String.valueOf(topFrame.getStatistique().getScoreActuel().getText()));
         }catch (IOException e) {
   
             Logger.getLogger(PJeuTetris.class.getName()).log(Level.SEVERE, null, e);
         }
+    }
+    public void addScore(int score){
+        Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
+        topFrame.getStatistique().addScoreActuel(score);
+    }
+    public void actualiseStatistique(){
+        Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
+        topFrame.getStatistique().setChrono((int) (System.currentTimeMillis()-startTime)/1000);
+        topFrame.getStatistique().addScoreActuel(1*niveau);
     }
 }
     

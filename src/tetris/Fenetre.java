@@ -315,6 +315,7 @@ public class Fenetre extends JFrame implements ActionListener{
         else if(source == moyen){                   //Change la difficulté pour moyen
            sliderDifficulte.setValue(5);
            statistique.setNiveau(5);
+           
         }
         else if(source == difficile){               //Change la difficulté pour difficile
             sliderDifficulte.setValue(10);
@@ -442,13 +443,5 @@ public class Fenetre extends JFrame implements ActionListener{
         moyen.setEnabled(true);
         difficile.setEnabled(true);
         personnalise.setEnabled(true);
-    }
-     
-    /**
-     * Permet de changer la valeur du temps afficher dans le panel statistique
-     * @param temps valeur du temps à afficher dans le panel statistique
-     */
-    public void setTime(int temps){
-        statistique.setChrono(temps);
     }
 }
