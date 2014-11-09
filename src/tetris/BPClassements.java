@@ -93,7 +93,6 @@ class Classements extends JPanel {
             
             label = new JLabel[11][6];
             String text[] = {"Rang", "Nom","Temps","Lignes","Niveau","Score"};
-            String stats[][] = null;
             for (int i=0; i<6; i++){
                 label[0][i] = new JLabel(text[i]);
                 setStyle(label[0][i],25,2,100,50,(int) (width*0.175*i+20), (int) (height*0.28));
@@ -104,7 +103,7 @@ class Classements extends JPanel {
             for(int row=0; row<10 ; row++){
                 label[row+1][0] = new JLabel(String.valueOf(listeScore.getListeScores().get(row).getRang()));
                 label[row+1][1] = new JLabel(String.valueOf(listeScore.getListeScores().get(row).getJoueur()));
-                label[row+1][2] = new JLabel(String.valueOf(listeScore.getListeScores().get(row).getTemps()));
+                label[row+1][2] = new JLabel(tempsToChrono(listeScore.getListeScores().get(row).getTemps()));
                 label[row+1][3] = new JLabel(String.valueOf(listeScore.getListeScores().get(row).getLignes()));
                 label[row+1][4] = new JLabel(String.valueOf(listeScore.getListeScores().get(row).getNiveau()));
                 label[row+1][5] = new JLabel(String.valueOf(listeScore.getListeScores().get(row).getScore()));
@@ -161,6 +160,14 @@ class Classements extends JPanel {
          label.setLocation(positionX, positionY);
          label.setSize(longueur, largeur);
      }
+    public String tempsToChrono(int temps){
+        String chrono = (temps - temps%60)/60 + ":";
+        if (temps%60 < 10){
+            chrono = chrono + "0" + temps%60;
+        }else 
+            chrono = chrono + temps%60;
+        return chrono;
+    }
 }
 
 
