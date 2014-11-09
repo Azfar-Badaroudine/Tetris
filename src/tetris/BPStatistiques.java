@@ -108,7 +108,13 @@ public class BPStatistiques extends JPanel {
      * @param temps temps écoulé depuis le début de la partie
      */
     public void setChrono(int temps){
-        chrono.setText(String.valueOf(temps));
+        String Temps;
+        Temps = (temps - temps%60)/60 + ":";
+        if (temps%60 < 10){
+            Temps = Temps + "0" + temps%60;
+        }else 
+            Temps = Temps + temps%60;
+        chrono.setText(Temps);
     }
     /**
      * Ajout de points au score actuel
