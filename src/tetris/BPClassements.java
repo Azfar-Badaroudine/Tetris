@@ -81,11 +81,11 @@ class Classements extends JPanel {
     public Classements(int width, int height, ActionListener parent) {
         
         try{
-            ListeScore listeScore = new ListeScore();
-          
-            //Ajout le rang au joeur
+            // recherche et classe l'historique des scores
+            ListeScore listeScore = new ListeScore();   
             listeScore.SetRangByScore();
 
+            //Initialise les titres
             this.setLayout(null);
             JLabel titre = new JLabel("High Scores");
             setStyle(titre,35,2,200,50,(int) (width*0.5-100), (int) (height*0.21));
@@ -94,13 +94,13 @@ class Classements extends JPanel {
             label = new JLabel[11][6];
             String text[] = {"Rang", "Nom","Temps","Lignes","Niveau","Score"};
             String stats[][] = null;
-
             for (int i=0; i<6; i++){
                 label[0][i] = new JLabel(text[i]);
                 setStyle(label[0][i],25,2,100,50,(int) (width*0.175*i+20), (int) (height*0.28));
                 this.add(label[0][i]);
             }
             
+            //Entre les valeurs dans les labels
             for(int row=0; row<10 ; row++){
                 label[row+1][0] = new JLabel(String.valueOf(listeScore.getListeScores().get(row).getRang()));
                 label[row+1][1] = new JLabel(String.valueOf(listeScore.getListeScores().get(row).getJoueur()));
@@ -118,6 +118,8 @@ class Classements extends JPanel {
                         setStyle(label[row+1][col],18,2,150,30,(int) (width*0.174*col+20), (int) (height*0.31+(row+1)*0.05*height));
                 }
             }
+            
+            //Bouton retour vers le menu principal
             retour = new JButton("Retour");
             retour.addActionListener(parent);
             retour.setForeground(Color.yellow);
