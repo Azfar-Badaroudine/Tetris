@@ -125,6 +125,14 @@ public class CoordonneeJeu {
     public void setCoordonee(int colonne, int rangee , boolean use){
         coordoneeJeu.get(rangee)[colonne]= use;
     }
+    public boolean isAllEmpty(){
+        for(boolean[] bool_ : coordoneeJeu)
+            for(boolean bool : bool_)
+                if(bool)
+                    return false;
+        return true;
+        
+    }
 
     /*public static void main(String[] args) {
         // Construit

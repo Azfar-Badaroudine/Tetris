@@ -291,6 +291,10 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         // [3] Coordonnée du Tetrominoe aussi
         for(Tetrominoes tetrominoe : tetrominoes)
             tetrominoe.completedRow(rangee);
+        System.out.println("TABLE TETROMINOE");
+        tetrominoes.get(tetrominoes.size()-1).getEmplacement().afficheTable();
+        System.out.println("TABLE JEU");
+        coordonneJeu.afficheTable();
         return true;               
     }
     
@@ -399,7 +403,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     public void actionPerformed(ActionEvent timer) {
         
         // Si le tetrominoe ne peut pas descendre
-        if (!canFall()){
+        if (!canFall()|| tetrominoes.get(tetrominoes.size()-1).getEmplacement().isAllEmpty()){
             cleared=0; // Pour le son " Drop "
             newBlock();
             repaint();
@@ -422,6 +426,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         }
         // Si le tetrominoe peut descendre
         else if(canFall()){
+            System.out.println("Action Timer perfromed");
             tetrominoes.get(tetrominoes.size()-1).dropTetrominoe(); 
             repaint();
         }
