@@ -117,7 +117,7 @@ public class Tetrominoes {
     /**
      * Descent de l'emplacement du tetrominoe dans la table de coordonnées
      */
-    public void dropTetrominoe(){
+    public boolean dropTetrominoe(){
         for(int x=emplacement.getNombreColonne()-1 ; x>=0 ; x--)
             for(int y=emplacement.getNombreRangee()-1 ; y>=0 ; y--)
                 if(!emplacement.IsEmpty(x, y))
@@ -126,7 +126,9 @@ public class Tetrominoes {
                         emplacement.setCoordonee(x, y+1, true);
                     }catch(Exception e){
                         isFalling=false;
-                    }   
+                        return false;
+                    }
+        return true;
     }
     
     /**
