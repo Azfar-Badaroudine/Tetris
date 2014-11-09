@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,6 +34,7 @@ class BPBestScore extends JPanel {
      * Constructeur, initialise et positionne les labels dans le panel
      */
     public BPBestScore(){
+        setBorder(BorderFactory.createEmptyBorder(30, 5, 0, 0));
         
         //Recherche le highest score
         ListeScore listeScore = new ListeScore();

@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -38,10 +39,14 @@ public class BPStatistiques extends JPanel {
     public BPStatistiques(){
         repaint();
         setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(30, 5, 0, 0));
         
+        this.setBounds(25, 25, 100, 100);
         // Statistique
         statistique = new JLabel("Statistiques");
         setStyle(statistique,25,1);
+        
+        
 
         // Rangée complétée
         rangeeComplete = new JLabel("Lignes :  ");
