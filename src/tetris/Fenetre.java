@@ -241,7 +241,7 @@ public class Fenetre extends JFrame implements ActionListener{
             jeu.setMute(true);
         }
         jeu.start(2);
-        enableDifficulte();   
+        enableDifficulte(true);   
     }
      
     /**
@@ -438,10 +438,10 @@ public class Fenetre extends JFrame implements ActionListener{
     /**
      * Empèche la sélection de la difficulté avant le début de la partie
      */
-    public void enableDifficulte(){
-        facile.setEnabled(true);
-        moyen.setEnabled(true);
-        difficile.setEnabled(true);
-        personnalise.setEnabled(true);
+    public void enableDifficulte(boolean bool){
+        facile.      setEnabled(bool);
+        moyen.       setEnabled(bool);
+        difficile.   setEnabled(bool);
+        personnalise.setEnabled(bool);
     }
 }

@@ -417,6 +417,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
                 //tetrominoes.get(tetrominoes.size()-1).dropTetrominoe();
                 if(!canFall()){
                     vivant = false;
+                    
                     this.timer.stop();
                     manager.removeKeyEventDispatcher(controls);
                     String nomJoueur = JOptionPane.showInputDialog(null, "Fin de la partie \nNombre de rangée compléter : " + nbRangeeCompleted +"\nEntrez votre nom pour le classement.");
@@ -429,6 +430,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
 
                     Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
                     topFrame.getStatistique().setRangeeComplete(nbRangeeCompleted);
+                    topFrame.enableDifficulte(false);
                 }
             }
             // Si le tetrominoe peut descendre
@@ -441,6 +443,10 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     }   
  
     public void nouvellePartie(int colonne, int rangee){
+        vivant = true;
+        Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
+        topFrame.enableDifficulte(true);
+        
         startTime = System.currentTimeMillis();
         coordonneJeu = new CoordonneeJeu(colonne,rangee);
         tetrominoes = new ArrayList<>();

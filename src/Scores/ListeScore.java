@@ -5,9 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import tetris.Fenetre;
+
 
 /**
  * Classe ListeInscritsConsole Affichage console de la liste des inscrits
