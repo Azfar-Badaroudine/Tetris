@@ -115,7 +115,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
      * Fin de la partie
      */
     public void stop(){
-        
+        stopTime = System.currentTimeMillis();
         timer.stop();
         vivant = false;
     }
@@ -474,11 +474,11 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
         
         try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("src\\Scores\\ScoreListe.txt", true)))) {
-            out.println(name +" "+
-                        String.valueOf(topFrame.getStatistique().getChrono().getText())+" "+
-                        String.valueOf(nbRangeeCompleted)+ " " +
+            out.println(name + " "+ 
+                        String.valueOf(temps) +" "+
+                        String.valueOf(nbRangeeCompleted + " " +
                         String.valueOf(niveau)+ " " +
-                        String.valueOf(topFrame.getStatistique().getScoreActuel().getText()));
+                        topFrame.getStatistique().getScoreActuel().getText()));
         }catch (IOException e) {
   
             Logger.getLogger(PJeuTetris.class.getName()).log(Level.SEVERE, null, e);
