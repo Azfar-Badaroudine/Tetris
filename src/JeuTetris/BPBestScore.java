@@ -1,4 +1,4 @@
-package tetris;
+package JeuTetris;
 
 
 import Scores.ListeScore;
@@ -12,13 +12,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import static javax.swing.SwingConstants.CENTER;
 
 /**
  * manipulation du panel bestscore en bas à droite de l'interface du jeu
  * @author Azfar Badaroudine et Donavan Martin
  */
 class BPBestScore extends JPanel {
+     // Image background
     private Image image = new ImageIcon("test2.jpg").getImage();
 
     private JPanel centre; 
@@ -33,19 +33,14 @@ class BPBestScore extends JPanel {
      * Constructeur, initialise et positionne les labels dans le panel
      */
     public BPBestScore(){
-        repaint();
-        
-        setLayout(new BorderLayout());
         
         //Recherche le highest score
         ListeScore listeScore = new ListeScore();
-        listeScore.SetRangByScore();
         playerName.setText(String.valueOf(listeScore.getListeScores().get(0).getJoueur()));
-        score.setText(String.valueOf(listeScore.getListeScores().get(0).getScore()));
+        score.     setText(String.valueOf(listeScore.getListeScores().get(0).getScore ()));
         
-         // BestScore 
+        // BestScore 
         setStyle(bestScore,25,1);
-        this.add(bestScore, BorderLayout.NORTH);
         
         // Nom du Joueur et Pointage
         centre = new JPanel(new GridLayout(2,2));
@@ -54,14 +49,18 @@ class BPBestScore extends JPanel {
         centre.add(points,     BorderLayout.CENTER);
         centre.add(score,      BorderLayout.CENTER);
         centre.setOpaque(false);
-        this.add(centre, BorderLayout.CENTER);
         
-        setStyle(joueur,20,0);
+        setStyle(joueur,    20,0);
         setStyle(playerName,20,0);
-        setStyle(points,20,0);
-        setStyle(score,20,0);
-
+        setStyle(points,    20,0);
+        setStyle(score,     20,0);
+        
+        // Ajout au panel
+        setLayout(new BorderLayout());
+        this.add(bestScore, BorderLayout.NORTH);
+        this.add(centre, BorderLayout.CENTER);
         this.setOpaque(false);   
+        repaint();
      } 
      
     /**
@@ -76,10 +75,10 @@ class BPBestScore extends JPanel {
          label.setHorizontalAlignment(SwingConstants.CENTER); 
      }
      
-     /**
-      * Permet de mettre une image dans le background du panel
-      * @param g 
-      */
+    /**
+     * Permet de mettre une image dans le background du panel
+     * @param g 
+     */
     @Override
     public void paintComponent(Graphics g) {
          g.drawImage(image, 0, 0, getWidth(), getHeight(), this);

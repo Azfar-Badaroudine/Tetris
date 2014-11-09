@@ -1,7 +1,6 @@
-package tetris;
+package JeuTetris;
 
 import SoundsMusics.Sounds;
-import SoundsMusics.ThemeMusic;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -72,7 +71,7 @@ public class Fenetre extends JFrame implements ActionListener{
     * Initalise et positionne les composantes de la page d'accueil et du menubar 
     */
     public void BuildAccueil() {
-        setSize(new Dimension(800,700));                            //On donne une taille à notre fenêtre
+        setSize(new Dimension(800,700));  // Taille de la fenêtre
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -127,6 +126,7 @@ public class Fenetre extends JFrame implements ActionListener{
         menuBar.add(menuQuestionnement);
         setJMenuBar(menuBar);
         
+        // Ajout des listener du menubar
         nouvellePartie.addActionListener(this);
         couperSon     .addActionListener(this);
         classement    .addActionListener(this);
@@ -268,7 +268,7 @@ public class Fenetre extends JFrame implements ActionListener{
 
     /**
      * Méthode qui réagit selon les bouttons clickés
-     * @param ae 
+     * @param ae ActionEvent
      */
     @Override
     public void actionPerformed(ActionEvent ae) {
@@ -346,7 +346,7 @@ public class Fenetre extends JFrame implements ActionListener{
     }
     
     /**
-     * Ouvre le "À Propos De"
+     * Ouvre le "Créateurs"
      */
     public void openCreateursInfo(){
         JOptionPane.showMessageDialog(null, "Ce grand classique des années 80 a été redessiné par Azfar Badaroudine et Donavan Martin", "À propos de Tétris",JOptionPane.INFORMATION_MESSAGE);
@@ -404,16 +404,16 @@ public class Fenetre extends JFrame implements ActionListener{
         public void stateChanged(ChangeEvent e) {
            JSlider source = (JSlider)e.getSource();
             if (!source.getValueIsAdjusting()) {
-                jeu.setTimerDifficulte((int)source.getValue());
-                level.setText(String.valueOf((int)source.getValue()));
-                statistique.setNiveau((int)source.getValue());
+                jeu.setTimerDifficulte(source.getValue());
+                level.setText(String.valueOf(source.getValue()));
+                statistique.setNiveau(source.getValue());
             }    
         }
     }
 
     /**
      * Retour le panel statistique de l'interface du jeu
-     * @return 
+     * @return statistique 
      */
     public BPStatistiques getStatistique() {
         return statistique; 
@@ -421,7 +421,7 @@ public class Fenetre extends JFrame implements ActionListener{
 
     /**
      * Retourne le panel jeu
-     * @return 
+     * @return jeu
      */
     public PJeuTetris getJeu() {
         return jeu;
@@ -437,6 +437,7 @@ public class Fenetre extends JFrame implements ActionListener{
     
     /**
      * Empèche la sélection de la difficulté avant le début de la partie
+     * @param bool True == enabled False == Disabled
      */
     public void enableDifficulte(boolean bool){
         facile.      setEnabled(bool);

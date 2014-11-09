@@ -1,4 +1,4 @@
-package tetris;
+package JeuTetris;
 import java.util.ArrayList;
 
 /**
@@ -125,38 +125,17 @@ public class CoordonneeJeu {
     public void setCoordonee(int colonne, int rangee , boolean use){
         coordoneeJeu.get(rangee)[colonne]= use;
     }
+    /**
+     * Vérfie une table de coordonnée completement vide
+     * @return true == vide  false != vide
+     */
     public boolean isAllEmpty(){
         for(boolean[] bool_ : coordoneeJeu)
             for(boolean bool : bool_)
                 if(bool)
                     return false;
         return true;
-        
     }
-
-    /*public static void main(String[] args) {
-        // Construit
-        CoordonneeJeu coordonnee_jeu = new CoordonneeJeu(10,9);
-        // Affiche
-        coordonnee_jeu.afficheTable();
-        
-        // Set 1ere coordonnée
-        coordonnee_jeu.setCoordonee(0, 0, true);
-        // Set dernière coordonée
-        coordonnee_jeu.setCoordonee(coordonnee_jeu.getNombreColonne()-1, coordonnee_jeu.getNombreRangee()-1, true);
-         
-        // Cette coordonnée exist t'elle?
-        coordonnee_jeu.outOfBound(500, 500);
-        coordonnee_jeu.outOfBound(0,0);
-        
-        // Réaffiche la table
-        coordonnee_jeu.afficheTable();
-        
-        // Vérifie les coordonées
-        coordonnee_jeu.IsEmpty(0,0);
-        coordonnee_jeu.IsEmpty(9,8);
-        
-    }*/
 }
     
 

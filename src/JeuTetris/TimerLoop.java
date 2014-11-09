@@ -1,4 +1,4 @@
-package tetris;
+package JeuTetris;
 
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
@@ -29,7 +29,7 @@ public class TimerLoop extends Timer{
     
     /**
      * Setteur de la difficulte par rapport au temps
-     * @param difficulte 
+     * @param difficulte difficultée du jeu
      */
     public void setDifficulte(int difficulte) {
         if(difficulte>0){

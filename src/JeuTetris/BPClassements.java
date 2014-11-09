@@ -1,13 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-package tetris;
+package JeuTetris;
 
 import Scores.ListeScore;
-import Scores.ScoreJoueur;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -15,24 +8,18 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import static javax.swing.SwingConstants.*;
 import javax.swing.SwingUtilities;
 
 /**
- *
+ * BackgroundPanelClassements
  * @author Azfar Badaroudine et Donavan Martin
  */
 class BPClassements extends JPanel implements ActionListener {
+     // Image background
     private Image image = new ImageIcon("High Score.png").getImage();
     private Classements classements;
     
@@ -65,7 +52,7 @@ class BPClassements extends JPanel implements ActionListener {
 }
 
 /**
- * manipulation de la page des high scores
+ * Panel Classements
  * @author Azfar Badaroudine et Donavan Martin
  */
 class Classements extends JPanel {

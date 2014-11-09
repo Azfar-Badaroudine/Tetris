@@ -1,4 +1,4 @@
-package tetris;
+package JeuTetris;
 
 import SoundsMusics.Sounds;
 import java.awt.KeyEventDispatcher;
@@ -9,21 +9,27 @@ import static java.awt.event.KeyEvent.VK_RIGHT;
 import static java.awt.event.KeyEvent.VK_UP;
 
 /**
- *
+ * Classe Controls quio gère les controles du joueur dans le jeu Tetris
  * @author Azfar Badaroudine et Donavan Martin
  */
 public class Controls implements KeyEventDispatcher {
-    private PJeuTetris jeu;
-    private Sounds rotateFail;
-    private Boolean mute;
+    private PJeuTetris jeu;     // PJeuTetris
+    private Sounds rotateFail;  // Rotation a échouer
+    private Boolean mute;       // Couper le sons
     
-    
+    /**
+     * Constructeur de Controls
+     * @param jeu PJeuTetris parent
+     */
     public Controls (PJeuTetris jeu){
         mute =false;
-        this.jeu = jeu;
-        
+        this.jeu = jeu; 
     }
-
+    /**
+     * Gestion des touches du clavier 
+     * @param ke keyboard event
+     * @return always true (default)
+     */
     @Override
     public boolean dispatchKeyEvent(KeyEvent ke) {
         // Touches enfoncées
@@ -36,7 +42,6 @@ public class Controls implements KeyEventDispatcher {
                     else
                         jeu.repaint();
             }
-
             // Droite
             else if(ke.getKeyCode() == VK_RIGHT) {
                 if(jeu.getTetrominoes().get(jeu.getTetrominoes().size()-1).right())
@@ -66,21 +71,21 @@ public class Controls implements KeyEventDispatcher {
                 }  
             }
         }
-
+        // Touche relachée
         if (ke.getID()==KeyEvent.KEY_RELEASED){
             // +  Augumentation de la difficulté
             if(ke.getKeyCode() == 107 || ke.getKeyCode() == 45) {
-                jeu.getTimer().setDifficulte( jeu.getTimer().getDifficulte()-50);
+                jeu.getTimer().setDifficulte( jeu.getTimer().getDifficulte()-1);
             }
-            // -   Diminution de la difficulté
+            // -  Diminution de la difficulté
             else if(ke.getKeyCode() == 109|| ke.getKeyCode() == 61) 
-                 jeu.getTimer().setDifficulte( jeu.getTimer().getDifficulte()+50);  
+                 jeu.getTimer().setDifficulte( jeu.getTimer().getDifficulte()+1);  
         }
         return true;
     }
     /**
      * Setteur mute
-     * @param mute 
+     * @param mute True == mute False != mute
      */
     public void setMute(Boolean mute) {
         this.mute = mute;

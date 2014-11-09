@@ -1,8 +1,7 @@
-package tetris;
+package JeuTetris;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -13,13 +12,14 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 /**
- * manipulation du panel statistique en haut à droite de l'interface du jeu
+ * BackgroundPanelStatistique 
  * @author Azfar Badaroudine et Donavan Martin
  */
 public class BPStatistiques extends JPanel {
+    // Image background
     private Image image = new ImageIcon("test3.jpg").getImage();
     // Layout = NORTH 
-    private JLabel statistique;
+    private JLabel statistique;// Layout = NORTH 
     
     // Layout = CENTER
     private JPanel panelCentre;
@@ -118,7 +118,7 @@ public class BPStatistiques extends JPanel {
     }
     /**
      * Ajout de points au score actuel
-     * @param score
+     * @param score points a joutés
      */
     public void addScoreActuel(int score) {
         scoreActuel.setText(String.valueOf(Integer.parseInt(scoreActuel.getText())+score));
@@ -154,11 +154,6 @@ public class BPStatistiques extends JPanel {
         return chrono;
     }
     
-    
-    
-    
-    
-    
     /**
      * Permet de mettre le panel invisible pour en afficher un autre ou de le remettre visible
      * @param bool true = visible, false = invisible
@@ -187,7 +182,7 @@ public class BPStatistiques extends JPanel {
     
     /**
      * Permet de mettre une image dans le background du panel
-     * @param g 
+     * @param g graphics du componenet
      */
     @Override
     public void paintComponent(Graphics g) {

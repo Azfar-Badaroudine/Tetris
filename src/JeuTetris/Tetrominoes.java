@@ -1,4 +1,4 @@
-package tetris;
+package JeuTetris;
 
 import java.awt.Color;
 
@@ -65,7 +65,7 @@ public class Tetrominoes {
     }
     /**
      * Setteur de l'emplacement de la pièce selon les coordonées du jeu
-     * @param nombreColonne 
+     * @param nombreColonne le nombre de colonne du jeu
      */
     public void setEmplacement(int nombreColonne){
         // Le tetrominoe doit apparaitre en haut et au centre du jeu
@@ -116,6 +116,7 @@ public class Tetrominoes {
     }
     /**
      * Descent de l'emplacement du tetrominoe dans la table de coordonnées
+     * @return Le tetrominoe peut desncdre == True Else == false
      */
     public boolean dropTetrominoe(){
         for(int x=emplacement.getNombreColonne()-1 ; x>=0 ; x--)
@@ -157,7 +158,7 @@ public class Tetrominoes {
     
     /**
      * Getteur des coordonées du tetrominoe
-     * @return 
+     * @return emplacement
      */
     public CoordonneeJeu getEmplacement() {
         return emplacement;

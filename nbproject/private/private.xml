@@ -3,11 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/H:/Cégep/Sciences%20Info.%20Math.%20Session%203/Prog/Tetris/Tetris/src/Scores/ScoreListe.txt</file>
-            <file>file:/H:/Cégep/Sciences%20Info.%20Math.%20Session%203/Prog/Tetris/Tetris/src/tetris/BPClassements.java</file>
-            <file>file:/H:/Cégep/Sciences%20Info.%20Math.%20Session%203/Prog/Tetris/Tetris/src/tetris/Fenetre.java</file>
-            <file>file:/H:/Cégep/Sciences%20Info.%20Math.%20Session%203/Prog/Tetris/Tetris/src/tetris/BPBestScore.java</file>
-            <file>file:/H:/Cégep/Sciences%20Info.%20Math.%20Session%203/Prog/Tetris/Tetris/src/tetris/BPStatistiques.java</file>
+            <file>file:/C:/Users/Donavan/Desktop/LaboratoireJAVA/Tetris/src/JeuTetris/Fenetre.java</file>
+            <file>file:/C:/Users/Donavan/Desktop/LaboratoireJAVA/Tetris/src/JeuTetris/BPStatistiques.java</file>
+            <file>file:/C:/Users/Donavan/Desktop/LaboratoireJAVA/Tetris/src/Scores/ScoreListe.txt</file>
+            <file>file:/C:/Users/Donavan/Desktop/LaboratoireJAVA/Tetris/src/Scores/ListeScore.java</file>
+            <file>file:/C:/Users/Donavan/Desktop/LaboratoireJAVA/Tetris/src/JeuTetris/Tetrominoes.java</file>
+            <file>file:/C:/Users/Donavan/Desktop/LaboratoireJAVA/Tetris/src/JeuTetris/CoordonneeJeu.java</file>
+            <file>file:/C:/Users/Donavan/Desktop/LaboratoireJAVA/Tetris/src/Scores/ScoreJoueur.java</file>
+            <file>file:/C:/Users/Donavan/Desktop/LaboratoireJAVA/Tetris/src/SoundsMusics/Sounds.java</file>
+            <file>file:/C:/Users/Donavan/Desktop/LaboratoireJAVA/Tetris/src/SoundsMusics/ThemeMusic.java</file>
+            <file>file:/C:/Users/Donavan/Desktop/LaboratoireJAVA/Tetris/src/JeuTetris/PJeuTetris.java</file>
+            <file>file:/C:/Users/Donavan/Desktop/LaboratoireJAVA/Tetris/src/JeuTetris/BPBestScore.java</file>
+            <file>file:/C:/Users/Donavan/Desktop/LaboratoireJAVA/Tetris/src/JeuTetris/BPClassements.java</file>
+            <file>file:/C:/Users/Donavan/Desktop/LaboratoireJAVA/Tetris/src/JeuTetris/Controls.java</file>
+            <file>file:/C:/Users/Donavan/Desktop/LaboratoireJAVA/Tetris/src/JeuTetris/TimerLoop.java</file>
+            <file>file:/C:/Users/Donavan/Desktop/LaboratoireJAVA/Tetris/src/JeuTetris/Tetris.java</file>
         </group>
     </open-files>
 </project-private>

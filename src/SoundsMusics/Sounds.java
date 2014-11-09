@@ -19,27 +19,25 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Sounds {
     private File audioFile;
     private Clip audioClip;
-
+    /**
+     * Constructeur Sounds
+     * @param file nom du fichier audio
+     */
     public Sounds(String file) {
                
-        try
-        {
-            audioFile = new File("src\\SoundsMusics\\Sounds\\"+file+".wav");
-            
+        try{
+            // AudioFile
+            audioFile = new File("src\\SoundsMusics\\Sounds\\"+file+".wav"); 
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             AudioFormat format = audioStream.getFormat();
             DataLine.Info info = new DataLine.Info(Clip.class, format); 
-            	
+            
+            // AudioClip
             audioClip = (Clip) AudioSystem.getLine(info);
             audioClip.open(audioStream);
-            
             audioClip.start();
         }
-        catch(IOException e){
-            System.out.print(e.toString());
-        } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(ThemeMusic.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (LineUnavailableException ex) {
+        catch (UnsupportedAudioFileException | LineUnavailableException | IOException ex) {
             Logger.getLogger(ThemeMusic.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

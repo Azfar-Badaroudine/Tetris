@@ -145,7 +145,6 @@ public class ScoreJoueur {
      */
     public static Comparator<ScoreJoueur> InscritNomComparator = new Comparator<ScoreJoueur>() {
 
-     
         @Override
         public int compare(ScoreJoueur inscrit1, ScoreJoueur inscrit2) {
             Integer nom1 = inscrit1.getScore();

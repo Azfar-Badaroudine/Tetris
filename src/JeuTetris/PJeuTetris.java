@@ -1,4 +1,4 @@
-package tetris;
+package JeuTetris;
 
 import SoundsMusics.Sounds;
 import SoundsMusics.ThemeMusic;
@@ -8,7 +8,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.KeyboardFocusManager;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -353,8 +351,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     
     /**
      * Setteur de la difficultée 
-     * @param timerDifficulte La difficulté du jeu
-     * @param niveau Le niveau de difficulté
+     * @param difficulte la difficulté du jeu
      */
     public void setTimerDifficulte(int difficulte) { 
         this.timer.setDifficulte(difficulte);
@@ -384,7 +381,6 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         return nbRangeeCompleted;
     }
     
-
     /**
      * Est-ce que le mouvement (controls du joueur) est possible 
      * @return False == Non True == Oui
@@ -417,20 +413,8 @@ public class PJeuTetris extends JPanel  implements ActionListener{
                 //tetrominoes.get(tetrominoes.size()-1).dropTetrominoe();
                 if(!canFall()){
                     vivant = false;
-                    
                     this.timer.stop();
-                    manager.removeKeyEventDispatcher(controls);
-                    String nomJoueur = JOptionPane.showInputDialog(null, "Fin de la partie \nNombre de rangée compléter : " + nbRangeeCompleted +"\nEntrez votre nom pour le classement.");
-                    temps = (int)((System.currentTimeMillis() - startTime)/1000) ;
-
-                    if (nomJoueur == null)
-                        nomJoueur = ("No Name");
-                    addScore(nomJoueur);
-                    manager.addKeyEventDispatcher(controls);
-
-                    Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
-                    topFrame.getStatistique().setRangeeComplete(nbRangeeCompleted);
-                    topFrame.enableDifficulte(false);
+                    gameOverPopUp();   
                 }
             }
             // Si le tetrominoe peut descendre
@@ -441,7 +425,29 @@ public class PJeuTetris extends JPanel  implements ActionListener{
             }
         }
     }   
- 
+    /**
+     * PopUp Demende l'ajout du nom au classements
+     */
+    public void gameOverPopUp(){
+        manager.removeKeyEventDispatcher(controls);
+        String nomJoueur = JOptionPane.showInputDialog(null, "Fin de la partie \nNombre de rangée compléter : " + nbRangeeCompleted +"\nEntrez votre nom pour le classement.");
+        temps = (int)((System.currentTimeMillis() - startTime)/1000) ;
+
+        if (nomJoueur == null)
+            nomJoueur = ("No Name");
+        addScore(nomJoueur);
+        manager.addKeyEventDispatcher(controls);
+
+        Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
+        topFrame.getStatistique().setRangeeComplete(nbRangeeCompleted);
+        topFrame.enableDifficulte(false);
+    }
+    
+    /**
+     * Nouvelle Partie du jeu Tetris
+     * @param colonne nombre colonne
+     * @param rangee  nombre rangée
+     */
     public void nouvellePartie(int colonne, int rangee){
         vivant = true;
         Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
@@ -471,13 +477,17 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     }
      /**
      * Setteur mute
-     * @param mute 
+     * @param mute True== mute False != mute
      */
     public void setMute(boolean mute) {
         themeMusic.mute(mute);
         controls.setMute(mute);
         this.mute = mute;
     }
+    /**
+     * Ajout d'un score dans la liste des scores
+     * @param name nom du joueur
+     */
     public void addScore(String name){
         Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
         
@@ -492,14 +502,21 @@ public class PJeuTetris extends JPanel  implements ActionListener{
             Logger.getLogger(PJeuTetris.class.getName()).log(Level.SEVERE, null, e);
         }
     }
+    /**
+     * Ajout du score au statistique actuel du jeu
+     * @param score le nombre de point a ajoutés
+     */
     public void addScore(int score){
         Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
         topFrame.getStatistique().addScoreActuel(score);
     }
+    /**
+     * Actualise les statistique des points et du temps jouée
+     */
     public void actualiseStatistique(){
         Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
         topFrame.getStatistique().setChrono((int) (System.currentTimeMillis()-startTime)/1000);
-        topFrame.getStatistique().addScoreActuel(1*niveau);
+        addScore(1*niveau);
     }
 }
     
