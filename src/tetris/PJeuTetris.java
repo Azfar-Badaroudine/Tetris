@@ -192,7 +192,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
                 cleared++;
         }
         if (mute == false)
-        switch (cleared){
+        switch (cleared ){
             case 0 : clearSingle = new Sounds("Drop"); 
                      addScore(5*niveau);
                      break;
@@ -407,34 +407,36 @@ public class PJeuTetris extends JPanel  implements ActionListener{
      */
     @Override
     public void actionPerformed(ActionEvent timer) {
-        actualiseStatistique();
-        // Si le tetrominoe ne peut pas descendre
-        if (!canFall()|| tetrominoes.get(tetrominoes.size()-1).getEmplacement().isAllEmpty()){
-            cleared=0; // Pour le son " Drop "
-            newBlock();
-            repaint();
-            //tetrominoes.get(tetrominoes.size()-1).dropTetrominoe();
-            if(!canFall()){
-                vivant = false;
-                this.timer.stop();
-                manager.removeKeyEventDispatcher(controls);
-                String nomJoueur = JOptionPane.showInputDialog(null, "Fin de la partie \nNombre de rangée compléter : " + nbRangeeCompleted +"\nEntrez votre nom pour le classement.");
-                temps = (int)((System.currentTimeMillis() - startTime)/1000) ;
-                
-                if (nomJoueur == null)
-                    nomJoueur = ("No Name");
-                addScore(nomJoueur);
-                manager.addKeyEventDispatcher(controls);
+        if (vivant == true){
+            actualiseStatistique();
+            // Si le tetrominoe ne peut pas descendre
+            if (!canFall()|| tetrominoes.get(tetrominoes.size()-1).getEmplacement().isAllEmpty()){
+                cleared=0; // Pour le son " Drop "
+                newBlock();
+                repaint();
+                //tetrominoes.get(tetrominoes.size()-1).dropTetrominoe();
+                if(!canFall()){
+                    vivant = false;
+                    this.timer.stop();
+                    manager.removeKeyEventDispatcher(controls);
+                    String nomJoueur = JOptionPane.showInputDialog(null, "Fin de la partie \nNombre de rangée compléter : " + nbRangeeCompleted +"\nEntrez votre nom pour le classement.");
+                    temps = (int)((System.currentTimeMillis() - startTime)/1000) ;
 
-                Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
-                topFrame.getStatistique().setRangeeComplete(nbRangeeCompleted);
+                    if (nomJoueur == null)
+                        nomJoueur = ("No Name");
+                    addScore(nomJoueur);
+                    manager.addKeyEventDispatcher(controls);
+
+                    Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
+                    topFrame.getStatistique().setRangeeComplete(nbRangeeCompleted);
+                }
             }
-        }
-        // Si le tetrominoe peut descendre
-        else if(canFall()){
-            System.out.println("Action Timer perfromed");
-            tetrominoes.get(tetrominoes.size()-1).dropTetrominoe(); 
-            repaint();
+            // Si le tetrominoe peut descendre
+            else if(canFall()){
+                System.out.println("Action Timer perfromed");
+                tetrominoes.get(tetrominoes.size()-1).dropTetrominoe(); 
+                repaint();
+            }
         }
     }   
  
