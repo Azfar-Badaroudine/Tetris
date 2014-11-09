@@ -30,7 +30,7 @@ public class Fenetre extends JFrame implements ActionListener{
     // --> Jeu 
     private JMenu menuJeu;
     private JMenuItem nouvellePartie;
-    private JMenuItem couperSon;
+    private JCheckBoxMenuItem couperSon;
     private JMenuItem classement;
     // --> Jeu  --> difficulté
     private JMenu difficulte;
@@ -86,7 +86,7 @@ public class Fenetre extends JFrame implements ActionListener{
         //--> Jeu
         menuJeu        = new JMenu("Jeu");
         nouvellePartie = new JMenuItem("Nouvelle Partie");
-        couperSon      = new JMenuItem("Couper le son");
+        couperSon      = new JCheckBoxMenuItem("Couper le son");
         classement     = new JMenuItem("Classement");
         
         //--> Jeu --> Difficulté
@@ -94,9 +94,13 @@ public class Fenetre extends JFrame implements ActionListener{
         facile       = new JMenuItem("Facile");
         moyen        = new JMenuItem("Moyen");
         difficile    = new JMenuItem("Difficile");
+        facile.setEnabled(false);
+        moyen.setEnabled(false);
+        difficile.setEnabled(false);
         
         //--> Jeu --> Difficulté --> Personnalisé
         personnalise = new JMenu("Personnalisé");
+        personnalise.setEnabled(false);
 
         level    = new JMenuItem("1");
         level.setBorderPainted(false);
@@ -116,7 +120,6 @@ public class Fenetre extends JFrame implements ActionListener{
         menuJeu.add(couperSon);
         menuJeu.add(classement);
         menuJeu.add(difficulte);
-
         
         //--> ?
         menuQuestionnement = new JMenu("?");
@@ -136,6 +139,8 @@ public class Fenetre extends JFrame implements ActionListener{
         moyen         .addActionListener(this);
         difficile     .addActionListener(this);
         sliderDifficulte.addChangeListener(new SliderListener());
+        aide.addActionListener(this);
+        createurs.addActionListener(this);
         
         //-------------Page D'acceuil---------
         int longueur = 230;
@@ -167,10 +172,6 @@ public class Fenetre extends JFrame implements ActionListener{
         button.addActionListener(this);
     }
     
-    public void menuPrincipal(){
-        
-    }
-    
     public BufferedImage imageFit(JLabel label, String path){
         BufferedImage bi = null;
         try {
@@ -198,26 +199,26 @@ public class Fenetre extends JFrame implements ActionListener{
 
      public void initInterfaceJeu(){
         // Initialisation des pannels :
-
-        //TOP PANEL INIT <---------------------------------
-        /*topPanel = new JPanel();
-        topPanel.setBackground(Color.BLACK);
-        topPanel.setPreferredSize(new Dimension(dimension.width,  dimension.height));
-        grid.anchor = GridBagConstraints.NORTH;
-        add(topPanel,layout,grid,0,0,2,1,0.5,0.2);
-        topPanel.setSize(this.getWidth(), (int) (this.getHeight()*0.2));*/
-
-        //HIGHSCORE PANEL INIT <---------------------------------    
+        //HIGHSCORE
         bestScore = new BPBestScore();
-
-        // JEU
-        jeu = new PJeuTetris(10,20,new Dimension((int) (this.getWidth()*0.6), (int) (this.getHeight()*0.925)));
-        jeu.start(2);
 
         //STATISTIQUE 
         statistique = new BPStatistiques();
-
+        
+        // JEU
+        jeu = new PJeuTetris(10,20,new Dimension((int) (this.getWidth()*0.6), (int) (this.getHeight()*0.925)));
+        if (couperSon.isSelected()){
+            mute = true;
+            jeu.setMute(true);
+        }
+        jeu.start(2);
+        enableDifficulte();   
     }
+     
+    public void setTime(int temps){
+        statistique.setChrono(temps);
+    }
+     
     public void openInterfaceJeu(){
         visibleInterfaceJeu(true);
         visibleMenuPrincipal(false);
@@ -231,16 +232,6 @@ public class Fenetre extends JFrame implements ActionListener{
         grid.insets = new Insets(0,0,0,0);
 
         // Initialisation des pannels :
-
-        //TOP PANEL INIT <---------------------------------
-        /*topPanel = new JPanel();
-        topPanel.setBackground(Color.BLACK);
-        topPanel.setPreferredSize(new Dimension(dimension.width,  dimension.height));
-        grid.anchor = GridBagConstraints.NORTH;
-        add(topPanel,layout,grid,0,0,2,1,0.5,0.2);
-        topPanel.setSize(this.getWidth(), (int) (this.getHeight()*0.2));*/
-
-     
         add(jeu,        layout,grid,0,0,1,2,1.5,1.5);
         add(statistique,layout,grid,1,0,1,1,0.53,0.7);
         add(bestScore,  layout,grid,1,1,1,1,0.53,0.3);
@@ -257,22 +248,32 @@ public class Fenetre extends JFrame implements ActionListener{
         else if(source == nouvellePartie){
             if(jeu != null)
                 jeu.nouvellePartie(10, 20);
+            else{
+                if (HSPanel != null)
+                    HSPanel.setVisible(false);
+                initInterfaceJeu();
+                openInterfaceJeu();
+            }      
         }
         else if(source == couperSon){
             try{
-                if (mute== true){
-                    jeu.setMute(false);
+                if (mute == false){
+                    jeu.setMute(true);
                     mute=true;
                 }
                 else{
-                    jeu.setMute(true);
-                    mute= true;
+                    jeu.setMute(false);
+                    mute= false;
                 }
-            }catch(Exception e){}
+            }catch(Exception e){
+                
+            }
         }
         else if(source == classement){
-            jeu.getTimer().stop();
-            visibleInterfaceJeu(false);
+            if (jeu != null){
+                jeu.pause();
+                visibleInterfaceJeu(false);
+            }
             openClassements();
         }
         else if(source == facile){
@@ -289,12 +290,32 @@ public class Fenetre extends JFrame implements ActionListener{
         }
         else if(source == personnalise){
             jeu.nouvellePartie(10, 20);
-        }else if(source == high)
+        }else if (source == createurs){
+            if (jeu != null){
+                jeu.pause();
+                openCreateursInfo();
+                jeu.resume();
+            }else
+                openCreateursInfo();
+        }
+        else if(source == high)
             openClassements();
         else if (source == regle)
             openRegle();
         else if (source == quit)
             dispose();
+        else if (source == aide){
+            if (jeu != null){
+                jeu.pause();
+                openRegle();
+                jeu.resume();
+            }else
+                openRegle();
+        }
+    }
+    
+    public void openCreateursInfo(){
+        JOptionPane.showMessageDialog(null, "Ce grand classique des années 80 a été redessiné par Azfar Badaroudine et Donavan Martin", "À propos de Tétris",JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void openClassements() {
@@ -357,5 +378,12 @@ public class Fenetre extends JFrame implements ActionListener{
     }
     public void mute(boolean mute){ 
         jeu.setMute(mute);
-     }
+    }
+    
+    public void enableDifficulte(){
+        facile.setEnabled(true);
+        moyen.setEnabled(true);
+        difficile.setEnabled(true);
+        personnalise.setEnabled(true);
+    }
 }

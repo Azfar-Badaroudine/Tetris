@@ -51,13 +51,12 @@ class BPClassements extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         Object source = ae.getSource();
         if (source == classements.getRetour() ){
-            System.out.print("RETOUR");
             this.setVisible(false);
             Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
             if (topFrame.getJeu() == null)
-                topFrame.BuildAccueil();
+                topFrame.visibleMenuPrincipal(true);
             else{
-                topFrame.getJeu().getTimer().start();
+                topFrame.getJeu().resume();
                 topFrame.visibleInterfaceJeu(true);
             }
         }

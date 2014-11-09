@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.KeyboardFocusManager;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
@@ -57,7 +58,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     // Ecoulement du temps
     private int temps;
     private long startTime;
-    private long stopTime = System.currentTimeMillis();
+    private long stopTime;
 
     
     // Sounds
@@ -71,8 +72,6 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     private Sounds clearTriple;
     private Sounds clearTetris;
     private Sounds lineCompleted;
-
-    
     
     /**
      * Constructeur du jeu Tetris par défaut
@@ -89,13 +88,11 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         // Initialise la liste des tetrominoes
         tetrominoes = new ArrayList<>();
         
-        
         // Pour les événements du clavier
         controls = new Controls(this);
         manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addKeyEventDispatcher(controls);
         themeMusic = new ThemeMusic(); 
-        
     }
     
     /**
@@ -125,7 +122,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
      * Fait une pause de la partie 
      */
     public void pause(){
-        stopTime = startTime;
+        stopTime = System.currentTimeMillis();
         timer.stop();
     }
     
@@ -133,7 +130,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
      * Resume la partie
      */
     public void resume(){
-        startTime = stopTime;
+        startTime = startTime + System.currentTimeMillis() - stopTime;
         timer.start();
     }
     
@@ -182,12 +179,12 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     /**
      * Mise à jour des blocks qui ne peuvent plus descendre
      */
-    public void updateFallingEndBlocks(){        
-       for(int x=0; x < coordonneJeu.getNombreColonne(); x++)
+    public void updateFallingEndBlocks(){ 
+        for(int x=0; x < coordonneJeu.getNombreColonne(); x++)
             for(int y=0; y < coordonneJeu.getNombreRangee(); y++)
                 if(!tetrominoes.get(tetrominoes.size()-1).IsEmpty(x, y))
                     coordonneJeu.setCoordonee(x, y, true);
-       // Vérifie si une ligne est compléter
+        // Vérifie si une ligne est compléter
         for(int y=1; y < coordonneJeu.getNombreRangee(); y++){
             if(verifyCompletedRow(y))
                 cleared++;
@@ -207,13 +204,14 @@ public class PJeuTetris extends JPanel  implements ActionListener{
             default : break;   
         }
         cleared=-1;
-                
     }
     /**
      * Paint les blocks qui ne peuvent plus descendre
      * @param g  Buffer de l'image du JPannel
      */
     public void paintEndFallingBlocks(Graphics g){
+        Fenetre topFrame = (Fenetre) SwingUtilities.getWindowAncestor(this);
+        topFrame.setTime((int) (System.currentTimeMillis()-startTime)/1000);        //Modifie la valeur du temps dans le panel statistique
         Graphics2D g2d = (Graphics2D) g;
         if(tetrominoes.size()>1)
             for(int index =0 ; index<tetrominoes.size()-1;index++)
