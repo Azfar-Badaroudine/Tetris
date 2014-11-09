@@ -14,8 +14,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.plaf.ColorUIResource;
 
 /**
- *
- * @author Azfar
+ * Manipule l'interface du menu principal, du menubar, du jeu, du highscore
+ * @author Azfar Badaroudine et Donavan Martin
  */
 public class Fenetre extends JFrame implements ActionListener{
     //Menu principal
@@ -49,35 +49,30 @@ public class Fenetre extends JFrame implements ActionListener{
     // Les pannels
     private GridBagLayout layout;
     private GridBagConstraints grid;
-    private JPanel topPanel;
     private JPanel bestScore;
     private BPClassements HSPanel;
-    
-    // Contenue du panel centre
     private PJeuTetris jeu;
     private BPStatistiques statistique; 
-    
-    // Dimension frame
-    private Dimension dimension;
     
     // Sounds
     private boolean mute;
     private Sounds splash;
 
+    /**
+     * Constructeur, renomme le titre de la fenetre et appelle la méthode d'initilisation du contenue
+     */
     public Fenetre() {
         super("Tetris");
         setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BuildAccueil();
-        splash = new Sounds("splash");
     }
 
     /**
-    * Initalise les composantes de la fenêtre
+    * Initalise et positionne les composantes de la page d'accueil et du menubar 
     */
     public void BuildAccueil() {
-        dimension = new Dimension(800,700);
-        setSize(dimension); //On donne une taille à notre fenêtre
+        setSize(new Dimension(800,700));                            //On donne une taille à notre fenêtre
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -149,29 +144,49 @@ public class Fenetre extends JFrame implements ActionListener{
         regle = new JButton("Réglement");
         high = new JButton("High Score");
         quit = new JButton("Quitter");
-        addButton (play,this.getWidth()/2 - longueur/2, (int)(0.42 * this.getHeight() - hauteur/2), 60 );
-        addButton (regle,this.getWidth()/2 - longueur/2, (int)(0.6 * this.getHeight() - hauteur/2), 40 );
-        addButton (high,this.getWidth()/2 - longueur/2, (int)(0.7 * this.getHeight() - hauteur/2), 40 );
-        addButton (quit,this.getWidth()/2 - longueur/2, (int)(0.8 * this.getHeight() - hauteur/2), 40 );
+        setStyle (play,this.getWidth()/2 - longueur/2, (int)(0.42 * this.getHeight() - hauteur/2), 60 );
+        setStyle (regle,this.getWidth()/2 - longueur/2, (int)(0.6 * this.getHeight() - hauteur/2), 40 );
+        setStyle (high,this.getWidth()/2 - longueur/2, (int)(0.7 * this.getHeight() - hauteur/2), 40 );
+        setStyle (quit,this.getWidth()/2 - longueur/2, (int)(0.8 * this.getHeight() - hauteur/2), 40 );
+        
          // Image BackGround
         principal = new JLabel();
         this.setIconImage(new ImageIcon("principal.png").getImage());
         principal.setSize(this.getWidth(), this.getHeight());
         principal.setIcon(new ImageIcon(imageFit(principal, "principal2.png")));
         this.add(principal);
+        
         // Sons D'acceuil
+        splash = new Sounds("splash");
     }
     
-    public void addButton (JButton button, int x , int y, int style ){
+    /**
+     * Modifie l'apparance d'un bouton selon les besoins
+     * @param bouton bouton à modifier
+     * @param x position en x sur le frame
+     * @param y position en y sur le frame
+     * @param size taille de la police du texte
+     */
+    public void setStyle (JButton bouton, int x , int y, int size ){
         int longueur = 230;
         int hauteur = 70;
-        button.setSize(longueur, hauteur);
-        button.setLocation(x, y);
-        setStyle(button,style);
-        this.add(button);
-        button.addActionListener(this);
+        bouton.setSize(longueur, hauteur);
+        bouton.setLocation(x, y);
+        bouton.setOpaque(false);
+        bouton.setContentAreaFilled(false);
+        bouton.setBorderPainted(false);
+        bouton.setFont(new Font("Times New Roman", Font.BOLD, size));
+        bouton.setForeground(Color.YELLOW);
+        this.add(bouton);
+        bouton.addActionListener(this);
     }
     
+    /**
+     * Permet à une image d'être placée en background et être étirée selon la taille du frame
+     * @param label label contenant l'image
+     * @param path path de l'image dans l'ordinateur
+     * @return retourne une image ajustée selon la taille du frame
+     */
     public BufferedImage imageFit(JLabel label, String path){
         BufferedImage bi = null;
         try {
@@ -186,6 +201,18 @@ public class Fenetre extends JFrame implements ActionListener{
         return bi;
     }
     
+    /**
+     * Ajoute une composante dans un GridBagLayout selon les paramètre requis
+     * @param component composante à ajouter
+     * @param layout layout dans le quel l'ajouter
+     * @param constraints les contraintes du gridBagLayout
+     * @param x position relative en x
+     * @param y position relative en y
+     * @param width longueur relative du composante
+     * @param height hauteur relative du composante
+     * @param weightx occupation relative de son espace en x
+     * @param weighty occupation relative de son espace en y
+     */
     public void add(JComponent component, GridBagLayout layout, GridBagConstraints constraints, int x, int y, int width, int height, double weightx, double weighty){
         constraints.gridx = x;
         constraints.gridy = y;
@@ -197,8 +224,10 @@ public class Fenetre extends JFrame implements ActionListener{
         add(component);
     }
 
+    /**
+     * Initialise les panels de l'interface du jeu
+     */
      public void initInterfaceJeu(){
-        // Initialisation des pannels :
         //HIGHSCORE
         bestScore = new BPBestScore();
 
@@ -215,10 +244,9 @@ public class Fenetre extends JFrame implements ActionListener{
         enableDifficulte();   
     }
      
-    public void setTime(int temps){
-        statistique.setChrono(temps);
-    }
-     
+    /**
+     * positionne les panels de l'interface du jeu
+     */
     public void openInterfaceJeu(){
         visibleInterfaceJeu(true);
         visibleMenuPrincipal(false);
@@ -238,14 +266,18 @@ public class Fenetre extends JFrame implements ActionListener{
 
     }
 
+    /**
+     * Méthode qui réagit selon les bouttons clickés
+     * @param ae 
+     */
     @Override
     public void actionPerformed(ActionEvent ae) {
         Object source = ae.getSource();
-        if (source == play ){
+        if (source == play ){                       //Part le jeu
             initInterfaceJeu();
             openInterfaceJeu();
         }
-        else if(source == nouvellePartie){
+        else if(source == nouvellePartie){          //Part le jeu
             if(jeu != null)
                 jeu.nouvellePartie(10, 20);
             else{
@@ -255,7 +287,7 @@ public class Fenetre extends JFrame implements ActionListener{
                 openInterfaceJeu();
             }      
         }
-        else if(source == couperSon){
+        else if(source == couperSon){               //Coupe le son
             try{
                 if (mute == false){
                     jeu.setMute(true);
@@ -269,28 +301,26 @@ public class Fenetre extends JFrame implements ActionListener{
                 
             }
         }
-        else if(source == classement){
+        else if(source == classement){              //Affiche la page des High Scores
             if (jeu != null){
                 jeu.pause();
                 visibleInterfaceJeu(false);
             }
             openClassements();
         }
-        else if(source == facile){
+        else if(source == facile){                  //Change la difficulté pour facile
             sliderDifficulte.setValue(1);
             statistique.setNiveau(1);
         }
-        else if(source == moyen){
+        else if(source == moyen){                   //Change la difficulté pour moyen
            sliderDifficulte.setValue(5);
            statistique.setNiveau(5);
         }
-        else if(source == difficile){
+        else if(source == difficile){               //Change la difficulté pour difficile
             sliderDifficulte.setValue(10);
             statistique.setNiveau(10);
         }
-        else if(source == personnalise){
-            jeu.nouvellePartie(10, 20);
-        }else if (source == createurs){
+        else if (source == createurs){              //Ouvre le "À Propos De"
             if (jeu != null){
                 jeu.pause();
                 openCreateursInfo();
@@ -298,13 +328,13 @@ public class Fenetre extends JFrame implements ActionListener{
             }else
                 openCreateursInfo();
         }
-        else if(source == high)
+        else if(source == high)                     //Affiche la page des High Scores
             openClassements();
-        else if (source == regle)
+        else if (source == regle)                   //Affiche les règles
             openRegle();
-        else if (source == quit)
+        else if (source == quit)                    //Ferme le jeu et la fenetre
             dispose();
-        else if (source == aide){
+        else if (source == aide){                   //Affiche les règles
             if (jeu != null){
                 jeu.pause();
                 openRegle();
@@ -314,10 +344,16 @@ public class Fenetre extends JFrame implements ActionListener{
         }
     }
     
+    /**
+     * Ouvre le "À Propos De"
+     */
     public void openCreateursInfo(){
         JOptionPane.showMessageDialog(null, "Ce grand classique des années 80 a été redessiné par Azfar Badaroudine et Donavan Martin", "À propos de Tétris",JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Affiche la page des High Scores
+     */
     public void openClassements() {
         visibleMenuPrincipal(false);
         BorderLayout layout_ = new BorderLayout();
@@ -326,21 +362,20 @@ public class Fenetre extends JFrame implements ActionListener{
         add(HSPanel); 
     }
     
+    /**
+     * Affiche les règles
+     */
     public void openRegle(){
         ImageIcon image = new ImageIcon("Regle.jpg");
         UIManager.put("OptionPane.background", new ColorUIResource(255, 255, 255));
         UIManager.put("Panel.background", new ColorUIResource(255, 255, 255));
         JOptionPane.showMessageDialog(null, null, "Règlement", JOptionPane.PLAIN_MESSAGE, image);
     }
-    
-    public void setStyle(JButton bouton, int size){
-        bouton.setOpaque(false);
-        bouton.setContentAreaFilled(false);
-        bouton.setBorderPainted(false);
-        bouton.setFont(new Font("Times New Roman", Font.BOLD, size));
-        bouton.setForeground(Color.YELLOW);
-    }
 
+    /**
+     * Rend la page d'accueil visible ou invisible au besoin
+     * @param bool true = visible et false = invisible
+     */
     public void visibleMenuPrincipal(boolean bool){
         play. setVisible(bool);
         regle.setVisible(bool);
@@ -349,13 +384,19 @@ public class Fenetre extends JFrame implements ActionListener{
         principal.setVisible(bool);
     }
     
+    /**
+     * Rend la page du jeu visible ou invisible au besoin
+     * @param bool true = visible et false = invisible
+     */
     public void visibleInterfaceJeu(boolean bool){
         bestScore.setVisible(bool);
         statistique.setVisible(bool);
         jeu.setVisible(bool);
     }
     
-    
+    /**
+     * change la difficulté du jeu selon un échel de 1 à 15
+     */
     class SliderListener implements javax.swing.event.ChangeListener {
 
         @Override
@@ -369,21 +410,45 @@ public class Fenetre extends JFrame implements ActionListener{
         }
     }
 
+    /**
+     * Retour le panel statistique de l'interface du jeu
+     * @return 
+     */
     public BPStatistiques getStatistique() {
         return statistique; 
     }
 
+    /**
+     * Retourne le panel jeu
+     * @return 
+     */
     public PJeuTetris getJeu() {
         return jeu;
     }
+    
+    /**
+     * coupe le son au besoin
+     * @param mute true = son coupé, false = son activé
+     */
     public void mute(boolean mute){ 
         jeu.setMute(mute);
     }
     
+    /**
+     * Empèche la sélection de la difficulté avant le début de la partie
+     */
     public void enableDifficulte(){
         facile.setEnabled(true);
         moyen.setEnabled(true);
         difficile.setEnabled(true);
         personnalise.setEnabled(true);
+    }
+     
+    /**
+     * Permet de changer la valeur du temps afficher dans le panel statistique
+     * @param temps valeur du temps à afficher dans le panel statistique
+     */
+    public void setTime(int temps){
+        statistique.setChrono(temps);
     }
 }

@@ -5,7 +5,7 @@ import javax.swing.Timer;
 
 /**
  * Classe TimerLoop pour la classe jeuTetris
- * @author Donavan
+ * @author Azfar Badaroudine et Donavan Martin
  */
 public class TimerLoop extends Timer{
     private int difficulte;  // La difficulter selon le temps

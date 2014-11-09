@@ -1,23 +1,18 @@
 package tetris;
 
 /**
- *
- * @author Azfar
+ * "Main" du programme, initialise le JFrame du jeu
+ * @author Azfar Badaroudine et Donavan Martin
  */
 public class Tetris {
 
     /**
-     * @param args the command line arguments
+     * Main, initialise le JFrame du jeu
+     * @param args 
      */
     public static void main(String[] args) {
         Fenetre Fen = new Fenetre();
         Fen.setVisible(true);
-        
-        //Une fois que tu click sur Play:
-        //JeuTetris jeu = new JeuTetris();
-        
-        //Une fois que tu appuies sur espace pour starter
-        //jeu.start();
     }
     
 }

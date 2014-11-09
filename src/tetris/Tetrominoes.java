@@ -39,7 +39,7 @@ import java.awt.Color;
 
  /**
  * Classe Tetrominoe
- * @author Donavan
+ * @author Azfar Badaroudine et Donavan Martin
  */
 
 public class Tetrominoes {

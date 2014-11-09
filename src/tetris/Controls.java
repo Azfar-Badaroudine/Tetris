@@ -10,7 +10,7 @@ import static java.awt.event.KeyEvent.VK_UP;
 
 /**
  *
- * @author Donavan Martin
+ * @author Azfar Badaroudine et Donavan Martin
  */
 public class Controls implements KeyEventDispatcher {
     private PJeuTetris jeu;

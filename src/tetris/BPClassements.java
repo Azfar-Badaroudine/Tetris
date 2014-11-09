@@ -30,22 +30,23 @@ import javax.swing.SwingUtilities;
 
 /**
  *
- * @author DLU_usager
+ * @author Azfar Badaroudine et Donavan Martin
  */
 class BPClassements extends JPanel implements ActionListener {
-        private Image image = new ImageIcon("High Score.png").getImage();
-        private Classements classements;
-        public BPClassements(int width, int height){
-            this.setVisible(true);
-            setLayout(new BorderLayout());
-            classements = new Classements(width, height, this);
-            add(classements, BorderLayout.CENTER);
-            repaint();
-        }
-        
-        @Override
-        public void paintComponent(Graphics g) {
-            g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+    private Image image = new ImageIcon("High Score.png").getImage();
+    private Classements classements;
+    
+    public BPClassements(int width, int height){
+        this.setVisible(true);
+        setLayout(new BorderLayout());
+        classements = new Classements(width, height, this);
+        add(classements, BorderLayout.CENTER);
+        repaint();
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
     }
     @Override
     public void actionPerformed(ActionEvent ae) {
@@ -63,10 +64,20 @@ class BPClassements extends JPanel implements ActionListener {
     }
 }
 
+/**
+ * manipulation de la page des high scores
+ * @author Azfar Badaroudine et Donavan Martin
+ */
 class Classements extends JPanel {
-    
     private JLabel[][] label;
     private JButton retour;
+    
+    /**
+     * constructeur, initialise et positionne les labels dans le panel
+     * @param width
+     * @param height
+     * @param parent 
+     */
     public Classements(int width, int height, ActionListener parent) {
         
         try{
@@ -123,10 +134,24 @@ class Classements extends JPanel {
         } 
     }
     
+    /**
+     * Retourne le JButton retour
+     * @return 
+     */
     public JButton getRetour() {
         return retour;
     }
     
+    /**
+     * Modifie l'apparance d'un label selon les besoins
+     * @param label le label à modifier
+     * @param size taille de la police
+     * @param coté l'allignement du texte dans le label
+     * @param longueur longueur du label (taille en x)
+     * @param largeur largeur du label (taille en y)
+     * @param positionX position en x du label
+     * @param positionY position en y du label
+     */
     public void setStyle(JLabel label,int size, int coté, int longueur, int largeur, int positionX, int positionY){
          label.setForeground(Color.yellow);
          label.setFont(new Font("Times New Roman", Font.BOLD, size));

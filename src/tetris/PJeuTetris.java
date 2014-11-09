@@ -29,7 +29,7 @@ import javax.swing.SwingUtilities;
 
 /**
  * Classe PJeuTetris
- * @author Azfar et Donaven
+ * @author Azfar Badaroudine et Donavan Martin
  */
 public class PJeuTetris extends JPanel  implements ActionListener{  
     
