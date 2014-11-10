@@ -18,20 +18,20 @@ import javax.swing.SwingConstants;
  */
 public class BPStatistiques extends JPanel {
     // Image background
-    private Image image = new ImageIcon("test3.jpg").getImage();
+    private final Image image = new ImageIcon("image\\test3.jpg").getImage();
     // Layout = NORTH 
-    private JLabel statistique;// Layout = NORTH 
+    private final JLabel statistique;// Layout = NORTH 
     
     // Layout = CENTER
     private JPanel panelCentre;
-    private JLabel rangeeComplete;
-    private JLabel nombreRangeeComplete;
-    private JLabel niveau;
-    private JLabel numeroNiveau;
-    private JLabel score;
-    private JLabel scoreActuel;
-    private JLabel temps;
-    private JLabel chrono;
+    private final JLabel rangeeComplete;
+    private final JLabel nombreRangeeComplete;
+    private final JLabel niveau;
+    private final JLabel numeroNiveau;
+    private final JLabel score;
+    private final JLabel scoreActuel;
+    private final JLabel temps;
+    private final JLabel chrono;
     
     /**
      * Constructeur, initialise et positionne les labels dans le panel

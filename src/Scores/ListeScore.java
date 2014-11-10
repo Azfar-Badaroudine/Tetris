@@ -25,7 +25,7 @@ public class ListeScore {
                 
                 String joueur  = scan.next();
                 while (scan.hasNextInt() == false)
-                     joueur = joueur + " " + scan.next();
+                    joueur = joueur + " " + scan.next();
                 int temps   = Integer.valueOf(scan.next());
                 int lignes  = Integer.valueOf(scan.next());
                 int niveau  = Integer.valueOf(scan.next());

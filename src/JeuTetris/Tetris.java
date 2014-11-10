@@ -14,5 +14,4 @@ public class Tetris {
         Fenetre Fen = new Fenetre();
         Fen.setVisible(true);
     }
-    
 }

@@ -20,8 +20,8 @@ import javax.swing.SwingUtilities;
  */
 class BPClassements extends JPanel implements ActionListener {
      // Image background
-    private Image image = new ImageIcon("High Score.png").getImage();
-    private Classements classements;
+    private final Image image = new ImageIcon("image\\High Score.png").getImage();
+    private final Classements classements;
     
     public BPClassements(int width, int height){
         this.setVisible(true);
@@ -74,7 +74,7 @@ class Classements extends JPanel {
 
             //Initialise les titres
             this.setLayout(null);
-            JLabel titre = new JLabel("High Scores");
+            JLabel titre = new JLabel("Classement");
             setStyle(titre,35,2,200,50,(int) (width*0.5-100), (int) (height*0.21));
             this.add(titre); 
             
@@ -141,11 +141,11 @@ class Classements extends JPanel {
      * @param positionY position en y du label
      */
     public void setStyle(JLabel label,int size, int coté, int longueur, int largeur, int positionX, int positionY){
-         label.setForeground(Color.yellow);
-         label.setFont(new Font("Times New Roman", Font.BOLD, size));
-         label.setHorizontalAlignment(coté);
-         label.setLocation(positionX, positionY);
-         label.setSize(longueur, largeur);
+        label.setForeground(Color.yellow);
+        label.setFont(new Font("Times New Roman", Font.BOLD, size));
+        label.setHorizontalAlignment(coté);
+        label.setLocation(positionX, positionY);
+        label.setSize(longueur, largeur);
      }
     public String tempsToChrono(int temps){
         String chrono = (temps - temps%60)/60 + ":";

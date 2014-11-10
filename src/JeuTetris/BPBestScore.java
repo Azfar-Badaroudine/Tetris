@@ -20,15 +20,15 @@ import javax.swing.SwingConstants;
  */
 class BPBestScore extends JPanel {
      // Image background
-    private Image image = new ImageIcon("test2.jpg").getImage();
+    private final Image image = new ImageIcon("image\\test2.jpg").getImage();
 
-    private JPanel centre; 
+    private final JPanel centre; 
     
-    private JLabel bestScore  = new JLabel("Best Score");
-    private JLabel joueur     = new JLabel("Joueur :  ");
-    private JLabel playerName = new JLabel("qwerty");
-    private JLabel score      = new JLabel("31455441");
-    private JLabel points     = new JLabel("Points :  ");
+    private final JLabel bestScore  = new JLabel("Best Score");
+    private final JLabel joueur     = new JLabel("Joueur :  ");
+    private final JLabel playerName = new JLabel("qwerty");
+    private final JLabel score      = new JLabel("31455441");
+    private final JLabel points     = new JLabel("Points :  ");
       
     /**
      * Constructeur, initialise et positionne les labels dans le panel

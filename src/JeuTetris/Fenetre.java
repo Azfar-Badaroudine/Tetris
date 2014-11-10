@@ -140,9 +140,9 @@ public class Fenetre extends JFrame implements ActionListener{
         //-------------Page D'acceuil---------
         int longueur = 230;
         int hauteur = 70;
-        play = new JButton("Play");
-        regle = new JButton("Réglement");
-        high = new JButton("High Score");
+        play = new JButton("Jouer");
+        regle = new JButton("Règlement");
+        high = new JButton("Classement");
         quit = new JButton("Quitter");
         setStyle (play,this.getWidth()/2 - longueur/2, (int)(0.42 * this.getHeight() - hauteur/2), 60 );
         setStyle (regle,this.getWidth()/2 - longueur/2, (int)(0.6 * this.getHeight() - hauteur/2), 40 );
@@ -150,10 +150,10 @@ public class Fenetre extends JFrame implements ActionListener{
         setStyle (quit,this.getWidth()/2 - longueur/2, (int)(0.8 * this.getHeight() - hauteur/2), 40 );
         
          // Image BackGround
+        this.setIconImage(new ImageIcon("image\\principal.png").getImage());
         principal = new JLabel();
-        this.setIconImage(new ImageIcon("principal.png").getImage());
         principal.setSize(this.getWidth(), this.getHeight());
-        principal.setIcon(new ImageIcon(imageFit(principal, "principal2.png")));
+        principal.setIcon(new ImageIcon(imageFit(principal, "image\\principal.png")));
         this.add(principal);
         
         // Sons D'acceuil
@@ -195,9 +195,7 @@ public class Fenetre extends JFrame implements ActionListener{
             Image img=ImageIO.read(new File(path));            
             g.drawImage(img, 0, 0, label.getWidth(),label.getHeight(), null);            
             g.dispose();            
-            return bi;
-        } catch (IOException ex) {
-        }
+        } catch (IOException ex) {}
         return bi;
     }
     
@@ -367,7 +365,7 @@ public class Fenetre extends JFrame implements ActionListener{
      * Affiche les règles
      */
     public void openRegle(){
-        ImageIcon image = new ImageIcon("Regle.jpg");
+        ImageIcon image = new ImageIcon("image\\Regle.jpg");
         UIManager.put("OptionPane.background", new ColorUIResource(255, 255, 255));
         UIManager.put("Panel.background", new ColorUIResource(255, 255, 255));
         JOptionPane.showMessageDialog(null, null, "Règlement", JOptionPane.PLAIN_MESSAGE, image);

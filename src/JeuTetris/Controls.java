@@ -13,7 +13,7 @@ import static java.awt.event.KeyEvent.VK_UP;
  * @author Azfar Badaroudine et Donavan Martin
  */
 public class Controls implements KeyEventDispatcher {
-    private PJeuTetris jeu;     // PJeuTetris
+    private final PJeuTetris jeu;     // PJeuTetris
     private Sounds rotateFail;  // Rotation a échouer
     private Boolean mute;       // Couper le sons
     

@@ -2,6 +2,8 @@ package JeuTetris;
 
 import SoundsMusics.Sounds;
 import SoundsMusics.ThemeMusic;
+import com.sun.xml.internal.ws.util.StringUtils;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -33,7 +35,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     
     // Paramètres de la fenetre 
     private CoordonneeJeu coordonneJeu;         // Coordonnee du jeu
-    private Dimension dimension;                // Dimension du jeu
+    private final Dimension dimension;                // Dimension du jeu
 
     // Paramètres jeu
     private TimerLoop timer;                      
@@ -50,8 +52,8 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     private Image offscreen;                    // Image du buffer
     
     // Controls
-    private KeyboardFocusManager manager;
-    private Controls controls;
+    private final KeyboardFocusManager manager;
+    private final Controls controls;
     
     // Ecoulement du temps
     private int temps;
@@ -61,8 +63,10 @@ public class PJeuTetris extends JPanel  implements ActionListener{
     // Score
     private int score;
     
+    // Joueur
+    private String nomJoueur;
     // Sounds
-    private ThemeMusic themeMusic;
+    private final ThemeMusic themeMusic;
     private Sounds drop;
     
     private boolean mute; 
@@ -108,7 +112,70 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         nbRangeeCompleted=0;
         startTime = System.currentTimeMillis();
     }
-   
+        
+    
+    /**
+     * Getteur de la difficultée 
+     * @return timer La difficulté du jeu
+     */
+    public TimerLoop getTimerDifficulte() {
+        return timer;
+    }
+    
+    /**
+     * Setteur de la difficultée 
+     * @param difficulte la difficulté du jeu
+     */
+    public void setTimerDifficulte(int difficulte) { 
+        this.timer.setDifficulte(difficulte);
+        niveau = difficulte;
+    }
+    
+    /**
+     * Getteur de la dimension
+     * @return dimension la dimension du pannel
+     */
+    public Dimension getDimension() {
+        return dimension;
+    }
+    
+    /**
+     * Getteur de la difficultée
+     * @return difficultee La dificultee du jeu
+     */
+    public int getDifficultee() {
+        return difficultee;
+    }
+    /**
+     * Getteur du nombre de rangée complétés
+     * @return nbRangeeCompleted nombre de rangée complétés
+     */
+    public int getNbRangeeCompleted() {
+        return nbRangeeCompleted;
+    }
+    /**
+     * Getteur de la liste des tetrominoes
+     * @return tetrominoes la lsite des tetrominoes
+     */
+    public ArrayList<Tetrominoes> getTetrominoes() {
+        return tetrominoes;
+    }
+    /**
+     * Getteur du timer 
+     * @return timer le timer du jeu
+     */
+    public TimerLoop getTimer() {
+        return timer;
+    }
+     /**
+     * Setteur mute
+     * @param mute True== mute False != mute
+     */
+    public void setMute(boolean mute) {
+        themeMusic.mute(mute);
+        controls.setMute(mute);
+        this.mute = mute;
+    }
     /**
      * Fin de la partie
      */
@@ -222,8 +289,8 @@ public class PJeuTetris extends JPanel  implements ActionListener{
                 for(int y=0; y < coordonneJeu.getNombreRangee(); y++)
                     if(!tetrominoes.get(index).IsEmpty(x, y)){
                         paintBlock((dimension.getWidth()/coordonneJeu.getNombreColonne())*x,
-                                    (dimension.getHeight()/coordonneJeu.getNombreRangee())*y,
-                                     tetrominoes.get(index).getCouleur(), g2d);
+                                   (dimension.getHeight()/coordonneJeu.getNombreRangee())*y,
+                                    tetrominoes.get(index).getCouleur(), g2d);
                     }
     }
     
@@ -339,48 +406,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         g2d.fill(rect);
         g2d.draw(rect);
     }   
-    
-    
-    /**
-     * Getteur de la difficultée 
-     * @return timer La difficulté du jeu
-     */
-    public TimerLoop getTimerDifficulte() {
-        return timer;
-    }
-    
-    /**
-     * Setteur de la difficultée 
-     * @param difficulte la difficulté du jeu
-     */
-    public void setTimerDifficulte(int difficulte) { 
-        this.timer.setDifficulte(difficulte);
-        niveau = difficulte;
-    }
-    
-    /**
-     * Getteur de la dimension
-     * @return dimension la dimension du pannel
-     */
-    public Dimension getDimension() {
-        return dimension;
-    }
-    
-    /**
-     * Getteur de la difficultée
-     * @return difficultee La dificultee du jeu
-     */
-    public int getDifficultee() {
-        return difficultee;
-    }
-    /**
-     * Getteur du nombre de rangée complétés
-     * @return nbRangeeCompleted nombre de rangée complétés
-     */
-    public int getNbRangeeCompleted() {
-        return nbRangeeCompleted;
-    }
-    
+
     /**
      * Est-ce que le mouvement (controls du joueur) est possible 
      * @return False == Non True == Oui
@@ -419,7 +445,6 @@ public class PJeuTetris extends JPanel  implements ActionListener{
             }
             // Si le tetrominoe peut descendre
             else if(canFall()){
-                System.out.println("Action Timer perfromed");
                 tetrominoes.get(tetrominoes.size()-1).dropTetrominoe(); 
                 repaint();
             }
@@ -430,11 +455,14 @@ public class PJeuTetris extends JPanel  implements ActionListener{
      */
     public void gameOverPopUp(){
         manager.removeKeyEventDispatcher(controls);
-        String nomJoueur = JOptionPane.showInputDialog(null, "Fin de la partie \nNombre de rangée compléter : " + nbRangeeCompleted +"\nEntrez votre nom pour le classement.");
+        nomJoueur = JOptionPane.showInputDialog(null, "Fin de la partie \nNombre de rangée compléter : " + nbRangeeCompleted +"\nEntrez votre nom pour le classement.");
         temps = (int)((System.currentTimeMillis() - startTime)/1000) ;
 
         if (nomJoueur == null)
-            nomJoueur = ("No Name");
+            nomJoueur = ("Anonyme");
+        else 
+            nomJoueur = nomJoueur.replaceAll("[\\s]","");
+        
         addScore(nomJoueur);
         manager.addKeyEventDispatcher(controls);
 
@@ -461,29 +489,7 @@ public class PJeuTetris extends JPanel  implements ActionListener{
         timer.restart();
         
     }
-    /**
-     * Getteur de la liste des tetrominoes
-     * @return tetrominoes la lsite des tetrominoes
-     */
-    public ArrayList<Tetrominoes> getTetrominoes() {
-        return tetrominoes;
-    }
-    /**
-     * Getteur du timer 
-     * @return timer le timer du jeu
-     */
-    public TimerLoop getTimer() {
-        return timer;
-    }
-     /**
-     * Setteur mute
-     * @param mute True== mute False != mute
-     */
-    public void setMute(boolean mute) {
-        themeMusic.mute(mute);
-        controls.setMute(mute);
-        this.mute = mute;
-    }
+    
     /**
      * Ajout d'un score dans la liste des scores
      * @param name nom du joueur

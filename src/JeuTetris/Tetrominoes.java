@@ -109,11 +109,12 @@ public class Tetrominoes {
      * @param rangee la rangee a vérifier
      * @return False == La pièce n'occupe pas cette emplacement True == La pièce occuper cette emplacement
      */
-    public boolean IsEmpty(int colonne, int rangee){
+     public boolean IsEmpty(int colonne, int rangee){
         if(emplacement.getCoordoneeJeu().get(rangee)[colonne]==false)
             return true;
         return false;
     }
+    
     /**
      * Descent de l'emplacement du tetrominoe dans la table de coordonnées
      * @return Le tetrominoe peut desncdre == True Else == false
@@ -555,7 +556,7 @@ public class Tetrominoes {
                             return false;
                         }break;  
                 
-           case 7: if(rotation==0)
+            case 7: if(rotation==0)
                         try{
                             int rangee = -1;
                             for(boolean bool[] : emplacement.getCoordoneeJeu()){
@@ -672,9 +673,7 @@ public class Tetrominoes {
                                 for(int x=0; x<emplacement.getNombreColonne() ; x++){
                                     if(bool[x]==true ){
                                         emplacement.setCoordonee(x+1, rangee+1, true);
-                                        
                                         emplacement.setCoordonee(x, rangee+2,   false);
-                                        
                                         rotation=2;
                                         return true;
                                     }
